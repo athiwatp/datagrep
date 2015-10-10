@@ -4,7 +4,7 @@
   "description": "description",
   "main": "index.js",
   "scripts": {
-    "test": "test command"
+    "test": "cd test && jasmine"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/mjschock/dataCohere",
   "dependencies": {
+    "jasmine": "^2.3.2",
     "mathjs": "^2.4.0"
   }
 }
