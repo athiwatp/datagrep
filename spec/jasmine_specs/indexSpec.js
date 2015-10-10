@@ -24,11 +24,30 @@ describe('index', function() {
             });
         });
 
+        it('returns an error if options.x is not an Array', function(done) {
+            linearRegression({
+                x: 'not an Array'
+            }).catch(function(message) {
+                expect(message).toBe("x must be an Array");
+                done();
+            });
+        });
+
         it('returns an error if options.y is not provided', function(done) {
             linearRegression({
-                x: 'test'
+                x: []
             }).catch(function(message) {
                 expect(message).toBe("y is required");
+                done();
+            });
+        });
+
+        it('returns an error if options.y is not an Array', function(done) {
+            linearRegression({
+                x: [],
+                y: 'not an Array'
+            }).catch(function(message) {
+                expect(message).toBe("y must be an Array");
                 done();
             });
         });

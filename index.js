@@ -7,8 +7,14 @@ function validate(options) {
     if (!options.x) {
         throw 'x is required';
     }
+    if (options.x instanceof Array === false) {
+        throw 'x must be an Array';
+    }
     if (!options.y) {
         throw 'y is required';
+    }
+    if (options.y instanceof Array === false) {
+        throw 'y must be an Array';
     }
 }
 
