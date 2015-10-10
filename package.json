@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/mjschock/dataCohere/issues"
   },
-  "homepage": "https://github.com/mjschock/dataCohere"
+  "homepage": "https://github.com/mjschock/dataCohere",
+  "dependencies": {
+    "mathjs": "^2.4.0"
+  }
 }
