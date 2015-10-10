@@ -1,0 +1,23 @@
+{
+  "name": "datacohere",
+  "version": "0.0.1",
+  "description": "description",
+  "main": "index.js",
+  "scripts": {
+    "test": "test command"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mjschock/dataCohere.git"
+  },
+  "keywords": [
+    "keyword1",
+    "keyword2"
+  ],
+  "author": "Michael Schock",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mjschock/dataCohere/issues"
+  },
+  "homepage": "https://github.com/mjschock/dataCohere"
+}
