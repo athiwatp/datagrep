@@ -96,23 +96,13 @@ describe('index', function() {
             });
         });
 
-        xit('returns an error if options.iterations is not an integer', function(done) {
-            linearRegression({
-                x: [],
-                y: [],
-                alpha: 0.001,
-                iterations: 1500
-            }).catch(function(message) {
-                expect(message).toBe("iterations must be an integer");
-                done();
-            });
-        });
-
-        it('returns an error if options.iterations is not an integer', function(done) {
-            var data = require('./data.json');
-            console.log('iterations: ', data);
-            linearRegression(data).catch(function(message) {
-                expect(message).toBe("iterations must be an integer");
+        it('determines the right theta for the data set', function(done) {
+            var data = require('./data.json'),
+                theta0,
+                theta1;
+            linearRegression(data).then(function(theta) {
+                expect(theta[0][0]).toBe(theta0);
+                expect(theta[1][0]).toBe(theta1);
                 done();
             });
         });

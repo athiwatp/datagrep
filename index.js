@@ -1,4 +1,5 @@
-var math = require('mathjs');
+var numbers = require('numbers'),
+    matrix = numbers.matrix;
 
 function validate(options) {
     if (!options) {
@@ -30,64 +31,44 @@ function validate(options) {
     }
 }
 
+function gradientDescent(x, y, iterations, alpha) {
+    var trainingCount = x.length,
+        featureCount = x[0].length,
+        theta = matrix.zeros(featureCount, 1),
+        factor = alpha / trainingCount;
+
+    for (var i = 0; i < iterations; i++) {
+        var thetaCopy = matrix.deepCopy(theta);
+
+        for (var j = 0; j < featureCount; j++) {
+            var hypothesis = matrix.multiply(x, theta),
+                error = matrix.subtraction(hypothesis, y),
+                x_j = matrix.getCol(x, j),
+                sum = matrix.dotproduct(error, x_j);
+
+            thetaCopy[j][0] = theta[j][0] - factor * sum;
+        }
+
+        theta = thetaCopy;
+    }
+
+    return theta;
+}
+
 exports.linearRegression = function(options) {
     return new Promise(function(resolve, reject) {
         try {
             validate(options);
-            var x = math.matrix(options.x),
-                y = math.matrix(options.y),
-                // m = x.size()[1],
-                dimx = x.size(),
-                featureCount = dimx[1],
-                trainingCount = dimx[0],
+            var x = options.x,
+                y = options.y,
                 alpha = options.alpha,
-                iterations = options.iterations,
-                theta = math.zeros(featureCount, 1),
-                k = (alpha / trainingCount);
+                iterations = options.iterations;
 
-            console.log('x: ', x);
-            console.log('y: ', y);
-            // console.log('m: ', m);
-            console.log('dimx: ', dimx);
-            console.log('featureCount: ', featureCount);
-            console.log('trainingCount: ', trainingCount);
-            console.log('alpha: ', alpha);
-            console.log('iterations: ', iterations);
-            console.log('theta: ', theta);
-            console.log('k: ', k);
+            theta = gradientDescent(x, y, iterations, alpha);
 
-            for (var i = 0; i < iterations; i++) {
-                var temp = theta.clone();
-                console.log('temp: ', temp);
-
-                for (var j = 0; j < featureCount; j++) {
-                    var hypothesis = math.multiply(x, theta);
-                    console.log('hypothesis: ', hypothesis);
-                    console.log('hypothesis size: ', hypothesis.size());
-                    console.log('y size: ', y.size());
-                    console.log('theta size: ', theta.size());
-                    var error = math.subtract(hypothesis, y);
-                    console.log('error: ', error);
-                    console.log('math.index([0, trainingCount], j): ', math.index([0, trainingCount], j));
-                    var xi = math.subset(x, math.index([0, trainingCount], j));
-                    console.log('xi: ', xi);
-                    var sum = math.multiply(error.transpose(), xi);
-                    console.log('sum: ', sum);
-                    var newTheta = theta.subset(math.index(j)) - k * sum;
-                    console.log('newTheta: ', newTheta);
-
-                    if (newTheta === Number.POSITIVE_INFINITY || newTheta === Number.NEGATIVE_INFINITY) {
-                        reject('theta has diverged! - try another alpha');
-                    }
-
-                    temp.subset(math.index(j), newTheta);
-                }
-
-                theta = temp;
-            }
-
-            if (theta && theta._data) {
-                resolve(theta._data);
+            if (theta) {
+                console.log('theta: ', theta);
+                resolve(theta);
             } else {
                 reject('theta is bad');
             }
