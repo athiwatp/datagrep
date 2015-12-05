@@ -123,6 +123,9 @@ Write a function that accepts column of data: ‘input_feature’, and ‘output
 and the regression parameters ‘slope’ and ‘intercept’ and outputs the Residual Sum of Squares (RSS).
 */
 exports.get_residual_sum_of_squares = function(input_feature, output, intercept, slope) {
+    var RSS = output.reduce(function(previousValue, currentValue, currentIndex) {
+        return previousValue + Math.pow((currentValue - (intercept + (slope * input_feature[currentIndex]))), 2);
+    }, 0);
 
     return RSS;
 };

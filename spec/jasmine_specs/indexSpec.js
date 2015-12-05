@@ -278,6 +278,12 @@ describe('index', function() {
     describe('get_residual_sum_of_squares', function() {
         it('it determines the RSS for the simple linear regression for squarefeet on TRAINING data', function() {
             // use squarefeet_slope and squarefeet_intercept to predict prices on TRAINING data
+            input_feature = numbers.matrix.getCol(train_data, 5).slice(1).map(function(currentValue) {
+                return Number.parseInt(currentValue, 10);
+            });
+
+            var RSS = datagrep.get_residual_sum_of_squares(input_feature, output, squarefeet_intercept, squarefeet_slope);
+            expect(RSS).toBe('thing1');
         });
 
         it('it determines the RSS for the simple linear regression for squarefeet on TEST data', function() {
