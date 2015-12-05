@@ -84,12 +84,26 @@ and another column ‘output’ and returns the Simple Linear Regression paramet
 Use the closed form solution from lecture to calculate the slope and intercept.
 */
 exports.simple_linear_regression = function(input_feature, output) {
-    var sumYi,
-        sumXi,
-        sumYiXi,
-        sumXiSqr,
-        N = output.length,
-        slope = (sumYiXi - (sumYi * sumXi / N)) / (sumXiSqr - (sumXi * sumXi / N)),
+    var sumYi = output.reduce(function(previousValue, currentValue) {
+            return previousValue + currentValue;
+        }),
+        sumXi = input_feature.reduce(function(previousValue, currentValue) {
+            return previousValue + currentValue;
+        }),
+        sumYiXi = input_feature.reduce(function(previousValue, currentValue, currentIndex) {
+            return previousValue + (currentValue * output[currentIndex]);
+        }, 0),
+        sumXiSqr = input_feature.reduce(function(previousValue, currentValue) {
+            return previousValue + Math.pow(currentValue, 2);
+        }, 0),
+        N = output.length;
+
+    console.log('sumYi: ', sumYi);
+    console.log('sumXi: ', sumXi);
+    console.log('sumYiXi: ', sumYiXi);
+    console.log('sumXiSqr: ', sumXiSqr);
+
+    var slope = (sumYiXi - (sumYi * sumXi / N)) / (sumXiSqr - (Math.pow(sumXi, 2) / N)),
         intercept = (sumYi / N) - (slope * sumXi / N);
 
     return {

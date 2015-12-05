@@ -237,22 +237,30 @@ describe('index', function() {
     */
     describe('simple_linear_regression', function() {
         it('estimates the slope and intercept for squarefeet', function() {
-            input_feature = numbers.matrix.getCol(train_data, 5).slice(1);
-            output = numbers.matrix.getCol(train_data, 2).slice(1);
+            input_feature = numbers.matrix.getCol(train_data, 5).slice(1).map(function(value) {
+                return Number.parseInt(value, 10);
+            });
+            output = numbers.matrix.getCol(train_data, 2).slice(1).map(function(value) {
+                return Number.parseInt(value, 10);
+            });
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             squarefeet_slope = response.slope;
             squarefeet_intercept = response.intercept;
-            expect(response).toBe('blah');
+            expect(squarefeet_slope).toBe('blah');
+            expect(squarefeet_intercept).toBe('blah');
         });
 
         it('estimates the slope and intercept for bedrooms', function() {
-            input_feature = numbers.matrix.getCol(train_data, 3).slice(1);
+            input_feature = numbers.matrix.getCol(train_data, 3).slice(1).map(function(value) {
+                return Number.parseInt(value, 10);
+            });
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             bedroom_slope = response.slope;
             bedroom_intercept = response.intercept;
-            expect(response).toBe('blah');
+            expect(bedroom_slope).toBe('blah');
+            expect(bedroom_intercept).toBe('blah');
         });
     });
 
