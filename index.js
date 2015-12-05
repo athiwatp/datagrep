@@ -134,6 +134,9 @@ Do this by solving the linear function output = intercept + slope*input for the 
 (i.e. ‘input’ should be on one side of the equals sign by itself).
 */
 exports.inverse_regression_predictions = function(output, intercept, slope) {
+    var estimated_input = output.map(function(currentValue) {
+        return (currentValue - intercept) / slope;
+    });
 
     return estimated_input;
 }
