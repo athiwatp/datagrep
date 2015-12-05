@@ -1,7 +1,7 @@
 describe('index', function() {
     var linearRegression = require('../../index').linearRegression;
 
-    describe('the linearRegression method', function() {
+    xdescribe('the linearRegression method', function() {
         it('is defined', function() {
             expect(linearRegression).toBeDefined();
         });
@@ -107,5 +107,42 @@ describe('index', function() {
             });
         });
 
+    });
+
+    describe('something new', function() {
+        it('does something fancy', function(done) {
+            var fs = require('fs'),
+                parse = require('csv-parse'),
+                parser = parse({
+                    delimiter: ','
+                }, function(err, data) {
+                    expect(data[0].join(' ')).toBe([
+                        'id',
+                        'date',
+                        'price',
+                        'bedrooms',
+                        'bathrooms',
+                        'sqft_living',
+                        'sqft_lot',
+                        'floors',
+                        'waterfront',
+                        'view',
+                        'condition',
+                        'grade',
+                        'sqft_above',
+                        'sqft_basement',
+                        'yr_built',
+                        'yr_renovated',
+                        'zipcode',
+                        'lat',
+                        'long',
+                        'sqft_living15',
+                        'sqft_lot15'
+                    ].join(' '));
+                    done();
+                });
+
+            fs.createReadStream(__dirname + '/kc_house_train_data.csv').pipe(parser);
+        });
     });
 });
