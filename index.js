@@ -77,3 +77,52 @@ exports.linearRegression = function(options) {
         }
     });
 };
+
+/*
+Write a generic function that accepts a column of data (e.g, an SArray) ‘input_feature’
+and another column ‘output’ and returns the Simple Linear Regression parameters ‘intercept’ and ‘slope’.
+Use the closed form solution from lecture to calculate the slope and intercept.
+*/
+exports.simple_linear_regression = function(input_feature, output) {
+    var sumYi,
+        sumXi,
+        sumYiXi,
+        sumXiSqr,
+        N = output.length,
+        slope = (sumYiXi - (sumYi * sumXi / N)) / (sumXiSqr - (sumXi * sumXi / N)),
+        intercept = (sumYi / N) - (slope * sumXi / N);
+
+    return {
+        intercept: intercept,
+        slope: slope
+    };
+};
+
+/*
+Write a function that accepts a column of data ‘input_feature’, the ‘slope’, and the ‘intercept’ you learned,
+and returns a column of predictions ‘predicted_output’ for each entry in the input column.
+*/
+exports.get_regression_predictions = function(input_feature, intercept, slope) {
+
+    return predicted_output;
+};
+
+/*
+Write a function that accepts column of data: ‘input_feature’, and ‘output’ 
+and the regression parameters ‘slope’ and ‘intercept’ and outputs the Residual Sum of Squares (RSS).
+*/
+exports.get_residual_sum_of_squares = function(input_feature, output, intercept, slope) {
+
+    return RSS;
+};
+
+/*
+Write a function that accepts a column of data:‘output’ and the regression parameters
+‘slope’ and ‘intercept’ and outputs the column of data: ‘estimated_input’.
+Do this by solving the linear function output = intercept + slope*input for the ‘input’ variable
+(i.e. ‘input’ should be on one side of the equals sign by itself).
+*/
+exports.inverse_regression_predictions = function(output, intercept, slope) {
+
+    return estimated_input;
+}
