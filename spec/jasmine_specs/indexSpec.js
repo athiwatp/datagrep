@@ -291,7 +291,8 @@ describe('index', function() {
 
     describe('inverse_regression_predictions', function() {
         it('it estimates square-feet for a house costing $800,000', function() {
-            // use the regression slope and intercept from (3)
+            var estimated_input = datagrep.inverse_regression_predictions([800000], squarefeet_intercept, squarefeet_slope);
+            expect(estimated_input).toBe('something else');
         });
     });
 
