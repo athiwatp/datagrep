@@ -96,14 +96,8 @@ exports.simple_linear_regression = function(input_feature, output) {
         sumXiSqr = input_feature.reduce(function(previousValue, currentValue) {
             return previousValue + Math.pow(currentValue, 2);
         }, 0),
-        N = output.length;
-
-    console.log('sumYi: ', sumYi);
-    console.log('sumXi: ', sumXi);
-    console.log('sumYiXi: ', sumYiXi);
-    console.log('sumXiSqr: ', sumXiSqr);
-
-    var slope = (sumYiXi - (sumYi * sumXi / N)) / (sumXiSqr - (Math.pow(sumXi, 2) / N)),
+        N = output.length,
+        slope = (sumYiXi - (sumYi * sumXi / N)) / (sumXiSqr - (Math.pow(sumXi, 2) / N)),
         intercept = (sumYi / N) - (slope * sumXi / N);
 
     return {
@@ -117,6 +111,9 @@ Write a function that accepts a column of data ‘input_feature’, the ‘slope
 and returns a column of predictions ‘predicted_output’ for each entry in the input column.
 */
 exports.get_regression_predictions = function(input_feature, intercept, slope) {
+    var predicted_output = input_feature.map(function(currentValue) {
+        return intercept + (slope * currentValue);
+    });
 
     return predicted_output;
 };
