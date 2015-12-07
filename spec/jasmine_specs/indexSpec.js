@@ -1,6 +1,7 @@
 describe('index', function() {
     var datagrep = require('../../index'),
-        numbers = require('numbers');
+        numbers = require('numbers'),
+        Decimal = require('decimal.js');
 
     // describe('the linearRegression method', function() {
     //     it('is defined', function() {
@@ -110,45 +111,8 @@ describe('index', function() {
 
     // });
 
-    // describe('something new', function() {
-    //     it('does something fancy', function(done) {
-    //         var fs = require('fs'),
-    //             parse = require('csv-parse'),
-    //             parser = parse({
-    //                 delimiter: ','
-    //             }, function(err, data) {
-    //                 expect(data[0].join(' ')).toBe([
-    //                     'id',
-    //                     'date',
-    //                     'price',
-    //                     'bedrooms',
-    //                     'bathrooms',
-    //                     'sqft_living',
-    //                     'sqft_lot',
-    //                     'floors',
-    //                     'waterfront',
-    //                     'view',
-    //                     'condition',
-    //                     'grade',
-    //                     'sqft_above',
-    //                     'sqft_basement',
-    //                     'yr_built',
-    //                     'yr_renovated',
-    //                     'zipcode',
-    //                     'lat',
-    //                     'long',
-    //                     'sqft_living15',
-    //                     'sqft_lot15'
-    //                 ].join(' '));
-    //                 done();
-    //             });
-
-    //         fs.createReadStream(__dirname + '/kc_house_train_data.csv').pipe(parser);
-    //     });
-    // });
-
-
-    var train_data,
+    var sales,
+        train_data,
         test_data,
         input_feature,
         output,
@@ -158,6 +122,28 @@ describe('index', function() {
         bedroom_intercept;
 
     describe('setup', function() {
+        it('sets sales data', function(done) {
+            var fs = require('fs'),
+                parse = require('csv-parse'),
+                parser = parse({
+                    delimiter: ','
+                }, function(err, data) {
+                    expect(data[0].join(' ')).toBe([
+                        'HousePrice',
+                        'HsPrc ($10,000)',
+                        'CrimeRate',
+                        'MilesPhila',
+                        'PopChg',
+                        'Name',
+                        'County'
+                    ].join(' '));
+                    sales = data;
+                    done();
+                });
+
+            fs.createReadStream(__dirname + '/Philadelphia_Crime_Rate_noNA.csv').pipe(parser);
+        });
+
         it('sets train_data', function(done) {
             var fs = require('fs'),
                 parse = require('csv-parse'),
@@ -187,7 +173,7 @@ describe('index', function() {
                         'sqft_living15',
                         'sqft_lot15'
                     ].join(' '));
-                    test_data = data;
+                    train_data = data;
                     done();
                 });
 
@@ -223,7 +209,7 @@ describe('index', function() {
                         'sqft_living15',
                         'sqft_lot15'
                     ].join(' '));
-                    train_data = data;
+                    test_data = data;
                     done();
                 });
 
@@ -231,74 +217,113 @@ describe('index', function() {
         });
     });
 
-    /*
-    Use your function to calculate the estimated slope and intercept on the training data
-    to predict ‘price’ given ‘sqft_living’. Save the value of the slope and intercept for later.
-    */
     describe('simple_linear_regression', function() {
+        it('estimates the slope and intercept for crimerate', function() {
+            input_feature = numbers.matrix.getCol(sales, 2).slice(1).map(function(currentValue) {
+                return new Decimal(currentValue);
+            });
+            output = numbers.matrix.getCol(sales, 0).slice(1).map(function(currentValue) {
+                return new Decimal(currentValue);
+            });
+
+            var response = datagrep.simple_linear_regression(input_feature, output);
+            expect(response.slope.toFixed(2)).toBe('-576.91');
+            expect(response.intercept.toFixed(2)).toBe('176629.41');
+        });
+
         it('estimates the slope and intercept for squarefeet', function() {
             input_feature = numbers.matrix.getCol(train_data, 5).slice(1).map(function(currentValue) {
-                return Number.parseInt(currentValue, 10);
+                return new Decimal(currentValue);
             });
             output = numbers.matrix.getCol(train_data, 2).slice(1).map(function(currentValue) {
-                return Number.parseInt(currentValue, 10);
+                return new Decimal(currentValue);
             });
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             squarefeet_slope = response.slope;
             squarefeet_intercept = response.intercept;
-            expect(squarefeet_slope).toBe('blah');
-            expect(squarefeet_intercept).toBe('blah');
+            expect(squarefeet_slope.toFixed(2)).toBe('281.96');
+            expect(squarefeet_intercept.toFixed(2)).toBe('-47116.08');
         });
 
         it('estimates the slope and intercept for bedrooms', function() {
             input_feature = numbers.matrix.getCol(train_data, 3).slice(1).map(function(currentValue) {
-                return Number.parseInt(currentValue, 10);
+                return new Decimal(currentValue);
             });
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             bedroom_slope = response.slope;
             bedroom_intercept = response.intercept;
-            expect(bedroom_slope).toBe('blah');
-            expect(bedroom_intercept).toBe('blah');
+            expect(bedroom_slope.toFixed(2)).toBe('127588.95');
+            expect(bedroom_intercept.toFixed(2)).toBe('109473.18');
         });
     });
 
     describe('get_regression_predictions', function() {
         it('predicts the price for a house with 2650 sqft', function() {
-            input_feature = numbers.matrix.getCol(train_data, 5).slice(1).map(function(currentValue) {
-                return Number.parseInt(currentValue, 10);
-            });
+            var predicted_output = datagrep.get_regression_predictions([2650], squarefeet_intercept, squarefeet_slope);
+            expect(predicted_output[0].toFixed(2)).toBe('700075.27');
+        });
 
-            var predicted_output = datagrep.get_regression_predictions(input_feature, squarefeet_intercept, squarefeet_slope);
-            expect(predicted_output).toBe('something');
+        it('predicts the price for a house with 2640 sqft provided slope and intercept', function() {
+            var predicted_output = datagrep.get_regression_predictions([2640], -44850, 280.76);
+            expect(predicted_output[0].toFixed(2)).toBe('696356.40');
         });
     });
 
     describe('get_residual_sum_of_squares', function() {
         it('it determines the RSS for the simple linear regression for squarefeet on TRAINING data', function() {
-            // use squarefeet_slope and squarefeet_intercept to predict prices on TRAINING data
             input_feature = numbers.matrix.getCol(train_data, 5).slice(1).map(function(currentValue) {
-                return Number.parseInt(currentValue, 10);
+                return new Decimal(currentValue);
+            });
+            output = numbers.matrix.getCol(train_data, 2).slice(1).map(function(currentValue) {
+                return new Decimal(currentValue);
             });
 
+            var response = datagrep.simple_linear_regression(input_feature, output);
+            squarefeet_slope = response.slope;
+            squarefeet_intercept = response.intercept;
+
             var RSS = datagrep.get_residual_sum_of_squares(input_feature, output, squarefeet_intercept, squarefeet_slope);
-            expect(RSS).toBe('thing1');
+            expect(RSS.toFixed(2)).toBe('1201918354179598.00');
         });
 
         it('it determines the RSS for the simple linear regression for squarefeet on TEST data', function() {
-            // use squarefeet_slope and squarefeet_intercept to predict prices on TEST data
+            input_feature = numbers.matrix.getCol(test_data, 5).slice(1).map(function(currentValue) {
+                return new Decimal(currentValue);
+            });
+            output = numbers.matrix.getCol(test_data, 2).slice(1).map(function(currentValue) {
+                return new Decimal(currentValue);
+            });
+
+            var response = datagrep.simple_linear_regression(input_feature, output),
+                RSS = datagrep.get_residual_sum_of_squares(input_feature, output, response.intercept, response.slope);
+            expect(RSS.toFixed(2)).toBe('275168573902787.31');
         });
 
         it('it determines the RSS for the simple linear regression for bedrooms on TEST data', function() {
-            // use bedroom_slope and bedroom_intercept to predict prices on TEST data
+            input_feature = numbers.matrix.getCol(test_data, 3).slice(1).map(function(currentValue) {
+                return new Decimal(currentValue);
+            });
+            output = numbers.matrix.getCol(test_data, 2).slice(1).map(function(currentValue) {
+                return new Decimal(currentValue);
+            });
+
+            var response = datagrep.simple_linear_regression(input_feature, output),
+                RSS = datagrep.get_residual_sum_of_squares(input_feature, output, response.intercept, response.slope);
+            expect(RSS.toFixed(2)).toBe('490597142829587.48');
         });
     });
 
     describe('inverse_regression_predictions', function() {
         it('it estimates square-feet for a house costing $800,000', function() {
             var estimated_input = datagrep.inverse_regression_predictions([800000], squarefeet_intercept, squarefeet_slope);
-            expect(estimated_input).toBe('something else');
+            expect(estimated_input[0].toFixed(2)).toBe('3004.39');
+        });
+
+        it('it estimates square-feet for a house costing $859,000 provided the slope and intercept', function() {
+            var estimated_input = datagrep.inverse_regression_predictions([859000], -44850, 280.76);
+            expect(estimated_input[0].toFixed(2)).toBe('3219.30');
         });
     });
 

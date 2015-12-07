@@ -1,5 +1,6 @@
 var numbers = require('numbers'),
-    matrix = numbers.matrix;
+    matrix = numbers.matrix,
+    Decimal = require('decimal.js');
 
 function validate(options) {
     if (!options) {
@@ -84,21 +85,27 @@ and another column ‘output’ and returns the Simple Linear Regression paramet
 Use the closed form solution from lecture to calculate the slope and intercept.
 */
 exports.simple_linear_regression = function(input_feature, output) {
-    var sumYi = output.reduce(function(previousValue, currentValue) {
-            return previousValue + currentValue;
+    var N = output.length,
+        sumYi = output.reduce(function(previousValue, currentValue) {
+            var currentValueDecimal = new Decimal(currentValue.toFixed(3)),
+                previousValueDecimal = new Decimal(previousValue.toFixed(3));
+            return previousValueDecimal.plus(currentValueDecimal);
         }),
         sumXi = input_feature.reduce(function(previousValue, currentValue) {
-            return previousValue + currentValue;
+            var currentValueDecimal = new Decimal(currentValue.toFixed(3)),
+                previousValueDecimal = new Decimal(previousValue.toFixed(3));
+            return previousValueDecimal.plus(currentValueDecimal);
         }),
         sumYiXi = input_feature.reduce(function(previousValue, currentValue, currentIndex) {
-            return previousValue + (currentValue * output[currentIndex]);
-        }, 0),
+            var currentValueDecimal = new Decimal(currentValue.toFixed(3));
+            return previousValue.plus(currentValueDecimal.times(new Decimal(output[currentIndex].toFixed(3))));
+        }, new Decimal(0)),
         sumXiSqr = input_feature.reduce(function(previousValue, currentValue) {
-            return previousValue + Math.pow(currentValue, 2);
-        }, 0),
-        N = output.length,
-        slope = (sumYiXi - (sumYi * sumXi / N)) / (sumXiSqr - (Math.pow(sumXi, 2) / N)),
-        intercept = (sumYi / N) - (slope * sumXi / N);
+            var currentValueDecimal = new Decimal(currentValue.toFixed(3));
+            return previousValue.plus(currentValueDecimal.toPower(2));
+        }, new Decimal(0)),
+        slope = (sumYiXi.minus(sumYi.times(sumXi).dividedBy(N))).dividedBy(sumXiSqr.minus(sumXi.toPower(2).dividedBy(N))),
+        intercept = (sumYi.dividedBy(N)).minus(slope.times(sumXi).dividedBy(N));
 
     return {
         intercept: intercept,
@@ -111,9 +118,12 @@ Write a function that accepts a column of data ‘input_feature’, the ‘slope
 and returns a column of predictions ‘predicted_output’ for each entry in the input column.
 */
 exports.get_regression_predictions = function(input_feature, intercept, slope) {
-    var predicted_output = input_feature.map(function(currentValue) {
-        return intercept + (slope * currentValue);
-    });
+    var interceptDecimal = new Decimal(intercept.toFixed(3)),
+        slopeDecimal = new Decimal(slope.toFixed(3)),
+        predicted_output = input_feature.map(function(currentValue) {
+            var currentValueDecimal = new Decimal(currentValue.toFixed(3));
+            return interceptDecimal.plus(slopeDecimal.times(currentValueDecimal));
+        });
 
     return predicted_output;
 };
@@ -123,9 +133,12 @@ Write a function that accepts column of data: ‘input_feature’, and ‘output
 and the regression parameters ‘slope’ and ‘intercept’ and outputs the Residual Sum of Squares (RSS).
 */
 exports.get_residual_sum_of_squares = function(input_feature, output, intercept, slope) {
-    var RSS = output.reduce(function(previousValue, currentValue, currentIndex) {
-        return previousValue + Math.pow((currentValue - (intercept + (slope * input_feature[currentIndex]))), 2);
-    }, 0);
+    var interceptDecimal = new Decimal(intercept.toFixed(3)),
+        slopeDecimal = new Decimal(slope.toFixed(3)),
+        RSS = output.reduce(function(previousValue, currentValue, currentIndex) {
+            var currentValueDecimal = new Decimal(currentValue.toFixed(3));
+            return previousValue.plus(currentValueDecimal.minus(interceptDecimal.plus(slopeDecimal.times(new Decimal(input_feature[currentIndex].toFixed(3))))).toPower(2));
+        }, new Decimal(0));
 
     return RSS;
 };
@@ -137,9 +150,12 @@ Do this by solving the linear function output = intercept + slope*input for the 
 (i.e. ‘input’ should be on one side of the equals sign by itself).
 */
 exports.inverse_regression_predictions = function(output, intercept, slope) {
-    var estimated_input = output.map(function(currentValue) {
-        return (currentValue - intercept) / slope;
-    });
+    var interceptDecimal = new Decimal(intercept.toFixed(3)),
+        slopeDecimal = new Decimal(slope.toFixed(3)),
+        estimated_input = output.map(function(currentValue) {
+            var currentValueDecimal = new Decimal(currentValue.toFixed(3));
+            return currentValueDecimal.minus(interceptDecimal).dividedBy(slopeDecimal);
+        });
 
     return estimated_input;
 }
