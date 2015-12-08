@@ -1,7 +1,8 @@
 describe('index', function() {
     var datagrep = require('../../index'),
         numbers = require('numbers'),
-        Decimal = require('decimal.js');
+        Decimal = require('decimal.js'),
+        utils = require('./utils');
 
     // describe('the linearRegression method', function() {
     //     it('is defined', function() {
@@ -123,11 +124,8 @@ describe('index', function() {
 
     describe('setup', function() {
         it('sets sales data', function(done) {
-            var fs = require('fs'),
-                parse = require('csv-parse'),
-                parser = parse({
-                    delimiter: ','
-                }, function(err, data) {
+            utils.readCsvFile('/Philadelphia_Crime_Rate_noNA.csv')
+                .then(function(data) {
                     expect(data[0].join(' ')).toBe([
                         'HousePrice',
                         'HsPrc ($10,000)',
@@ -140,16 +138,11 @@ describe('index', function() {
                     sales = data;
                     done();
                 });
-
-            fs.createReadStream(__dirname + '/Philadelphia_Crime_Rate_noNA.csv').pipe(parser);
         });
 
         it('sets train_data', function(done) {
-            var fs = require('fs'),
-                parse = require('csv-parse'),
-                parser = parse({
-                    delimiter: ','
-                }, function(err, data) {
+            utils.readCsvFile('/kc_house_train_data.csv')
+                .then(function(data) {
                     expect(data[0].join(' ')).toBe([
                         'id',
                         'date',
@@ -176,16 +169,11 @@ describe('index', function() {
                     train_data = data;
                     done();
                 });
-
-            fs.createReadStream(__dirname + '/kc_house_train_data.csv').pipe(parser);
         });
 
         it('sets test_data', function(done) {
-            var fs = require('fs'),
-                parse = require('csv-parse'),
-                parser = parse({
-                    delimiter: ','
-                }, function(err, data) {
+            utils.readCsvFile('/kc_house_test_data.csv')
+                .then(function(data) {
                     expect(data[0].join(' ')).toBe([
                         'id',
                         'date',
@@ -212,19 +200,13 @@ describe('index', function() {
                     test_data = data;
                     done();
                 });
-
-            fs.createReadStream(__dirname + '/kc_house_test_data.csv').pipe(parser);
         });
     });
 
     describe('simple_linear_regression', function() {
         it('estimates the slope and intercept for crimerate', function() {
-            input_feature = numbers.matrix.getCol(sales, 2).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
-            output = numbers.matrix.getCol(sales, 0).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
+            input_feature = utils.getCol(sales, 2);
+            output = utils.getCol(sales, 0);
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             expect(response.slope.toFixed(2)).toBe('-576.91');
@@ -232,12 +214,8 @@ describe('index', function() {
         });
 
         it('estimates the slope and intercept for squarefeet', function() {
-            input_feature = numbers.matrix.getCol(train_data, 5).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
-            output = numbers.matrix.getCol(train_data, 2).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
+            input_feature = utils.getCol(train_data, 5);
+            output = utils.getCol(train_data, 2);
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             squarefeet_slope = response.slope;
@@ -247,9 +225,7 @@ describe('index', function() {
         });
 
         it('estimates the slope and intercept for bedrooms', function() {
-            input_feature = numbers.matrix.getCol(train_data, 3).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
+            input_feature = utils.getCol(train_data, 3);
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             bedroom_slope = response.slope;
@@ -273,12 +249,8 @@ describe('index', function() {
 
     describe('get_residual_sum_of_squares', function() {
         it('it determines the RSS for the simple linear regression for squarefeet on TRAINING data', function() {
-            input_feature = numbers.matrix.getCol(train_data, 5).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
-            output = numbers.matrix.getCol(train_data, 2).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
+            input_feature = utils.getCol(train_data, 5);
+            output = utils.getCol(train_data, 2);
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             squarefeet_slope = response.slope;
@@ -289,12 +261,8 @@ describe('index', function() {
         });
 
         it('it determines the RSS for the simple linear regression for squarefeet on TEST data', function() {
-            input_feature = numbers.matrix.getCol(test_data, 5).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
-            output = numbers.matrix.getCol(test_data, 2).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
+            input_feature = utils.getCol(test_data, 5);
+            output = utils.getCol(test_data, 2);
 
             var response = datagrep.simple_linear_regression(input_feature, output),
                 RSS = datagrep.get_residual_sum_of_squares(input_feature, output, response.intercept, response.slope);
@@ -302,12 +270,8 @@ describe('index', function() {
         });
 
         it('it determines the RSS for the simple linear regression for bedrooms on TEST data', function() {
-            input_feature = numbers.matrix.getCol(test_data, 3).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
-            output = numbers.matrix.getCol(test_data, 2).slice(1).map(function(currentValue) {
-                return new Decimal(currentValue);
-            });
+            input_feature = utils.getCol(test_data, 3);
+            output = utils.getCol(test_data, 2);
 
             var response = datagrep.simple_linear_regression(input_feature, output),
                 RSS = datagrep.get_residual_sum_of_squares(input_feature, output, response.intercept, response.slope);
