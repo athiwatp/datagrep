@@ -389,6 +389,26 @@ describe('index', function() {
             expect(Number.parseFloat(test_data[test_data_last_row][18])).toBe(-122.299);
             expect(Number.parseFloat(test_data[test_data_last_row][24])).toBe(-74.7046);
         });
+
+        it("provides the mean for the bedrooms_squared feature on test_data", function() {
+            var bedrooms_squared_col = utils.getCol(test_data, 21);
+            expect(utils.mean(bedrooms_squared_col)).toBe('bedrooms_squared_col mean');
+        });
+
+        it("provides the mean for the bed_bath_rooms feature on test_data", function() {
+            var bed_bath_rooms_col = utils.getCol(test_data, 22);
+            expect(utils.mean(bed_bath_rooms_col)).toBe('bed_bath_rooms_col mean');
+        });
+
+        it("provides the mean for the log_sqft_living feature on test_data", function() {
+            var log_sqft_living_col = utils.getCol(test_data, 23);
+            expect(utils.mean(log_sqft_living_col)).toBe('log_sqft_living_col mean');
+        });
+
+        it("provides the mean for the lat_plus_long feature on test_data", function() {
+            var lat_plus_long_col = utils.getCol(test_data, 24);
+            expect(utils.mean(lat_plus_long_col)).toBe('lat_plus_long_col mean');
+        });
     });
 
 });
