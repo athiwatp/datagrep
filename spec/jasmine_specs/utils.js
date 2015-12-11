@@ -20,3 +20,7 @@ exports.getCol = function(data, col) {
         return new Decimal(currentValue);
     });
 };
+
+exports.addFeature = function(data, callback) {
+    data.forEach(callback);
+};
