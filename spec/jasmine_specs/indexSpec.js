@@ -293,71 +293,101 @@ describe('index', function() {
 
     describe('multiple regression', function() {
         it("has a bedrooms_squared feature", function() {
-            var lastRow = train_data.length - 1;
-            utils.addFeature(train_data, function(row, index) {
-                if (index === 0) {
-                    row.push('bedrooms_squared');
-                } else {
-                    var bedrooms = Number.parseFloat(row[3]);
-                    row.push(Math.pow(bedrooms, 2));
-                }
-            });
+            var train_data_last_row = train_data.length - 1,
+                test_data_last_row = test_data.length - 1,
+                callback = function(row, index) {
+                    if (index === 0) {
+                        row.push('bedrooms_squared');
+                    } else {
+                        var bedrooms = Number.parseFloat(row[3]);
+                        row.push(Math.pow(bedrooms, 2));
+                    }
+                };
+
+            train_data.forEach(callback);
+            test_data.forEach(callback);
 
             expect(train_data[0][21]).toBe('bedrooms_squared');
-            expect(Number.parseFloat(train_data[lastRow][3])).toBe(2);
-            expect(Number.parseFloat(train_data[lastRow][21])).toBe(4);
+            expect(Number.parseFloat(train_data[train_data_last_row][3])).toBe(2);
+            expect(Number.parseFloat(train_data[train_data_last_row][21])).toBe(4);
+            expect(test_data[0][21]).toBe('bedrooms_squared');
+            expect(Number.parseFloat(test_data[test_data_last_row][3])).toBe(2);
+            expect(Number.parseFloat(test_data[test_data_last_row][21])).toBe(4);
         });
 
         it("has a bed_bath_rooms feature", function() {
-            var lastRow = train_data.length - 1;
-            utils.addFeature(train_data, function(row, index) {
-                if (index === 0) {
-                    row.push('bed_bath_rooms');
-                } else {
-                    var bedrooms = Number.parseFloat(row[3]),
-                        bathrooms = Number.parseFloat(row[4]);
-                    row.push(bedrooms * bathrooms);
-                }
-            });
+            var train_data_last_row = train_data.length - 1,
+                test_data_last_row = test_data.length - 1,
+                callback = function(row, index) {
+                    if (index === 0) {
+                        row.push('bed_bath_rooms');
+                    } else {
+                        var bedrooms = Number.parseFloat(row[3]),
+                            bathrooms = Number.parseFloat(row[4]);
+                        row.push(bedrooms * bathrooms);
+                    }
+                };
+
+            train_data.forEach(callback);
+            test_data.forEach(callback);
 
             expect(train_data[0][22]).toBe('bed_bath_rooms');
-            expect(Number.parseFloat(train_data[lastRow][3])).toBe(2);
-            expect(Number.parseFloat(train_data[lastRow][4])).toBe(0.75);
-            expect(Number.parseFloat(train_data[lastRow][22])).toBe(1.5);
+            expect(Number.parseFloat(train_data[train_data_last_row][3])).toBe(2);
+            expect(Number.parseFloat(train_data[train_data_last_row][4])).toBe(0.75);
+            expect(Number.parseFloat(train_data[train_data_last_row][22])).toBe(1.5);
+            expect(test_data[0][22]).toBe('bed_bath_rooms');
+            expect(Number.parseFloat(test_data[test_data_last_row][3])).toBe(2);
+            expect(Number.parseFloat(test_data[test_data_last_row][4])).toBe(0.75);
+            expect(Number.parseFloat(test_data[test_data_last_row][22])).toBe(1.5);
         });
 
         it("has a log_sqft_living feature", function() {
-            var lastRow = train_data.length - 1;
-            utils.addFeature(train_data, function(row, index) {
-                if (index === 0) {
-                    row.push('log_sqft_living');
-                } else {
-                    var sqft_living = Number.parseFloat(row[5]);
-                    row.push(Math.log10(sqft_living));
-                }
-            });
+            var train_data_last_row = train_data.length - 1,
+                test_data_last_row = test_data.length - 1,
+                callback = function(row, index) {
+                    if (index === 0) {
+                        row.push('log_sqft_living');
+                    } else {
+                        var sqft_living = Number.parseFloat(row[5]);
+                        row.push(Math.log10(sqft_living));
+                    }
+                };
+
+            train_data.forEach(callback);
+            test_data.forEach(callback);
 
             expect(train_data[0][23]).toBe('log_sqft_living');
-            expect(Number.parseFloat(train_data[lastRow][5])).toBe(1020);
-            expect(Number.parseFloat(train_data[lastRow][23])).toBe(3.0086001717619175);
+            expect(Number.parseFloat(train_data[train_data_last_row][5])).toBe(1020);
+            expect(Number.parseFloat(train_data[train_data_last_row][23])).toBe(3.0086001717619175);
+            expect(test_data[0][23]).toBe('log_sqft_living');
+            expect(Number.parseFloat(test_data[test_data_last_row][5])).toBe(1020);
+            expect(Number.parseFloat(test_data[test_data_last_row][23])).toBe(3.0086001717619175);
         });
 
         it("has a lat_plus_long feature", function() {
-            var lastRow = train_data.length - 1;
-            utils.addFeature(train_data, function(row, index) {
-                if (index === 0) {
-                    row.push('lat_plus_long');
-                } else {
-                    var lat = Number.parseFloat(row[17]),
-                        long = Number.parseFloat(row[18]);
-                    row.push(lat + long);
-                }
-            });
+            var train_data_last_row = train_data.length - 1,
+                test_data_last_row = test_data.length - 1,
+                callback = function(row, index) {
+                    if (index === 0) {
+                        row.push('lat_plus_long');
+                    } else {
+                        var lat = Number.parseFloat(row[17]),
+                            long = Number.parseFloat(row[18]);
+                        row.push(lat + long);
+                    }
+                };
+
+            train_data.forEach(callback);
+            test_data.forEach(callback);
 
             expect(train_data[0][24]).toBe('lat_plus_long');
-            expect(Number.parseFloat(train_data[lastRow][17])).toBe(47.5941);
-            expect(Number.parseFloat(train_data[lastRow][18])).toBe(-122.299);
-            expect(Number.parseFloat(train_data[lastRow][24])).toBe(-74.70490000000001);
+            expect(Number.parseFloat(train_data[train_data_last_row][17])).toBe(47.5941);
+            expect(Number.parseFloat(train_data[train_data_last_row][18])).toBe(-122.299);
+            expect(Number.parseFloat(train_data[train_data_last_row][24])).toBe(-74.70490000000001);
+            expect(test_data[0][24]).toBe('lat_plus_long');
+            expect(Number.parseFloat(test_data[test_data_last_row][17])).toBe(47.5944);
+            expect(Number.parseFloat(test_data[test_data_last_row][18])).toBe(-122.299);
+            expect(Number.parseFloat(test_data[test_data_last_row][24])).toBe(-74.7046);
         });
     });
 
