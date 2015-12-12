@@ -1,6 +1,7 @@
 var numbers = require('numbers'),
     matrix = numbers.matrix,
-    Decimal = require('decimal.js');
+    Decimal = require('decimal.js'),
+    utils = require('./utils');
 
 function validate(options) {
     if (!options) {
@@ -158,4 +159,100 @@ exports.inverse_regression_predictions = function(output, intercept, slope) {
         });
 
     return estimated_input;
+}
+
+/*
+Write a function that takes a data set, a list of features (e.g. [‘sqft_living’, ‘bedrooms’]),
+to be used as inputs, and a name of the output (e.g. ‘price’). This function should return a
+features_matrix (2D array) consisting of first a column of ones followed by columns containing
+the values of the input features in the data set in the same order as the input list.
+It should also return an output_array which is an array of the values of the output in the data set
+(e.g. ‘price’).
+*/
+exports.get_features_matrix = function(data, features, output) {
+    var inputIndices = [],
+        features_matrix,
+        output_array;
+
+    for (var i = 0; i < data[0].length; i++) {
+        if (data[0][i] === output[0]) {
+            output_array = data.map(function(currentValue) {
+                return [currentValue[i]];
+            });
+        } else {
+            for (var j = 0; j < features.length; j++) {
+                if (data[0][i] === features[j]) {
+                    inputIndices.push(i);
+                }
+            }
+        }
+    }
+
+    features_matrix = data.map(function(currentValue) {
+        return [1].concat(inputIndices.map(function(index) {
+            return currentValue[index]
+        }));
+    });
+
+    return {
+        features_matrix: features_matrix.slice(1),
+        output_array: output_array.slice(1)
+    }
+};
+
+/*
+If the features matrix (including a column of 1s for the constant) is stored as a 2D array (or matrix)
+and the regression weights are stored as a 1D array then the predicted output is just the dot product
+between the features matrix and the weights (with the weights on the right).
+Write a function ‘predict_output’ which accepts a 2D array ‘feature_matrix’ and a 1D array ‘weights’
+and returns a 1D array ‘predictions’.
+*/
+function predict_outcome(feature_matrix, weights) {
+    var predictions = matrix.multiply(feature_matrix, weights);
+    return predictions;
+}
+exports.predict_outcome = predict_outcome;
+
+/*
+If we have the values of a single input feature in an array ‘feature’ and the prediction ‘errors’
+(predictions - output) then the derivative of the regression cost function with respect to the weight
+of ‘feature’ is just twice the dot product between ‘feature’ and ‘errors’.
+Write a function that accepts a ‘feature’ array and ‘error’ array and returns the ‘derivative’(a single number)
+*/
+function feature_derivative(errors, feature) {
+    var gradient = -2 * matrix.dotproduct(feature, errors);
+    return gradient;
+}
+exports.feature_derivative = feature_derivative;
+
+exports.regression_gradient_descent = function(feature_matrix, output, initial_weights, step_size, tolerance) {
+    var converged = false,
+        weights = initial_weights.map(function(currentValue) {
+            return [Number.parseFloat(currentValue)];
+        }),
+        gradient_sum_squares,
+        gradient_magnitude;
+
+    while (!converged) {
+        var predictions = predict_outcome(feature_matrix, weights),
+            errors = matrix.subtraction(output, predictions);
+
+        gradient_sum_squares = 0;
+
+        for (var j = 0; j < weights.length; j++) {
+            var feature = utils.getCol(feature_matrix, j),
+                gradient = feature_derivative(errors, feature);
+
+            gradient_sum_squares += Math.pow(gradient, 2);
+            weights[j][0] = weights[j][0] - step_size * gradient;
+        }
+
+        gradient_magnitude = Math.sqrt(gradient_sum_squares);
+        
+        if (gradient_magnitude < tolerance) {
+            converged = true;
+        }
+    }
+
+    return weights;
 }

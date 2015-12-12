@@ -15,8 +15,8 @@ exports.readCsvFile = function(file) {
     });
 };
 
-exports.getCol = function(data, col) {
-    return numbers.matrix.getCol(data, col).slice(1).map(function(currentValue) {
+exports.getCol = function(data, col, removeHeader) {
+    return numbers.matrix.getCol(data, col).slice(removeHeader ? 1 : 0).map(function(currentValue) {
         // return new Decimal(currentValue);
         return Number.parseFloat(currentValue);
     });

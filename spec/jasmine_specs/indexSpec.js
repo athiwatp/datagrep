@@ -2,7 +2,7 @@ describe('index', function() {
     var datagrep = require('../../index'),
         numbers = require('numbers'),
         Decimal = require('decimal.js'),
-        utils = require('./utils');
+        utils = require('../../utils');
 
     // describe('the linearRegression method', function() {
     //     it('is defined', function() {
@@ -120,11 +120,12 @@ describe('index', function() {
         squarefeet_slope,
         squarefeet_intercept,
         bedroom_slope,
-        bedroom_intercept;
+        bedroom_intercept,
+        removeHeader = true;
 
     describe('setup', function() {
         it('sets sales data', function(done) {
-            utils.readCsvFile('/Philadelphia_Crime_Rate_noNA.csv')
+            utils.readCsvFile('/spec/jasmine_specs/Philadelphia_Crime_Rate_noNA.csv')
                 .then(function(data) {
                     expect(data[0].join(' ')).toBe([
                         'HousePrice',
@@ -141,7 +142,7 @@ describe('index', function() {
         });
 
         it('sets train_data', function(done) {
-            utils.readCsvFile('/kc_house_train_data.csv')
+            utils.readCsvFile('/spec/jasmine_specs/kc_house_train_data.csv')
                 .then(function(data) {
                     expect(data[0].join(' ')).toBe([
                         'id',
@@ -172,7 +173,7 @@ describe('index', function() {
         });
 
         it('sets test_data', function(done) {
-            utils.readCsvFile('/kc_house_test_data.csv')
+            utils.readCsvFile('/spec/jasmine_specs/kc_house_test_data.csv')
                 .then(function(data) {
                     expect(data[0].join(' ')).toBe([
                         'id',
@@ -205,8 +206,8 @@ describe('index', function() {
 
     describe('simple_linear_regression', function() {
         it('estimates the slope and intercept for crimerate', function() {
-            input_feature = utils.getCol(sales, 2);
-            output = utils.getCol(sales, 0);
+            input_feature = utils.getCol(sales, 2, removeHeader);
+            output = utils.getCol(sales, 0, removeHeader);
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             expect(response.slope.toFixed(2)).toBe('-576.91');
@@ -214,8 +215,8 @@ describe('index', function() {
         });
 
         it('estimates the slope and intercept for squarefeet', function() {
-            input_feature = utils.getCol(train_data, 5);
-            output = utils.getCol(train_data, 2);
+            input_feature = utils.getCol(train_data, 5, removeHeader);
+            output = utils.getCol(train_data, 2, removeHeader);
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             squarefeet_slope = response.slope;
@@ -225,7 +226,7 @@ describe('index', function() {
         });
 
         it('estimates the slope and intercept for bedrooms', function() {
-            input_feature = utils.getCol(train_data, 3);
+            input_feature = utils.getCol(train_data, 3, removeHeader);
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             bedroom_slope = response.slope;
@@ -249,8 +250,8 @@ describe('index', function() {
 
     describe('get_residual_sum_of_squares', function() {
         it('it determines the RSS for the simple linear regression for squarefeet on TRAINING data', function() {
-            input_feature = utils.getCol(train_data, 5);
-            output = utils.getCol(train_data, 2);
+            input_feature = utils.getCol(train_data, 5, removeHeader);
+            output = utils.getCol(train_data, 2, removeHeader);
 
             var response = datagrep.simple_linear_regression(input_feature, output);
             squarefeet_slope = response.slope;
@@ -261,8 +262,8 @@ describe('index', function() {
         });
 
         it('it determines the RSS for the simple linear regression for squarefeet on TEST data', function() {
-            input_feature = utils.getCol(test_data, 5);
-            output = utils.getCol(test_data, 2);
+            input_feature = utils.getCol(test_data, 5, removeHeader);
+            output = utils.getCol(test_data, 2, removeHeader);
 
             var response = datagrep.simple_linear_regression(input_feature, output),
                 RSS = datagrep.get_residual_sum_of_squares(input_feature, output, response.intercept, response.slope);
@@ -270,8 +271,8 @@ describe('index', function() {
         });
 
         it('it determines the RSS for the simple linear regression for bedrooms on TEST data', function() {
-            input_feature = utils.getCol(test_data, 3);
-            output = utils.getCol(test_data, 2);
+            input_feature = utils.getCol(test_data, 3, removeHeader);
+            output = utils.getCol(test_data, 2, removeHeader);
 
             var response = datagrep.simple_linear_regression(input_feature, output),
                 RSS = datagrep.get_residual_sum_of_squares(input_feature, output, response.intercept, response.slope);
@@ -391,24 +392,41 @@ describe('index', function() {
         });
 
         it("provides the mean for the bedrooms_squared feature on test_data", function() {
-            var bedrooms_squared_col = utils.getCol(test_data, 21);
+            var bedrooms_squared_col = utils.getCol(test_data, 21, removeHeader);
             expect(utils.mean(bedrooms_squared_col)).toBe('bedrooms_squared_col mean');
         });
 
         it("provides the mean for the bed_bath_rooms feature on test_data", function() {
-            var bed_bath_rooms_col = utils.getCol(test_data, 22);
+            var bed_bath_rooms_col = utils.getCol(test_data, 22, removeHeader);
             expect(utils.mean(bed_bath_rooms_col)).toBe('bed_bath_rooms_col mean');
         });
 
         it("provides the mean for the log_sqft_living feature on test_data", function() {
-            var log_sqft_living_col = utils.getCol(test_data, 23);
+            var log_sqft_living_col = utils.getCol(test_data, 23, removeHeader);
             expect(utils.mean(log_sqft_living_col)).toBe('log_sqft_living_col mean');
         });
 
         it("provides the mean for the lat_plus_long feature on test_data", function() {
-            var lat_plus_long_col = utils.getCol(test_data, 24);
+            var lat_plus_long_col = utils.getCol(test_data, 24, removeHeader);
             expect(utils.mean(lat_plus_long_col)).toBe('lat_plus_long_col mean');
         });
+
+        it("returns the weights from regression_gradient_descent", function() {
+            var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
+                feature_matrix = results.features_matrix,
+                output = results.output_array,
+                initial_weights = [-47000, 1],
+                // initial_weights = [-47116.08, 281.96],
+                step_size = Number.parseFloat("7e-12"),
+                tolerance = Number.parseFloat("2.5e7");
+
+            var weights = datagrep.regression_gradient_descent(feature_matrix, output, initial_weights, step_size, tolerance);
+            expect(weights).toBe('something');
+
+            // expect(squarefeet_intercept.toFixed(2)).toBe('-47116.08');
+            // expect(squarefeet_slope.toFixed(2)).toBe('281.96');
+        });
+
     });
 
 });
