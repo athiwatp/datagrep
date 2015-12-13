@@ -232,31 +232,60 @@ exports.regression_gradient_descent = function(feature_matrix, output, initial_w
     return weights;
 }
 
-exports.regression_gradient_descent_v2 = function(feature_matrix, output, initial_weights, step_size, tolerance, schedule) {
+exports.regression_gradient_descent_v2 = function(feature_matrix, output, initial_weights, step_size, tolerance) {
+    var w_t = initial_weights.map(function(currentValue) {
+            return [currentValue];
+        }),
+        D = w_t.length,
+        gradient_magnitude;
+
+    do {
+        var predictions = matrix.multiply(feature_matrix, w_t),
+            residuals = matrix.subtraction(output, predictions),
+            sum_of_squared_partials = 0;
+
+        for (var j = 0; j < D; j++) {
+            var h_j = matrix.getCol(feature_matrix, j),
+                partial_j = -2 * matrix.dotproduct(h_j, residuals);
+
+            w_t[j][0] = w_t[j][0] - (step_size * partial_j);
+            sum_of_squared_partials += Math.pow(partial_j, 2);
+        }
+
+        gradient_magnitude = Math.sqrt(sum_of_squared_partials);
+    } while (gradient_magnitude > tolerance)
+
+    return w_t;
+};
+
+exports.regression_gradient_descent_v3 = function(feature_matrix, output, initial_weights, step_size, tolerance, schedule) {
     var w_t = initial_weights.map(function(currentValue) {
             return [currentValue];
         }),
         D = w_t.length,
         gradient_magnitude,
-        iteration = 1;
+        iteration = 1,
+        maxPartialSize = 1000;
 
     do {
-        var predictions = matrix.multiply(feature_matrix, w_t); // feature_matrix should be N x 3; w_t is 3 *1
+        var predictions = matrix.multiply(feature_matrix, w_t);
         var residuals = matrix.subtraction(output, predictions);
         var sum_of_squared_partials = 0;
 
         for (var j = 0; j < D; j++) {
             var h_j = matrix.getCol(feature_matrix, j);
             var partial_j = -2 * matrix.dotproduct(h_j, residuals);
+            console.log('partial_j; j: ' + j + '; ' + partial_j);
+            var delta = Math.abs(partial_j) < maxPartialSize ? (step_size * partial_j) : (maxPartialSize / iteration * (partial_j < 0 ? -1 : 1));
             if (schedule) {
                 w_t[j][0] = w_t[j][0] - ((step_size / iteration) * partial_j); // or / Math.sqrt(iteration)
             } else {
-                w_t[j][0] = w_t[j][0] - (step_size * partial_j);
+                w_t[j][0] = w_t[j][0] - delta;
             }
             sum_of_squared_partials += Math.pow(partial_j, 2);
         }
 
-        // console.log("sum_of_squared_partials: " + sum_of_squared_partials + "; w_t: " + w_t);
+        console.log("sum_of_squared_partials: " + sum_of_squared_partials + "; w_t: " + w_t);
 
         iteration++;
         gradient_magnitude = Math.sqrt(sum_of_squared_partials);

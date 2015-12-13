@@ -413,7 +413,7 @@ describe('index', function() {
             expect(Number.parseFloat(utils.mean(lat_plus_long_col).toFixed(3))).toBe(-74.653);
         });
 
-        it("returns the weights from regression_gradient_descent for train_data", function() {
+        xit("returns the weights from regression_gradient_descent for train_data", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 features_matrix = results.features_matrix,
                 output = results.output_array,
@@ -425,7 +425,7 @@ describe('index', function() {
             expect(Number.parseFloat(weights[1][0].toFixed(1))).toBe(281.9);
         });
 
-        it("returns the weights from regression_gradient_descent_v2 for train_data", function() {
+        xit("returns the weights from regression_gradient_descent_v2 for train_data", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 simple_features = results.features_matrix,
                 output = results.output_array,
@@ -437,7 +437,7 @@ describe('index', function() {
             expect(Number.parseFloat(simple_weights[1][0].toFixed(1))).toBe(281.9);
         });
 
-        it("predicts the price for the 1st house in test_data from sqft_living", function() {
+        xit("predicts the price for the 1st house in test_data from sqft_living", function() {
             var train_results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 simple_features = train_results.features_matrix,
                 output = train_results.output_array,
@@ -453,7 +453,7 @@ describe('index', function() {
             // expect(datagrep.get_residual_sum_of_squares_v2(test_simple_feature_matrix, test_output, simple_weights)).toBe('something');
         });
 
-        it("predicts the price for the 1st house in test_data from sqft_living and sqft_living15", function() {
+        xit("predicts the price for the 1st house in test_data from sqft_living and sqft_living15", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living', 'sqft_living15'], ['price']),
                 features_matrix = results.features_matrix,
                 output = results.output_array,
@@ -469,7 +469,19 @@ describe('index', function() {
             // expect(datagrep.get_residual_sum_of_squares_v2(test_features_matrix, test_output, weights)).toBe('something');
         });
 
-        xit("returns the weights from regression_gradient_descent_v2 with step_size / t", function() {
+        it("returns the weights from regression_gradient_descent_v3 for train_data", function() {
+            var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
+                simple_features = results.features_matrix,
+                output = results.output_array,
+                initial_weights = [-47000, 1],
+                step_size = Number.parseFloat("7e-12"),
+                tolerance = Number.parseFloat("2.5e7"),
+                simple_weights = datagrep.regression_gradient_descent_v3(simple_features, output, initial_weights, step_size, tolerance);
+
+            expect(Number.parseFloat(simple_weights[1][0].toFixed(1))).toBe(281.9);
+        });
+
+        xit("returns the weights from regression_gradient_descent_v3 with step_size / t", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 features_matrix = results.features_matrix,
                 output = results.output_array,
@@ -481,7 +493,7 @@ describe('index', function() {
             expect(weights).toBe('something');
         });
 
-        xit("returns the weights from regression_gradient_descent_v2 after feature scaling", function() {
+        xit("returns the weights from regression_gradient_descent_v3 after feature scaling", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 features_matrix = datagrep.feature_scale(results.features_matrix),
                 output = results.output_array,
