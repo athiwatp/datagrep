@@ -1,6 +1,8 @@
 describe('index', function() {
     var datagrep = require('../../index'),
         numbers = require('numbers'),
+        matrix = numbers.matrix,
+        statistic = numbers.statistic,
         Decimal = require('decimal.js'),
         utils = require('../../utils');
 
@@ -350,7 +352,7 @@ describe('index', function() {
                         row.push('log_sqft_living');
                     } else {
                         var sqft_living = Number.parseFloat(row[5]);
-                        row.push(Math.log10(sqft_living));
+                        row.push(Math.log(sqft_living));
                     }
                 };
 
@@ -359,10 +361,10 @@ describe('index', function() {
 
             expect(train_data[0][23]).toBe('log_sqft_living');
             expect(Number.parseFloat(train_data[train_data_last_row][5])).toBe(1020);
-            expect(Number.parseFloat(train_data[train_data_last_row][23])).toBe(3.0086001717619175);
+            expect(Number.parseFloat(train_data[train_data_last_row][23])).toBe(6.927557906278317);
             expect(test_data[0][23]).toBe('log_sqft_living');
             expect(Number.parseFloat(test_data[test_data_last_row][5])).toBe(1020);
-            expect(Number.parseFloat(test_data[test_data_last_row][23])).toBe(3.0086001717619175);
+            expect(Number.parseFloat(test_data[test_data_last_row][23])).toBe(6.927557906278317);
         });
 
         it("has a lat_plus_long feature", function() {
@@ -393,38 +395,102 @@ describe('index', function() {
 
         it("provides the mean for the bedrooms_squared feature on test_data", function() {
             var bedrooms_squared_col = utils.getCol(test_data, 21, removeHeader);
-            expect(utils.mean(bedrooms_squared_col)).toBe('bedrooms_squared_col mean');
+            expect(Number.parseFloat(utils.mean(bedrooms_squared_col).toFixed(3))).toBe(12.447);
         });
 
         it("provides the mean for the bed_bath_rooms feature on test_data", function() {
             var bed_bath_rooms_col = utils.getCol(test_data, 22, removeHeader);
-            expect(utils.mean(bed_bath_rooms_col)).toBe('bed_bath_rooms_col mean');
+            expect(Number.parseFloat(utils.mean(bed_bath_rooms_col).toFixed(3))).toBe(7.504);
         });
 
         it("provides the mean for the log_sqft_living feature on test_data", function() {
             var log_sqft_living_col = utils.getCol(test_data, 23, removeHeader);
-            expect(utils.mean(log_sqft_living_col)).toBe('log_sqft_living_col mean');
+            expect(Number.parseFloat(utils.mean(log_sqft_living_col).toFixed(3))).toBe(7.550);
         });
 
         it("provides the mean for the lat_plus_long feature on test_data", function() {
             var lat_plus_long_col = utils.getCol(test_data, 24, removeHeader);
-            expect(utils.mean(lat_plus_long_col)).toBe('lat_plus_long_col mean');
+            expect(Number.parseFloat(utils.mean(lat_plus_long_col).toFixed(3))).toBe(-74.653);
         });
 
-        it("returns the weights from regression_gradient_descent", function() {
+        it("returns the weights from regression_gradient_descent for train_data", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
-                feature_matrix = results.features_matrix,
+                features_matrix = results.features_matrix,
                 output = results.output_array,
                 initial_weights = [-47000, 1],
-                // initial_weights = [-47116.08, 281.96],
                 step_size = Number.parseFloat("7e-12"),
-                tolerance = Number.parseFloat("2.5e7");
+                tolerance = Number.parseFloat("2.5e7"),
+                weights = datagrep.regression_gradient_descent(features_matrix, output, initial_weights, step_size, tolerance);
 
-            var weights = datagrep.regression_gradient_descent(feature_matrix, output, initial_weights, step_size, tolerance);
+            expect(Number.parseFloat(weights[1][0].toFixed(1))).toBe(281.9);
+        });
+
+        it("returns the weights from regression_gradient_descent_v2 for train_data", function() {
+            var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
+                simple_features = results.features_matrix,
+                output = results.output_array,
+                initial_weights = [-47000, 1],
+                step_size = Number.parseFloat("7e-12"),
+                tolerance = Number.parseFloat("2.5e7"),
+                simple_weights = datagrep.regression_gradient_descent_v2(simple_features, output, initial_weights, step_size, tolerance);
+
+            expect(Number.parseFloat(simple_weights[1][0].toFixed(1))).toBe(281.9);
+        });
+
+        it("predicts the price for the 1st house in test_data from sqft_living", function() {
+            var train_results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
+                simple_features = train_results.features_matrix,
+                output = train_results.output_array,
+                initial_weights = [-47000, 1],
+                step_size = Number.parseFloat("7e-12"),
+                tolerance = Number.parseFloat("2.5e7"),
+                simple_weights = datagrep.regression_gradient_descent_v2(simple_features, output, initial_weights, step_size, tolerance),
+                test_results = datagrep.get_features_matrix(test_data, ['sqft_living'], ['price']),
+                test_simple_feature_matrix = test_results.features_matrix,
+                test_output = test_results.output_array;
+
+            expect(Number.parseFloat(datagrep.predict_outcome(test_simple_feature_matrix, simple_weights)[0][0].toFixed(0))).toBe(356134);
+            // expect(datagrep.get_residual_sum_of_squares_v2(test_simple_feature_matrix, test_output, simple_weights)).toBe('something');
+        });
+
+        it("predicts the price for the 1st house in test_data from sqft_living and sqft_living15", function() {
+            var results = datagrep.get_features_matrix(train_data, ['sqft_living', 'sqft_living15'], ['price']),
+                features_matrix = results.features_matrix,
+                output = results.output_array,
+                initial_weights = [-100000, 1, 1],
+                step_size = Number.parseFloat("4e-12"),
+                tolerance = Number.parseFloat("1e9"),
+                weights = datagrep.regression_gradient_descent_v2(features_matrix, output, initial_weights, step_size, tolerance),
+                test_results = datagrep.get_features_matrix(test_data, ['sqft_living', 'sqft_living15'], ['price']),
+                test_features_matrix = test_results.features_matrix,
+                test_output = test_results.output_array;
+
+            expect(Number.parseFloat(datagrep.predict_outcome(test_features_matrix, weights)[0][0].toFixed(0))).toBe(366651);
+            // expect(datagrep.get_residual_sum_of_squares_v2(test_features_matrix, test_output, weights)).toBe('something');
+        });
+
+        xit("returns the weights from regression_gradient_descent_v2 with step_size / t", function() {
+            var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
+                features_matrix = results.features_matrix,
+                output = results.output_array,
+                initial_weights = [-47000, 1],
+                step_size = Number.parseFloat("7e-11"),
+                tolerance = Number.parseFloat("2.5e7"),
+                weights = datagrep.regression_gradient_descent_v2(features_matrix, output, initial_weights, step_size, tolerance, true);
+
             expect(weights).toBe('something');
+        });
 
-            // expect(squarefeet_intercept.toFixed(2)).toBe('-47116.08');
-            // expect(squarefeet_slope.toFixed(2)).toBe('281.96');
+        xit("returns the weights from regression_gradient_descent_v2 after feature scaling", function() {
+            var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
+                features_matrix = datagrep.feature_scale(results.features_matrix),
+                output = results.output_array,
+                initial_weights = [0, 0],
+                step_size = Number.parseFloat("0.01"),
+                tolerance = Number.parseFloat("2.5e7"),
+                weights = datagrep.regression_gradient_descent_v2(features_matrix, output, initial_weights, step_size, tolerance);
+
+            expect(weights).toBe('something');
         });
 
     });

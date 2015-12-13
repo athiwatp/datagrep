@@ -1,5 +1,6 @@
 var numbers = require('numbers'),
     matrix = numbers.matrix,
+    statistic = numbers.statistic,
     Decimal = require('decimal.js'),
     utils = require('./utils');
 
@@ -80,11 +81,6 @@ exports.linearRegression = function(options) {
     });
 };
 
-/*
-Write a generic function that accepts a column of data (e.g, an SArray) ‘input_feature’
-and another column ‘output’ and returns the Simple Linear Regression parameters ‘intercept’ and ‘slope’.
-Use the closed form solution from lecture to calculate the slope and intercept.
-*/
 exports.simple_linear_regression = function(input_feature, output) {
     var N = output.length,
         sumYi = output.reduce(function(previousValue, currentValue) {
@@ -114,10 +110,6 @@ exports.simple_linear_regression = function(input_feature, output) {
     };
 };
 
-/*
-Write a function that accepts a column of data ‘input_feature’, the ‘slope’, and the ‘intercept’ you learned,
-and returns a column of predictions ‘predicted_output’ for each entry in the input column.
-*/
 exports.get_regression_predictions = function(input_feature, intercept, slope) {
     var interceptDecimal = new Decimal(intercept.toFixed(3)),
         slopeDecimal = new Decimal(slope.toFixed(3)),
@@ -129,10 +121,6 @@ exports.get_regression_predictions = function(input_feature, intercept, slope) {
     return predicted_output;
 };
 
-/*
-Write a function that accepts column of data: ‘input_feature’, and ‘output’ 
-and the regression parameters ‘slope’ and ‘intercept’ and outputs the Residual Sum of Squares (RSS).
-*/
 exports.get_residual_sum_of_squares = function(input_feature, output, intercept, slope) {
     var interceptDecimal = new Decimal(intercept.toFixed(3)),
         slopeDecimal = new Decimal(slope.toFixed(3)),
@@ -144,12 +132,16 @@ exports.get_residual_sum_of_squares = function(input_feature, output, intercept,
     return RSS;
 };
 
-/*
-Write a function that accepts a column of data:‘output’ and the regression parameters
-‘slope’ and ‘intercept’ and outputs the column of data: ‘estimated_input’.
-Do this by solving the linear function output = intercept + slope*input for the ‘input’ variable
-(i.e. ‘input’ should be on one side of the equals sign by itself).
-*/
+exports.get_residual_sum_of_squares_v2 = function(feature_matrix, output, weights) {
+    var predictions = predict_outcome(feature_matrix, weights),
+        sums = matrix.subtraction(output, predictions),
+        rss = sums.reduce(function(previousValue, currentValue) {
+            return previousValue + Math.pow(currentValue, 2);
+        }, 0);
+
+    return rss;
+};
+
 exports.inverse_regression_predictions = function(output, intercept, slope) {
     var interceptDecimal = new Decimal(intercept.toFixed(3)),
         slopeDecimal = new Decimal(slope.toFixed(3)),
@@ -161,14 +153,6 @@ exports.inverse_regression_predictions = function(output, intercept, slope) {
     return estimated_input;
 }
 
-/*
-Write a function that takes a data set, a list of features (e.g. [‘sqft_living’, ‘bedrooms’]),
-to be used as inputs, and a name of the output (e.g. ‘price’). This function should return a
-features_matrix (2D array) consisting of first a column of ones followed by columns containing
-the values of the input features in the data set in the same order as the input list.
-It should also return an output_array which is an array of the values of the output in the data set
-(e.g. ‘price’).
-*/
 exports.get_features_matrix = function(data, features, output) {
     var inputIndices = [],
         features_matrix,
@@ -190,38 +174,29 @@ exports.get_features_matrix = function(data, features, output) {
 
     features_matrix = data.map(function(currentValue) {
         return [1].concat(inputIndices.map(function(index) {
-            return currentValue[index]
+            return currentValue[index];
         }));
     });
 
     return {
-        features_matrix: features_matrix.slice(1),
-        output_array: output_array.slice(1)
+        features_matrix: features_matrix.slice(1).map(function(currentValue) {
+            return currentValue.map(Number.parseFloat);
+        }),
+        output_array: output_array.slice(1).map(function(currentValue) {
+            return currentValue.map(Number.parseFloat);
+        })
     }
 };
 
-/*
-If the features matrix (including a column of 1s for the constant) is stored as a 2D array (or matrix)
-and the regression weights are stored as a 1D array then the predicted output is just the dot product
-between the features matrix and the weights (with the weights on the right).
-Write a function ‘predict_output’ which accepts a 2D array ‘feature_matrix’ and a 1D array ‘weights’
-and returns a 1D array ‘predictions’.
-*/
 function predict_outcome(feature_matrix, weights) {
     var predictions = matrix.multiply(feature_matrix, weights);
     return predictions;
 }
 exports.predict_outcome = predict_outcome;
 
-/*
-If we have the values of a single input feature in an array ‘feature’ and the prediction ‘errors’
-(predictions - output) then the derivative of the regression cost function with respect to the weight
-of ‘feature’ is just twice the dot product between ‘feature’ and ‘errors’.
-Write a function that accepts a ‘feature’ array and ‘error’ array and returns the ‘derivative’(a single number)
-*/
 function feature_derivative(errors, feature) {
-    var gradient = -2 * matrix.dotproduct(feature, errors);
-    return gradient;
+    var derivative = -2 * matrix.dotproduct(feature, errors);
+    return derivative;
 }
 exports.feature_derivative = feature_derivative;
 
@@ -241,14 +216,14 @@ exports.regression_gradient_descent = function(feature_matrix, output, initial_w
 
         for (var j = 0; j < weights.length; j++) {
             var feature = utils.getCol(feature_matrix, j),
-                gradient = feature_derivative(errors, feature);
+                derivative = feature_derivative(errors, feature);
 
-            gradient_sum_squares += Math.pow(gradient, 2);
-            weights[j][0] = weights[j][0] - step_size * gradient;
+            gradient_sum_squares += Math.pow(derivative, 2);
+            weights[j][0] = weights[j][0] - step_size * derivative;
         }
 
         gradient_magnitude = Math.sqrt(gradient_sum_squares);
-        
+
         if (gradient_magnitude < tolerance) {
             converged = true;
         }
@@ -256,3 +231,51 @@ exports.regression_gradient_descent = function(feature_matrix, output, initial_w
 
     return weights;
 }
+
+exports.regression_gradient_descent_v2 = function(feature_matrix, output, initial_weights, step_size, tolerance, schedule) {
+    var w_t = initial_weights.map(function(currentValue) {
+            return [currentValue];
+        }),
+        D = w_t.length,
+        gradient_magnitude,
+        iteration = 1;
+
+    do {
+        var predictions = matrix.multiply(feature_matrix, w_t); // feature_matrix should be N x 3; w_t is 3 *1
+        var residuals = matrix.subtraction(output, predictions);
+        var sum_of_squared_partials = 0;
+
+        for (var j = 0; j < D; j++) {
+            var h_j = matrix.getCol(feature_matrix, j);
+            var partial_j = -2 * matrix.dotproduct(h_j, residuals);
+            if (schedule) {
+                w_t[j][0] = w_t[j][0] - ((step_size / iteration) * partial_j); // or / Math.sqrt(iteration)
+            } else {
+                w_t[j][0] = w_t[j][0] - (step_size * partial_j);
+            }
+            sum_of_squared_partials += Math.pow(partial_j, 2);
+        }
+
+        // console.log("sum_of_squared_partials: " + sum_of_squared_partials + "; w_t: " + w_t);
+
+        iteration++;
+        gradient_magnitude = Math.sqrt(sum_of_squared_partials);
+    } while (gradient_magnitude > tolerance)
+
+    return w_t;
+};
+
+exports.feature_scale = function(data) {
+    var featureCount = data[0].length;
+    for (var i = 1; i < featureCount; i++) {
+        var col = matrix.getCol(data, i),
+            stdDev = statistic.standardDev(col),
+            mean = statistic.mean(col);
+
+        data = data.map(function(currentValue) {
+            currentValue[i] = (currentValue[i] - mean) / stdDev;
+            return currentValue;
+        });
+    }
+    return data;
+};
