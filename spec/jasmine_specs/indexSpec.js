@@ -6,114 +6,6 @@ describe('index', function() {
         Decimal = require('decimal.js'),
         utils = require('../../utils');
 
-    // describe('the linearRegression method', function() {
-    //     it('is defined', function() {
-    //         expect(linearRegression).toBeDefined();
-    //     });
-
-    //     it('returns a Promise', function() {
-    //         expect(linearRegression()).toBeInstanceOf(Promise);
-    //     });
-
-    //     it('returns an error if options is not provided', function(done) {
-    //         linearRegression().catch(function(message) {
-    //             expect(message).toBe("options is required");
-    //             done();
-    //         });
-    //     });
-
-    //     it('returns an error if options.x is not provided', function(done) {
-    //         linearRegression({}).catch(function(message) {
-    //             expect(message).toBe("x is required");
-    //             done();
-    //         });
-    //     });
-
-    //     it('returns an error if options.x is not an Array', function(done) {
-    //         linearRegression({
-    //             x: 'not an Array'
-    //         }).catch(function(message) {
-    //             expect(message).toBe("x must be an Array");
-    //             done();
-    //         });
-    //     });
-
-    //     it('returns an error if options.y is not provided', function(done) {
-    //         linearRegression({
-    //             x: []
-    //         }).catch(function(message) {
-    //             expect(message).toBe("y is required");
-    //             done();
-    //         });
-    //     });
-
-    //     it('returns an error if options.y is not an Array', function(done) {
-    //         linearRegression({
-    //             x: [],
-    //             y: 'not an Array'
-    //         }).catch(function(message) {
-    //             expect(message).toBe("y must be an Array");
-    //             done();
-    //         });
-    //     });
-
-    //     it('returns an error if options.alpha is not provided', function(done) {
-    //         linearRegression({
-    //             x: [],
-    //             y: []
-    //         }).catch(function(message) {
-    //             expect(message).toBe("alpha is required");
-    //             done();
-    //         });
-    //     });
-
-    //     it('returns an error if options.alpha is not a number', function(done) {
-    //         linearRegression({
-    //             x: [],
-    //             y: [],
-    //             alpha: 'alpha is not a number'
-    //         }).catch(function(message) {
-    //             expect(message).toBe("alpha must be a number");
-    //             done();
-    //         });
-    //     });
-
-    //     it('returns an error if options.iterations is required', function(done) {
-    //         linearRegression({
-    //             x: [],
-    //             y: [],
-    //             alpha: 0.001
-    //         }).catch(function(message) {
-    //             expect(message).toBe("iterations is required");
-    //             done();
-    //         });
-    //     });
-
-    //     it('returns an error if options.iterations is not an integer', function(done) {
-    //         linearRegression({
-    //             x: [],
-    //             y: [],
-    //             alpha: 0.001,
-    //             iterations: 0.001
-    //         }).catch(function(message) {
-    //             expect(message).toBe("iterations must be an integer");
-    //             done();
-    //         });
-    //     });
-
-    //     it('determines the right theta for the data set', function(done) {
-    //         var data = require('./data.json'),
-    //             theta0,
-    //             theta1;
-    //         linearRegression(data).then(function(theta) {
-    //             expect(theta[0][0]).toBe(theta0);
-    //             expect(theta[1][0]).toBe(theta1);
-    //             done();
-    //         });
-    //     });
-
-    // });
-
     var sales,
         train_data,
         test_data,
@@ -413,7 +305,7 @@ describe('index', function() {
             expect(Number.parseFloat(utils.mean(lat_plus_long_col).toFixed(3))).toBe(-74.653);
         });
 
-        xit("returns the weights from regression_gradient_descent for train_data", function() {
+        it("returns the weights from regression_gradient_descent for train_data", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 features_matrix = results.features_matrix,
                 output = results.output_array,
@@ -425,7 +317,7 @@ describe('index', function() {
             expect(Number.parseFloat(weights[1][0].toFixed(1))).toBe(281.9);
         });
 
-        xit("returns the weights from regression_gradient_descent_v2 for train_data", function() {
+        it("returns the weights from regression_gradient_descent_v2 for train_data", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 simple_features = results.features_matrix,
                 output = results.output_array,
@@ -437,7 +329,7 @@ describe('index', function() {
             expect(Number.parseFloat(simple_weights[1][0].toFixed(1))).toBe(281.9);
         });
 
-        xit("predicts the price for the 1st house in test_data from sqft_living", function() {
+        it("predicts the price for the 1st house in test_data from sqft_living", function() {
             var train_results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 simple_features = train_results.features_matrix,
                 output = train_results.output_array,
@@ -450,10 +342,9 @@ describe('index', function() {
                 test_output = test_results.output_array;
 
             expect(Number.parseFloat(datagrep.predict_outcome(test_simple_feature_matrix, simple_weights)[0][0].toFixed(0))).toBe(356134);
-            // expect(datagrep.get_residual_sum_of_squares_v2(test_simple_feature_matrix, test_output, simple_weights)).toBe('something');
         });
 
-        xit("predicts the price for the 1st house in test_data from sqft_living and sqft_living15", function() {
+        it("predicts the price for the 1st house in test_data from sqft_living and sqft_living15", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living', 'sqft_living15'], ['price']),
                 features_matrix = results.features_matrix,
                 output = results.output_array,
@@ -466,43 +357,36 @@ describe('index', function() {
                 test_output = test_results.output_array;
 
             expect(Number.parseFloat(datagrep.predict_outcome(test_features_matrix, weights)[0][0].toFixed(0))).toBe(366651);
-            // expect(datagrep.get_residual_sum_of_squares_v2(test_features_matrix, test_output, weights)).toBe('something');
         });
 
         it("returns the weights from regression_gradient_descent_v3 for train_data", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 simple_features = results.features_matrix,
                 output = results.output_array,
-                initial_weights = [-47000, 1],
-                step_size = Number.parseFloat("7e-12"),
-                tolerance = Number.parseFloat("2.5e7"),
+                initial_weights = [-47000, 0],
+                step_size = Number.parseFloat("1"),
+                tolerance = Number.parseFloat("1"),
                 simple_weights = datagrep.regression_gradient_descent_v3(simple_features, output, initial_weights, step_size, tolerance);
 
+            expect(Number.parseFloat(simple_weights[0][0].toFixed(1))).toBe(-46999.9);
             expect(Number.parseFloat(simple_weights[1][0].toFixed(1))).toBe(281.9);
         });
 
-        xit("returns the weights from regression_gradient_descent_v3 with step_size / t", function() {
+        it("returns the weights from regression_gradient_descent_v3 for train_data using feature scaling", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
-                features_matrix = results.features_matrix,
-                output = results.output_array,
-                initial_weights = [-47000, 1],
-                step_size = Number.parseFloat("7e-11"),
-                tolerance = Number.parseFloat("2.5e7"),
-                weights = datagrep.regression_gradient_descent_v2(features_matrix, output, initial_weights, step_size, tolerance, true);
-
-            expect(weights).toBe('something');
-        });
-
-        xit("returns the weights from regression_gradient_descent_v3 after feature scaling", function() {
-            var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
-                features_matrix = datagrep.feature_scale(results.features_matrix),
+                simple_features_info = datagrep.feature_scale(results.features_matrix),
+                simple_features = simple_features_info.data,
+                options = simple_features_info.options,
                 output = results.output_array,
                 initial_weights = [0, 0],
-                step_size = Number.parseFloat("0.01"),
-                tolerance = Number.parseFloat("2.5e7"),
-                weights = datagrep.regression_gradient_descent_v2(features_matrix, output, initial_weights, step_size, tolerance);
+                step_size = Number.parseFloat("1"),
+                tolerance = Number.parseFloat("1"),
+                simple_weights = datagrep.regression_gradient_descent_v3(simple_features, output, initial_weights, step_size, tolerance);
 
-            expect(weights).toBe('something');
+            console.log('options: ', options);
+            console.log('simple_weights[1][0] adjusted: ', (simple_weights[1][0] - options[0].mean) / options[0].stdDev);
+            expect(simple_weights).toBe(281.9);
+            // expect(Number.parseFloat(simple_weights[1][0].toFixed(1))).toBe(281.9);
         });
 
     });

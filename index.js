@@ -262,49 +262,82 @@ exports.regression_gradient_descent_v3 = function(feature_matrix, output, initia
     var w_t = initial_weights.map(function(currentValue) {
             return [currentValue];
         }),
+        w_t_initial = matrix.deepCopy(w_t),
         D = w_t.length,
         gradient_magnitude,
-        iteration = 1,
-        maxPartialSize = 1000;
+        last_gradient_magnitude,
+        gradient_magnitude_diff,
+        last_gradient_magnitude_diff,
+        iteration = 1;
 
     do {
-        var predictions = matrix.multiply(feature_matrix, w_t);
-        var residuals = matrix.subtraction(output, predictions);
-        var sum_of_squared_partials = 0;
+        var predictions = matrix.multiply(feature_matrix, w_t),
+            residuals = matrix.subtraction(output, predictions),
+            sum_of_squared_partials = 0;
+
+        console.log('\n' + 'BEGIN LOOP');
 
         for (var j = 0; j < D; j++) {
-            var h_j = matrix.getCol(feature_matrix, j);
-            var partial_j = -2 * matrix.dotproduct(h_j, residuals);
-            console.log('partial_j; j: ' + j + '; ' + partial_j);
-            var delta = Math.abs(partial_j) < maxPartialSize ? (step_size * partial_j) : (maxPartialSize / iteration * (partial_j < 0 ? -1 : 1));
-            if (schedule) {
-                w_t[j][0] = w_t[j][0] - ((step_size / iteration) * partial_j); // or / Math.sqrt(iteration)
-            } else {
-                w_t[j][0] = w_t[j][0] - delta;
+            var h_j = matrix.getCol(feature_matrix, j),
+                partial_j = -2 * matrix.dotproduct(h_j, residuals);
+
+            console.log('partial_j; j: ' + j + '; ' + partial_j + '; w_t[j][0]: ', w_t[j][0]);
+
+            if (D * Math.pow(partial_j, 2) === Infinity) { // diverging!
+                step_size = 0.3 * step_size;
+                console.log('DIVERGING! RE-CALIBRATING for partial_j: ' + partial_j + '; new step_size: ', step_size);
+                j = -1;
+                continue;
             }
             sum_of_squared_partials += Math.pow(partial_j, 2);
+
+            // w_t[j][0] = w_t[j][0] - ((step_size / Math.sqrt(iteration)) * partial_j);
+            w_t[j][0] = w_t[j][0] - (step_size * partial_j);
         }
 
         console.log("sum_of_squared_partials: " + sum_of_squared_partials + "; w_t: " + w_t);
 
-        iteration++;
+        last_gradient_magnitude = gradient_magnitude;
         gradient_magnitude = Math.sqrt(sum_of_squared_partials);
-    } while (gradient_magnitude > tolerance)
+        last_gradient_magnitude_diff = gradient_magnitude_diff;
+        gradient_magnitude_diff = last_gradient_magnitude - gradient_magnitude;
 
+        console.log("DIFF: " + gradient_magnitude_diff);
+
+        if (iteration > 1 && gradient_magnitude_diff < 0) {
+            console.log("THE COST FUNCTION IS INCREASING! Reducing the step_size and resetting w");
+            step_size = 0.3 * step_size;
+            w_t = matrix.deepCopy(w_t_initial);
+        }
+        iteration++;
+    } while (gradient_magnitude > tolerance && (iteration < 3 || Math.abs(gradient_magnitude_diff) > 1))
+
+    console.log('RETURING w_t; step_size: ', step_size);
+    console.log('ITERATIONS: ', iteration);
     return w_t;
 };
 
 exports.feature_scale = function(data) {
-    var featureCount = data[0].length;
+    var featureCount = data[0].length,
+        info = {
+            options: []
+        };
     for (var i = 1; i < featureCount; i++) {
         var col = matrix.getCol(data, i),
             stdDev = statistic.standardDev(col),
             mean = statistic.mean(col);
+
+        info.options.push({
+            index: i,
+            stdDev: stdDev,
+            mean: mean
+        });
 
         data = data.map(function(currentValue) {
             currentValue[i] = (currentValue[i] - mean) / stdDev;
             return currentValue;
         });
     }
-    return data;
+    info.data = data;
+    return info;
 };
