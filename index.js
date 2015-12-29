@@ -285,6 +285,7 @@ exports.regression_gradient_descent_v3 = function(feature_matrix, output, initia
 
             if (D * Math.pow(partial_j, 2) === Infinity) { // diverging!
                 step_size = 0.3 * step_size;
+                w_t = matrix.deepCopy(w_t_initial);
                 console.log('DIVERGING! RE-CALIBRATING for partial_j: ' + partial_j + '; new step_size: ', step_size);
                 j = -1;
                 continue;

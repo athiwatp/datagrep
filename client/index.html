@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+    <script type="text/javascript" src="lib/d3/d3.min.js"></script>
+</head>
+
+<body>
+    <script>
+    function showScatterPlot() {
+        d3.csv("data/wk3_kc_house_train_data.csv")
+            .row(function(d) {
+                return {
+                    sqft_living: parseFloat(d.sqft_living) / 10,
+                    price: parseFloat(d.price) / 10000
+                };
+            })
+            .get(function(error, rows) {
+                var svg = d3.select("body")
+                    .append("svg")
+                    .style("position", "absolute")
+                    .style("width", "100%")
+                    .style("height", "100%");
+
+                svg.selectAll("circle")
+                    .data(rows)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d) {
+                        return d.sqft_living;
+                    })
+                    .attr("cy", function(d) {
+                        return d.price;
+                    })
+                    .attr("r", 1);
+            });
+    }
+
+    showScatterPlot();
+
+    function getMinMax() {
+        return {
+            min: 0,
+            max: 1500
+        }
+    }
+
+    var minMax = getMinMax();
+
+    function showFit(minMax) {
+        var min = minMax.min,
+            max = minMax.max,
+            points = [];
+
+        for (var i = min; i < max + 1; i++) {
+            points.push({
+                x: i,
+                y: i / 3
+            })
+        }
+
+        var lineFn = d3.svg.line()
+            .x(function(d) {
+                return d.x;
+            })
+            .y(function(d) {
+                return d.y;
+            });
+
+        var svg = d3.select("body").append("svg")
+            .style("position", "absolute")
+            .style("width", "100%")
+            .style("height", "100%");
+
+        svg.append("path")
+            .style("fill", "none")
+            .style("stroke", "blue")
+            .style("stroke-width", 2)
+            .attr("d", lineFn(points));
+    };
+
+    showFit(minMax);
+    </script>
+</body>

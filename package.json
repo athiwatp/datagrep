@@ -1,29 +1,41 @@
 {
-  "name": "datacohere",
-  "version": "0.0.1",
-  "description": "description",
-  "main": "index.js",
-  "scripts": {
-    "test": "jasmine"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mjschock/dataCohere.git"
-  },
-  "keywords": [
-    "keyword1",
-    "keyword2"
-  ],
-  "author": "Michael Schock",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mjschock/dataCohere/issues"
-  },
-  "homepage": "https://github.com/mjschock/dataCohere",
-  "dependencies": {
-    "csv-parse": "^1.0.1",
-    "decimal.js": "^4.0.3",
-    "jasmine": "^2.3.2",
-    "numbers": "^0.6.0"
-  }
+    "name": "datagrep",
+    "version": "0.0.1",
+    "description": "A JavaScript Machine Learning Library",
+    "main": "server/server.js",
+    "scripts": {
+        "start": "node .",
+        "pretest": "jshint .",
+        "test": "jasmine"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mjschock/datagrep.git"
+    },
+    "keywords": [
+        "javascript",
+        "machine learning"
+    ],
+    "author": "Michael Schock",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/mjschock/datagrep/issues"
+    },
+    "homepage": "https://github.com/mjschock/datagrep",
+    "dependencies": {
+        "compression": "^1.0.3",
+        "cors": "^2.5.2",
+        "csv-parse": "^1.0.1",
+        "decimal.js": "^4.0.3",
+        "jasmine": "^2.3.2",
+        "loopback": "^2.22.0",
+        "loopback-boot": "^2.6.5",
+        "loopback-component-explorer": "^2.1.0",
+        "loopback-datasource-juggler": "^2.39.0",
+        "numbers": "^0.6.0",
+        "serve-favicon": "^2.0.1"
+    },
+    "devDependencies": {
+        "jshint": "^2.5.6"
+    }
 }
