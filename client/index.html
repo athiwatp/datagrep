@@ -2,83 +2,184 @@
 <html>
 
 <head>
-    <script type="text/javascript" src="lib/d3/d3.min.js"></script>
+    <meta charset="utf-8">
+    <style>
+    body {
+        font: 10px sans-serif;
+    }
+    
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+    </style>
 </head>
 
 <body>
+    <script type="text/javascript" src="lib/d3/d3.min.js"></script>
     <script>
     function showScatterPlot() {
-        d3.csv("data/wk3_kc_house_train_data.csv")
-            .row(function(d) {
+        return new Promise(function(resolve, reject) {
+            var margin = {
+                    top: 20,
+                    right: 20,
+                    bottom: 30,
+                    left: 60
+                },
+                width = 960 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
+
+            var x = d3.scale.linear()
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            var svg = d3.select("body").append("svg")
+                .style("position", "absolute")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            d3.csv("data/wk3_kc_house_train_data.csv", function(d) {
                 return {
-                    sqft_living: parseFloat(d.sqft_living) / 10,
-                    price: parseFloat(d.price) / 10000
+                    sqft_living: parseFloat(d.sqft_living), //+d.sqft_living
+                    price: parseFloat(d.price) //+d.price
                 };
-            })
-            .get(function(error, rows) {
-                var svg = d3.select("body")
-                    .append("svg")
-                    .style("position", "absolute")
-                    .style("width", "100%")
-                    .style("height", "100%");
+            }, function(error, data) {
+                if (error) reject(error);
+
+                x.domain(d3.extent(data, function(d) {
+                    return d.sqft_living;
+                })).nice();
+
+                y.domain(d3.extent(data, function(d) {
+                    return d.price;
+                })).nice();
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis)
+                    .append("text")
+                    .attr("class", "label")
+                    .attr("x", width)
+                    .attr("y", -6)
+                    .style("text-anchor", "end")
+                    .text("sqft_living (sqft)");
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                    .append("text")
+                    .attr("class", "label")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("price ($)");
 
                 svg.selectAll("circle")
-                    .data(rows)
-                    .enter()
-                    .append("circle")
+                    .data(data)
+                    .enter().append("circle")
+                    .attr("r", 1)
                     .attr("cx", function(d) {
-                        return d.sqft_living;
+                        return x(d.sqft_living);
                     })
                     .attr("cy", function(d) {
-                        return d.price;
+                        return y(d.price);
                     })
-                    .attr("r", 1);
+                    .style("fill", "black");
+
+                resolve(data);
             });
+        });
     }
 
-    showScatterPlot();
+    function showFit(data, fn) {
+        return new Promise(function(resolve, reject) {
+            var margin = {
+                    top: 20,
+                    right: 20,
+                    bottom: 30,
+                    left: 60
+                },
+                width = 960 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
 
-    function getMinMax() {
-        return {
-            min: 0,
-            max: 1500
-        }
+            var x = d3.scale.linear()
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            var svg = d3.select("body").append("svg")
+                .style("position", "absolute")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            x.domain(d3.extent(data, function(d) {
+                return d.sqft_living;
+            })).nice();
+
+            y.domain(d3.extent(data, function(d) {
+                return d.price;
+            })).nice();
+
+            var points = [];
+
+            for (var i = x.domain()[0]; i < x.domain()[1] + 1; i++) {
+                points.push({
+                    x: i,
+                    y: fn(i)
+                });
+            }
+
+            var lineFn = d3.svg.line()
+                .x(function(d) {
+                    return x(d.x);
+                })
+                .y(function(d) {
+                    return y(d.y);
+                });
+
+            svg.append("path")
+                .style("fill", "none")
+                .style("stroke", "blue")
+                .style("stroke-width", 2)
+                .attr("d", lineFn(points));
+
+            resolve(data);
+        });
     }
 
-    var minMax = getMinMax();
+    showScatterPlot().then(function(data) {
+        var fn = function(x) {
+            return 500 * x;
+        };
 
-    function showFit(minMax) {
-        var min = minMax.min,
-            max = minMax.max,
-            points = [];
-
-        for (var i = min; i < max + 1; i++) {
-            points.push({
-                x: i,
-                y: i / 3
-            })
-        }
-
-        var lineFn = d3.svg.line()
-            .x(function(d) {
-                return d.x;
-            })
-            .y(function(d) {
-                return d.y;
-            });
-
-        var svg = d3.select("body").append("svg")
-            .style("position", "absolute")
-            .style("width", "100%")
-            .style("height", "100%");
-
-        svg.append("path")
-            .style("fill", "none")
-            .style("stroke", "blue")
-            .style("stroke-width", 2)
-            .attr("d", lineFn(points));
-    };
-
-    showFit(minMax);
+        showFit(data, fn);
+    });
     </script>
 </body>
