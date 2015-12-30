@@ -1,11 +1,10 @@
-var loopback = require('loopback');
-var boot = require('loopback-boot');
-
-var app = module.exports = loopback();
+var loopback = require('loopback'),
+    boot = require('loopback-boot'),
+    app = module.exports = loopback();
 
 app.start = function() {
     // start the web server
-    return app.listen(function() {
+    var server = app.listen(function() {
         app.emit('started');
         var baseUrl = app.get('url').replace(/\/$/, '');
         console.log('Web server listening at: %s', baseUrl);
@@ -14,7 +13,15 @@ app.start = function() {
             console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
         }
     });
+
+    // attach the socket.io server to the web server
+    app.io.attach(server);
+
+    return server;
 };
+
+// start the socket.io server
+app.io = require('socket.io')();
 
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.

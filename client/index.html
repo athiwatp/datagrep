@@ -18,6 +18,7 @@
 </head>
 
 <body>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="lib/d3/d3.min.js"></script>
     <script>
     function showScatterPlot() {
@@ -52,7 +53,8 @@
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-            d3.csv("data/wk3_kc_house_train_data.csv", function(d) {
+            // d3.csv("data/wk3_kc_house_train_data.csv", function(d) {
+            d3.csv("data/kc_house_train_data.csv", function(d) {
                 return {
                     sqft_living: parseFloat(d.sqft_living), //+d.sqft_living
                     price: parseFloat(d.price) //+d.price
@@ -174,12 +176,36 @@
         });
     }
 
-    showScatterPlot().then(function(data) {
-        var fn = function(x) {
-            return 500 * x;
-        };
+    function getLinearRegressionCoeffients(data) {
+        return new Promise(function(resolve, reject) {
+            var socket = io(),
+                train_data = [
+                    ['sqft_living', 'price']
+                ].concat(data.map(function(data) {
+                    return [data.sqft_living, data.price];
+                }));
 
-        showFit(data, fn);
-    });
+            socket.emit('linear regression', train_data);
+
+            socket.on('linear regression', function(data) {
+                console.log('data: ', data);
+                var intercept = data[0][0],
+                    slope = data[1][0],
+                    fn = function(x) {
+                        return intercept + slope * x;
+                    };
+                    
+                resolve(fn);
+            });
+        })
+    }
+
+    showScatterPlot()
+        .then(function(data) {
+            getLinearRegressionCoeffients(data)
+                .then(function(fn) {
+                    showFit(data, fn);
+                });
+        });
     </script>
 </body>

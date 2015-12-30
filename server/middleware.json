@@ -24,6 +24,9 @@
         "loopback#static": [{
             "params": "$!../client"
         }, {
+            "paths": ["/socket.io"],
+            "params": "$!../node_modules/socket.io-client"
+        }, {
             "paths": ["/lib"],
             "params": "$!../node_modules"
         }, {
