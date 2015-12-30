@@ -20,7 +20,7 @@ module.exports = function(app) {
             var intervalObject = setInterval(function() {
                 if (next.done) {
                     clearInterval(intervalObject);
-                    app.io.emit('linear regression done', next.value);
+                    app.io.emit('linear regression done');
                 } else {
                     app.io.emit('linear regression progress', next.value);
                     next = gen.next();
