@@ -4,7 +4,8 @@ describe('index', function() {
         matrix = numbers.matrix,
         statistic = numbers.statistic,
         Decimal = require('decimal.js'),
-        utils = require('../../utils');
+        utils = require('../../utils'),
+        co = require('co');
 
     var sales,
         train_data,
@@ -372,7 +373,7 @@ describe('index', function() {
             expect(Number.parseFloat(simple_weights[1][0].toFixed(1))).toBe(281.9);
         });
 
-        it("returns the weights from regression_gradient_descent_v3 for train_data using feature scaling", function() {
+        xit("returns the weights from regression_gradient_descent_v3 for train_data using feature scaling", function() {
             var results = datagrep.get_features_matrix(train_data, ['sqft_living'], ['price']),
                 simple_features_info = datagrep.feature_scale(results.features_matrix),
                 simple_features = simple_features_info.data,
@@ -389,6 +390,35 @@ describe('index', function() {
             // expect(Number.parseFloat(simple_weights[1][0].toFixed(1))).toBe(281.9);
         });
 
+    });
+
+    describe("the bias variance tradeoff", function() {
+        it("does something", function(done) {
+            co(function*() {
+                    var sales = yield datagrep.readCsv('/spec/jasmine_specs/kc_house_data.csv');
+                    // sales = sales.sort(['sqft_living','price']);
+
+                    console.log('sales: ', sales);
+
+                    // console.log(sales['sqft_living']);
+
+                    // var poly1Data = datagrep.polynomialDataFrame(sales['sqft_living'], 1);
+                    // poly1Data['price'] = sales['price'];
+
+                    // sales = utils.sort(sales, ['sqft_living','price']);
+                    // var preserveHeader = true;
+                    // var sales_cols = utils.getCols(sales, ['sqft_living','price'], preserveHeader);
+                    // console.log('sales_cols: ', sales_cols);
+                    return sales;
+                })
+                .then(function(sales) {
+                    // console.log("sales: ", sales);
+                    done();
+                })
+                .catch(function(error) {
+                    console.error(error);
+                });
+        });
     });
 
 });

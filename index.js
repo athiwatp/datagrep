@@ -151,7 +151,7 @@ exports.inverse_regression_predictions = function(output, intercept, slope) {
         });
 
     return estimated_input;
-}
+};
 
 exports.get_features_matrix = function(data, features, output) {
     var inputIndices = [],
@@ -185,7 +185,7 @@ exports.get_features_matrix = function(data, features, output) {
         output_array: output_array.slice(1).map(function(currentValue) {
             return currentValue.map(Number.parseFloat);
         })
-    }
+    };
 };
 
 function predict_outcome(feature_matrix, weights) {
@@ -230,7 +230,7 @@ exports.regression_gradient_descent = function(feature_matrix, output, initial_w
     }
 
     return weights;
-}
+};
 
 exports.regression_gradient_descent_v2 = function(feature_matrix, output, initial_weights, step_size, tolerance) {
     var w_t = initial_weights.map(function(currentValue) {
@@ -253,7 +253,7 @@ exports.regression_gradient_descent_v2 = function(feature_matrix, output, initia
         }
 
         gradient_magnitude = Math.sqrt(sum_of_squared_partials);
-    } while (gradient_magnitude > tolerance)
+    } while (gradient_magnitude > tolerance);
 
     return w_t;
 };
@@ -311,9 +311,9 @@ exports.regression_gradient_descent_v3 = function(feature_matrix, output, initia
             w_t = matrix.deepCopy(w_t_initial);
         }
         iteration++;
-    } while (gradient_magnitude > tolerance && (iteration < 3 || Math.abs(gradient_magnitude_diff) > 1))
+    } while (gradient_magnitude > tolerance && (iteration < 3 || Math.abs(gradient_magnitude_diff) > 1));
 
-    console.log('RETURING w_t; step_size: ', step_size);
+    console.log('RETURNING w_t; step_size: ', step_size);
     console.log('ITERATIONS: ', iteration);
     return w_t;
 };
@@ -396,9 +396,29 @@ exports.regression_gradient_descent_v4 = function*(feature_matrix, output, initi
         }
         iteration++;
         yield w_t;
-    } while (gradient_magnitude > tolerance && (iteration < 3 || Math.abs(gradient_magnitude_diff) > 1))
+    } while (gradient_magnitude > tolerance && (iteration < 3 || Math.abs(gradient_magnitude_diff) > 1));
 
-    console.log('RETURING w_t; step_size: ', step_size);
+    console.log('RETURNING w_t; step_size: ', step_size);
     console.log('ITERATIONS: ', iteration);
     yield w_t;
+};
+
+exports.readCsv = function(file) {
+    return new Promise(function(resolve, reject) {
+        var fs = require('fs'),
+            parse = require('csv-parse'),
+            parser = parse({
+                delimiter: ',',
+                auto_parse: true
+            }, function(err, data) {
+                if (err) reject(err);
+                var dataframe = {
+                    data: data
+                };
+                dataframe = utils.decorate(dataframe);
+                resolve(dataframe);
+            });
+
+        fs.createReadStream(__dirname + file).pipe(parser);
+    });
 };
