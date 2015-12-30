@@ -14,9 +14,19 @@ module.exports = function(app) {
                 initial_weights = [-47000, 0],
                 step_size = Number.parseFloat("1"),
                 tolerance = Number.parseFloat("1"),
-                simple_weights = datagrep.regression_gradient_descent_v3(simple_features, output, initial_weights, step_size, tolerance);
+                gen = datagrep.regression_gradient_descent_v4(simple_features, output, initial_weights, step_size, tolerance),
+                next = gen.next();
 
-            app.io.emit('linear regression', simple_weights);
+            var intervalObject = setInterval(function() {
+                if (next.done) {
+                    clearInterval(intervalObject);
+                    app.io.emit('linear regression done', next.value);
+                } else {
+                    app.io.emit('linear regression progress', next.value);
+                    next = gen.next();
+                }
+            });
+
         });
     });
 };

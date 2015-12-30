@@ -109,6 +109,10 @@
         });
     }
 
+    function clearFit() {
+        d3.select(".fit").remove();
+    }
+
     function showFit(data, fn) {
         return new Promise(function(resolve, reject) {
             var margin = {
@@ -135,6 +139,7 @@
                 .orient("left");
 
             var svg = d3.select("body").append("svg")
+                .attr("class", "fit")
                 .style("position", "absolute")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -176,36 +181,44 @@
         });
     }
 
-    function getLinearRegressionCoeffients(data) {
-        return new Promise(function(resolve, reject) {
-            var socket = io(),
-                train_data = [
-                    ['sqft_living', 'price']
-                ].concat(data.map(function(data) {
-                    return [data.sqft_living, data.price];
-                }));
+    function getLinearRegressionCoeffients(data, showFit) {
+        var socket = io(),
+            train_data = [
+                ['sqft_living', 'price']
+            ].concat(data.map(function(data) {
+                return [data.sqft_living, data.price];
+            }));
 
-            socket.emit('linear regression', train_data);
+        socket.emit('linear regression', train_data);
 
-            socket.on('linear regression', function(data) {
-                console.log('data: ', data);
-                var intercept = data[0][0],
-                    slope = data[1][0],
-                    fn = function(x) {
-                        return intercept + slope * x;
-                    };
-                    
-                resolve(fn);
-            });
-        })
+        socket.on('linear regression progress', function(coefficients) {
+            console.log('coefficients: ', coefficients);
+            var intercept = coefficients[0][0],
+                slope = coefficients[1][0],
+                fn = function(x) {
+                    return intercept + slope * x;
+                };
+
+            clearFit();
+            showFit(data, fn);
+        });
+
+        socket.on('linear regression done', function(coefficients) {
+            console.log('coefficients: ', coefficients);
+            var intercept = coefficients[0][0],
+                slope = coefficients[1][0],
+                fn = function(x) {
+                    return intercept + slope * x;
+                };
+
+            clearFit();
+            showFit(data, fn);
+        });
     }
 
     showScatterPlot()
         .then(function(data) {
-            getLinearRegressionCoeffients(data)
-                .then(function(fn) {
-                    showFit(data, fn);
-                });
+            getLinearRegressionCoeffients(data, showFit);
         });
     </script>
 </body>

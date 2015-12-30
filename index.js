@@ -342,3 +342,63 @@ exports.feature_scale = function(data) {
     info.data = data;
     return info;
 };
+
+exports.regression_gradient_descent_v4 = function*(feature_matrix, output, initial_weights, step_size, tolerance, schedule) {
+    var w_t = initial_weights.map(function(currentValue) {
+            return [currentValue];
+        }),
+        w_t_initial = matrix.deepCopy(w_t),
+        D = w_t.length,
+        gradient_magnitude,
+        last_gradient_magnitude,
+        gradient_magnitude_diff,
+        last_gradient_magnitude_diff,
+        iteration = 1;
+
+    do {
+        var predictions = matrix.multiply(feature_matrix, w_t),
+            residuals = matrix.subtraction(output, predictions),
+            sum_of_squared_partials = 0;
+
+        console.log('\n' + 'BEGIN LOOP');
+
+        for (var j = 0; j < D; j++) {
+            var h_j = matrix.getCol(feature_matrix, j),
+                partial_j = -2 * matrix.dotproduct(h_j, residuals);
+
+            console.log('partial_j; j: ' + j + '; ' + partial_j + '; w_t[j][0]: ', w_t[j][0]);
+
+            if (D * Math.pow(partial_j, 2) === Infinity) { // diverging!
+                step_size = 0.3 * step_size;
+                w_t = matrix.deepCopy(w_t_initial);
+                console.log('DIVERGING! RE-CALIBRATING for partial_j: ' + partial_j + '; new step_size: ', step_size);
+                j = -1;
+                continue;
+            }
+            sum_of_squared_partials += Math.pow(partial_j, 2);
+
+            w_t[j][0] = w_t[j][0] - (step_size * partial_j);
+        }
+
+        console.log("sum_of_squared_partials: " + sum_of_squared_partials + "; w_t: " + w_t);
+
+        last_gradient_magnitude = gradient_magnitude;
+        gradient_magnitude = Math.sqrt(sum_of_squared_partials);
+        last_gradient_magnitude_diff = gradient_magnitude_diff;
+        gradient_magnitude_diff = last_gradient_magnitude - gradient_magnitude;
+
+        console.log("DIFF: " + gradient_magnitude_diff);
+
+        if (iteration > 1 && gradient_magnitude_diff < 0) {
+            console.log("THE COST FUNCTION IS INCREASING! Reducing the step_size and resetting w");
+            step_size = 0.3 * step_size;
+            w_t = matrix.deepCopy(w_t_initial);
+        }
+        iteration++;
+        yield w_t;
+    } while (gradient_magnitude > tolerance && (iteration < 3 || Math.abs(gradient_magnitude_diff) > 1))
+
+    console.log('RETURING w_t; step_size: ', step_size);
+    console.log('ITERATIONS: ', iteration);
+    yield w_t;
+};
