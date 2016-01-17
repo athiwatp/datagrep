@@ -396,23 +396,27 @@ describe('index', function() {
         it("does something", function(done) {
             co(function*() {
                     var sales = yield datagrep.readCsv('/spec/jasmine_specs/kc_house_data.csv');
-                    // sales = sales.sort(['sqft_living','price']);
 
-                    console.log('sales: ', sales);
+                    // sales = sales.sort(['sqft_living','price']); //TODO: doesn't work
+                    sales = sales.sort(['price']);
+                    sales = sales.sort(['sqft_living']);
 
-                    // console.log(sales['sqft_living']);
+                    var cols = sales.getCols(['sqft_living']);
 
-                    // var poly1Data = datagrep.polynomialDataFrame(sales['sqft_living'], 1);
-                    // poly1Data['price'] = sales['price'];
+                    var poly1Data = datagrep.polynomialDataFrame(cols, 1);
 
-                    // sales = utils.sort(sales, ['sqft_living','price']);
-                    // var preserveHeader = true;
-                    // var sales_cols = utils.getCols(sales, ['sqft_living','price'], preserveHeader);
-                    // console.log('sales_cols: ', sales_cols);
-                    return sales;
+                    var output = sales.getCols(['price']);
+
+                    var initial_weights = [0, 0];
+
+                    var step_size = Number.parseFloat("1"),
+                        tolerance = Number.parseFloat("1"),
+                        weights = datagrep.regression_gradient_descent_v3(poly1Data.data.splice(1), output.splice(1), initial_weights, step_size, tolerance);
+
+                    return weights;
                 })
-                .then(function(sales) {
-                    // console.log("sales: ", sales);
+                .then(function(weights) {
+                    console.log("weights: ", weights);
                     done();
                 })
                 .catch(function(error) {

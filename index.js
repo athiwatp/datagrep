@@ -422,3 +422,20 @@ exports.readCsv = function(file) {
         fs.createReadStream(__dirname + file).pipe(parser);
     });
 };
+
+exports.polynomialDataFrame = function(column, degree) {
+    for (var i = 1; i <= degree; i++) {
+        column.forEach(function(row, index) {
+            if (index === 0) {
+                row.push('power_' + i);
+            } else {
+                row.push(Math.pow(row[0], i));
+            }
+        });
+    }
+    var dataframe = {
+        data: column
+    };
+    dataframe = utils.decorate(dataframe);
+    return dataframe;
+};

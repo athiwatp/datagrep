@@ -33,6 +33,17 @@ function getCols(data, cols, preserveHeader) {
     });
 }
 
+function getColsV2(data, cols) {
+    var colIndices = getColNameIndices(data, cols);
+    return data.map(function(row) {
+        var newRow = [];
+        for (var i = 0; i < colIndices.length; i++) {
+            newRow.push(row[colIndices[i]]);
+        }
+        return newRow;
+    });
+}
+
 function mean(col) {
     var sum = col.reduce(function(previousValue, currentValue, currentIndex) {
         return previousValue + currentValue;
@@ -89,19 +100,31 @@ function sort(data, cols) {
 }
 
 function decorate(dataframe) {
-    var data = dataframe.data;
 
     dataframe.sort = function(cols) {
-        return sort(data, cols);
+        dataframe.data = sort(dataframe.data, cols);
+        return dataframe;
     };
 
-    var headers = data[0];
-    for (var i = 0; i < headers.length; i++) {
-        var header = headers[i];
-        dataframe[header] = function() {
-            return 'test';
-        };
-    }
+    dataframe.getCols = function(cols) {
+        var preserveHeader = true;
+        // return getCols(dataframe.data, cols, preserveHeader);
+        return getColsV2(dataframe.data, cols);
+        // return getCol(data, 1, false);
+        // return getColNameIndices(data, cols);
+        // return dataframe.data[0];
+    };
+
+    dataframe.addCols = function(cols) {
+        dataframe.data = dataframe.data.map(function(row, index) {
+            if (index === 0) {
+                return row;
+            } else {
+                return row.concat(cols[index]);
+            }
+        });
+        return dataframe;
+    };
 
     return dataframe;
 }
