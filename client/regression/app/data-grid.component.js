@@ -22,7 +22,7 @@ System.register(['angular2/core', './data.service'], function(exports_1) {
             DataGridComponent = (function () {
                 function DataGridComponent(_dataService) {
                     this._dataService = _dataService;
-                    this.headers = ['col1', 'col2'];
+                    // this.headers = ['col1', 'col2'];
                 }
                 DataGridComponent.prototype.ngAfterViewInit = function () {
                     // var that = this;
@@ -33,10 +33,16 @@ System.register(['angular2/core', './data.service'], function(exports_1) {
                     // });
                 };
                 DataGridComponent.prototype.ngOnChanges = function () {
+                    var _this = this;
                     if (arguments[0] && arguments[0].data && arguments[0].data.currentValue instanceof Array) {
-                        $('#table_id').DataTable({
-                            data: this.data
-                        });
+                        this.headers = this.data.splice(0, 1)[0];
+                        setTimeout(function () {
+                            $(document).ready(function () {
+                                $('#table_id').DataTable({
+                                    data: _this.data
+                                });
+                            });
+                        }, 0);
                     }
                 };
                 DataGridComponent = __decorate([

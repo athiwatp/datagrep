@@ -27,13 +27,12 @@ System.register(['angular2/core', './data.service', './data-grid.component'], fu
                     this._dataService = _dataService;
                 }
                 AppComponent.prototype.ngOnInit = function () {
-                    this.getData();
+                    // this.getData();
                 };
                 AppComponent.prototype.getData = function () {
-                    var _this = this;
                     this._dataService.getData().then(function (data) {
-                        _this.data = data;
-                        console.log('data: ', data);
+                        // this.data = data;
+                        // console.log('data: ', data);
                     });
                 };
                 AppComponent.prototype.readFileAsText = function (event) {
@@ -43,7 +42,9 @@ System.register(['angular2/core', './data.service', './data-grid.component'], fu
                     reader.readAsText(file);
                 };
                 AppComponent.prototype.parseCsv = function (csvText) {
-                    console.log('csvText: ', csvText);
+                    var rows = csvText.split('\n'), data = rows.map(function (row) { return row.split(','); });
+                    console.log('data: ', data);
+                    this.data = data;
                 };
                 AppComponent = __decorate([
                     core_1.Component({

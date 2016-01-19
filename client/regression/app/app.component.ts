@@ -21,13 +21,13 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getData();
+        // this.getData();
     }
 
     getData() {
         this._dataService.getData().then(data => {
-            this.data = data;
-            console.log('data: ', data);
+            // this.data = data;
+            // console.log('data: ', data);
         });
     }
 
@@ -42,6 +42,10 @@ export class AppComponent implements OnInit {
     }
 
     parseCsv(csvText) {
-        console.log('csvText: ', csvText);
+        var rows = csvText.split('\n'),
+            data = rows.map(row => return row.split(','));
+
+        console.log('data: ', data);
+        this.data = data;
     }
 }
