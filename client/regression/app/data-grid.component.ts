@@ -5,14 +5,7 @@ import {DataService} from './data.service';
     selector: 'data-grid',
     inputs: ['data'],
     template: `
-        <table id="table_id" class="display">
-            <thead>
-                <tr>
-                     <th *ngFor="#header of headers">{{header}}</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <table id="table_id" class="display"></table>
     `
 })
 
@@ -40,7 +33,10 @@ export class DataGridComponent implements AfterViewInit, OnChanges {
             setTimeout(() => {
                 $(document).ready(() => {
                     $('#table_id').DataTable({
-                        data: this.data
+                        "data": this.data,
+                        "columns": this.headers.map(header => return { title: header }),
+                        "processing": true,
+                        "deferRender": true
                     });
                 });
             }, 0);

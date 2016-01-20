@@ -43,7 +43,12 @@ export class AppComponent implements OnInit {
 
     parseCsv(csvText) {
         var rows = csvText.split('\n'),
-            data = rows.map(row => return row.split(','));
+            data = rows.map(row => return row.split(',')),
+            len = data.length;
+
+        if (data[len - 1].length < data[0].length) {
+            data.pop();
+        }
 
         console.log('data: ', data);
         this.data = data;

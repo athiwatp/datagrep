@@ -39,7 +39,10 @@ System.register(['angular2/core', './data.service'], function(exports_1) {
                         setTimeout(function () {
                             $(document).ready(function () {
                                 $('#table_id').DataTable({
-                                    data: _this.data
+                                    "data": _this.data,
+                                    "columns": _this.headers.map(function (header) { return { title: header }; }),
+                                    "processing": true,
+                                    "deferRender": true
                                 });
                             });
                         }, 0);
@@ -49,7 +52,7 @@ System.register(['angular2/core', './data.service'], function(exports_1) {
                     core_1.Component({
                         selector: 'data-grid',
                         inputs: ['data'],
-                        template: "\n        <table id=\"table_id\" class=\"display\">\n            <thead>\n                <tr>\n                     <th *ngFor=\"#header of headers\">{{header}}</th>\n                </tr>\n            </thead>\n            <tbody></tbody>\n        </table>\n    "
+                        template: "\n        <table id=\"table_id\" class=\"display\"></table>\n    "
                     }), 
                     __metadata('design:paramtypes', [data_service_1.DataService])
                 ], DataGridComponent);

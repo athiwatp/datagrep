@@ -42,7 +42,10 @@ System.register(['angular2/core', './data.service', './data-grid.component'], fu
                     reader.readAsText(file);
                 };
                 AppComponent.prototype.parseCsv = function (csvText) {
-                    var rows = csvText.split('\n'), data = rows.map(function (row) { return row.split(','); });
+                    var rows = csvText.split('\n'), data = rows.map(function (row) { return row.split(','); }), len = data.length;
+                    if (data[len - 1].length < data[0].length) {
+                        data.pop();
+                    }
                     console.log('data: ', data);
                     this.data = data;
                 };
