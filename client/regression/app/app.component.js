@@ -37,12 +37,15 @@ System.register(['angular2/core', './data.service', './data-grid.component'], fu
                 };
                 AppComponent.prototype.readFileAsText = function (event) {
                     var _this = this;
-                    var input = event.target, files = input.files, file = files[0], reader = new FileReader(file);
-                    reader.onload = function () { return _this.parseCsv(reader.result); };
-                    reader.readAsText(file);
+                    var input = event.target, files = input.files, file = files[0], reader;
+                    if (file) {
+                        reader = new FileReader(file);
+                        reader.onload = function () { return _this.parseCsv(reader.result); };
+                        reader.readAsText(file);
+                    }
                 };
                 AppComponent.prototype.parseCsv = function (csvText) {
-                    var rows = csvText.split('\n'), data = rows.map(function (row) { return row.split(','); }), len = data.length;
+                    var rows = csvText.split(/\r\n|\r|\n/), data = rows.map(function (row) { return row.split(','); }), len = data.length;
                     if (data[len - 1].length < data[0].length) {
                         data.pop();
                     }

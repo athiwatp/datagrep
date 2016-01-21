@@ -35,14 +35,17 @@ export class AppComponent implements OnInit {
         var input = <HTMLInputElement>event.target,
             files = <FileList>input.files,
             file = <File>files[0],
-            reader = new FileReader(file);
+            reader;
 
-        reader.onload = () => this.parseCsv(reader.result);
-        reader.readAsText(file);
+        if (file) {
+            reader = new FileReader(file);
+            reader.onload = () => this.parseCsv(reader.result);
+            reader.readAsText(file);
+        }
     }
 
     parseCsv(csvText) {
-        var rows = csvText.split('\n'),
+        var rows = csvText.split(/\r\n|\r|\n/),
             data = rows.map(row => return row.split(',')),
             len = data.length;
 

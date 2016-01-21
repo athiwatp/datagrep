@@ -5,7 +5,13 @@ import {DataService} from './data.service';
     selector: 'data-grid',
     inputs: ['data'],
     template: `
-        <table id="table_id" class="display"></table>
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th *ngFor="#header of headers">{{header}}</th>
+                </tr>
+            </thead>
+        </table>
     `
 })
 
@@ -24,6 +30,15 @@ export class DataGridComponent implements AfterViewInit, OnChanges {
         //         data: that.data
         //     });
         // });
+
+        // $(document).ready(() => {
+        //     $('#table_id').DataTable({
+        //         // "data": this.data,
+        //         // "columns": this.headers.map(header => return { title: header }),
+        //         "processing": true,
+        //         "deferRender": true
+        //     });
+        // });
     }
 
     ngOnChanges() {
@@ -32,13 +47,18 @@ export class DataGridComponent implements AfterViewInit, OnChanges {
 
             setTimeout(() => {
                 $(document).ready(() => {
-                    $('#table_id').DataTable({
-                        "data": this.data,
-                        "columns": this.headers.map(header => return { title: header }),
+                    var table = $('#table_id').DataTable({
+                        // "data": this.data,
+                        // "columns": this.headers.map(header => return { title: header }),
+                        "retrieve": true,
                         "processing": true,
                         "deferRender": true
                     });
-                });
+
+                    table.clear().draw();
+                    table.rows.add(this.data).draw();
+                    debugger;
+                }); 
             }, 0);
         }
     }
