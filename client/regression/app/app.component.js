@@ -45,7 +45,27 @@ System.register(['angular2/core', './data.service', './data-grid.component'], fu
                     }
                 };
                 AppComponent.prototype.parseCsv = function (csvText) {
-                    var rows = csvText.split(/\r\n|\r|\n/), data = rows.map(function (row) { return row.split(','); }), len = data.length;
+                    var rows = csvText.split(/\r\n|\r|\n/), data = rows.map(function (row) { return row.split(/\",s+\"/); }), data = data.map(function (row) {
+                        var beginIndex;
+                        for (var i = 0; i < row.length; i++) {
+                            var col = row[i];
+                            if (col.startsWith('"')) {
+                                beginIndex = i;
+                            }
+                            else if (col.endsWith('"')) {
+                                if (beginIndex) {
+                                    row[beginIndex].concat(row.splice(beginIndex + 1, i - beginIndex));
+                                }
+                                else {
+                                    throw Error('row ends with " but there was never a beginning');
+                                }
+                                beginIndex = undefined;
+                            }
+                            ;
+                        }
+                        return row;
+                    });
+                    len = data.length;
                     if (data[len - 1].length < data[0].length) {
                         data.pop();
                     }
