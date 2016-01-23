@@ -45,7 +45,7 @@ System.register(['angular2/core', './data.service', './data-grid.component'], fu
                     }
                 };
                 AppComponent.prototype.parseCsv = function (csvText) {
-                    var rows = csvText.split(/\r\n|\r|\n/), data = rows.map(function (row) { return row.split(/\",s+\"/); }), data = data.map(function (row) {
+                    var rows = csvText.split(/\r\n|\r|\n/), data = rows.map(function (row) { return row.split(/,(?![^,]+"[^$])/g); }), data = data.map(function (row) {
                         var beginIndex;
                         for (var i = 0; i < row.length; i++) {
                             var col = row[i];

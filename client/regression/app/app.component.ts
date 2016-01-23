@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
 
     parseCsv(csvText) {
         var rows = csvText.split(/\r\n|\r|\n/),
-            data = rows.map(row => return row.split(/\",s+\"/)),
+            data = rows.map(row => return row.split(/,(?![^,]+"[^$])/g)),
             data = data.map(row => {
                 var beginIndex;
 
