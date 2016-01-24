@@ -21,6 +21,10 @@ import {Component, OnChanges, Input, SimpleChange} from 'angular2/core';
                 </tr>
             </tbody>
         </table>
+        <section>
+            <button type="button" (click)="page(-10)">Previous 10</button>
+            <button type="button" (click)="page(10)">Next 10</button>
+        </section>
     `
 })
 
@@ -41,6 +45,18 @@ export class DataGridComponent implements OnChanges {
         var data = changes['data'].currentValue;
         this.headers = data.shift();
         this.rows = data;
+        this.updateDisplayRows();
+    }
+
+    page(increment) {
+        if (this.startRow + increment > this.rows.length) return;
+        if (this.endRow + increment < 10) return;
+        this.startRow += increment;
+        this.endRow += increment;
+        this.updateDisplayRows();
+    }
+
+    updateDisplayRows() {
         this.displayRows = this.rows.slice(this.startRow, this.endRow + 1);
     }
 

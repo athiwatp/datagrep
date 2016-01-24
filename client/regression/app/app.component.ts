@@ -36,7 +36,6 @@ export class AppComponent {
             data.pop();
         }
 
-        console.log('data: ', data);
         this.data = data;
     }
 }

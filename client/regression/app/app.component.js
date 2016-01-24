@@ -36,7 +36,6 @@ System.register(['angular2/core', './data-grid.component'], function(exports_1) 
                     if (data[len - 1].length < data[0].length) {
                         data.pop();
                     }
-                    console.log('data: ', data);
                     this.data = data;
                 };
                 AppComponent = __decorate([
