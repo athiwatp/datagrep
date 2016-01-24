@@ -1,4 +1,4 @@
-System.register(['angular2/core', './data.service'], function(exports_1) {
+System.register(['angular2/core'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,65 +8,38 @@ System.register(['angular2/core', './data.service'], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, data_service_1;
+    var core_1;
     var DataGridComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (data_service_1_1) {
-                data_service_1 = data_service_1_1;
             }],
         execute: function() {
             DataGridComponent = (function () {
-                function DataGridComponent(_dataService) {
-                    this._dataService = _dataService;
-                    // this.headers = ['col1', 'col2'];
+                function DataGridComponent() {
+                    this.startRow = 1;
+                    this.endRow = 10;
                 }
-                DataGridComponent.prototype.ngAfterViewInit = function () {
-                    // var that = this;
-                    // $(document).ready(function() {
-                    //     $('#table_id').DataTable({
-                    //         data: that.data
-                    //     });
-                    // });
-                    // $(document).ready(() => {
-                    //     $('#table_id').DataTable({
-                    //         // "data": this.data,
-                    //         // "columns": this.headers.map(header => return { title: header }),
-                    //         "processing": true,
-                    //         "deferRender": true
-                    //     });
-                    // });
+                DataGridComponent.prototype.ngOnChanges = function (changes) {
+                    var data = changes['data'].currentValue;
+                    this.headers = data.shift();
+                    this.rows = data;
+                    this.displayRows = this.rows.slice(this.startRow, this.endRow + 1);
                 };
-                DataGridComponent.prototype.ngOnChanges = function () {
-                    var _this = this;
-                    if (arguments[0] && arguments[0].data && arguments[0].data.currentValue instanceof Array) {
-                        this.headers = this.data.splice(0, 1)[0];
-                        setTimeout(function () {
-                            $(document).ready(function () {
-                                var table = $('#table_id').DataTable({
-                                    // "data": this.data,
-                                    // "columns": this.headers.map(header => return { title: header }),
-                                    "retrieve": true,
-                                    "processing": true,
-                                    "deferRender": true
-                                });
-                                table.clear().draw();
-                                table.rows.add(_this.data).draw();
-                                debugger;
-                            });
-                        }, 0);
-                    }
+                DataGridComponent.prototype.removeColumn = function () {
+                    debugger;
                 };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Array)
+                ], DataGridComponent.prototype, "data", void 0);
                 DataGridComponent = __decorate([
                     core_1.Component({
                         selector: 'data-grid',
-                        inputs: ['data'],
-                        template: "\n        <table id=\"table_id\" class=\"display\">\n            <thead>\n                <tr>\n                    <th *ngFor=\"#header of headers\">{{header}}</th>\n                </tr>\n            </thead>\n        </table>\n    "
+                        template: "\n        <section *ngIf=\"headers\">\n            <select>\n                <option *ngFor=\"#header of headers\" value={{header}}>{{header}}</option>\n            </select>\n            <button type=\"button\" (click)=\"removeColumn($event)\">Remove Column</button>\n        </section>\n        <table>\n            <thead>\n                <tr>\n                    <th *ngFor=\"#header of headers\">{{header}}</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr *ngFor=\"#row of displayRows\">\n                    <td *ngFor=\"#col of row\">{{col}}</td>\n                </tr>\n            </tbody>\n        </table>\n    "
                     }), 
-                    __metadata('design:paramtypes', [data_service_1.DataService])
+                    __metadata('design:paramtypes', [])
                 ], DataGridComponent);
                 return DataGridComponent;
             })();
