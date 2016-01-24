@@ -4,10 +4,10 @@ import {Component, OnChanges, Input, SimpleChange} from 'angular2/core';
     selector: 'data-grid',
     template: `
         <section *ngIf="headers">
-            <select>
-                <option *ngFor="#header of headers" value={{header}}>{{header}}</option>
+            <select #selectedHeader>
+                <option *ngFor="#header of headers">{{header}}</option>
             </select>
-            <button type="button" (click)="removeColumn($event)">Remove Column</button>
+            <button type="button" (click)="removeColumn(selectedHeader.value)">Remove Column</button>
         </section>
         <table>
             <thead>
@@ -60,7 +60,7 @@ export class DataGridComponent implements OnChanges {
         this.displayRows = this.rows.slice(this.startRow, this.endRow + 1);
     }
 
-    removeColumn() {
+    removeColumn(header) {
         debugger;
     }
 }
