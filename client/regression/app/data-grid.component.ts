@@ -3,12 +3,6 @@ import {Component, OnChanges, Input, SimpleChange} from 'angular2/core';
 @Component({
     selector: 'data-grid',
     template: `
-        <section *ngIf="headers">
-            <select #selectedHeader>
-                <option *ngFor="#header of headers; #i = index" [value]="i">{{header}}</option>
-            </select>
-            <button type="button" (click)="removeColumn(selectedHeader.value)">Remove Column</button>
-        </section>
         <table>
             <thead>
                 <tr>
@@ -22,8 +16,10 @@ import {Component, OnChanges, Input, SimpleChange} from 'angular2/core';
             </tbody>
         </table>
         <section>
+            <button type="button" (click)="gotoFirstPage()">First</button>
             <button type="button" (click)="page(-10)">Previous 10</button>
             <button type="button" (click)="page(10)">Next 10</button>
+            <button type="button" (click)="gotoLastPage()">Last</button>
         </section>
     `
 })
@@ -43,9 +39,14 @@ export class DataGridComponent implements OnChanges {
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }) {
         var data = changes['data'].currentValue;
+
         this.headers = data.shift();
         this.rows = data;
         this.updateDisplayRows();
+    }
+
+    updateDisplayRows() {
+        this.displayRows = this.rows.slice(this.startRow, this.endRow + 1);
     }
 
     page(increment) {
@@ -56,13 +57,18 @@ export class DataGridComponent implements OnChanges {
         this.updateDisplayRows();
     }
 
-    updateDisplayRows() {
-        this.displayRows = this.rows.slice(this.startRow, this.endRow + 1);
+    gotoFirstPage() {
+        this.startRow = 1;
+        this.endRow = 10;
+        this.updateDisplayRows();
     }
 
-    removeColumn(header) {
-        this.headers.splice(header, 1);
-        this.rows.map((row) => row.splice(header, 1));
+    gotoLastPage() {
+        var rowCount = this.rows.length,
+            lastFew = rowCount % 10;
+
+        this.startRow = this.rows.length - (lastFew - 1);
+        this.endRow = this.startRow + (10 - 1);
         this.updateDisplayRows();
     }
 }
