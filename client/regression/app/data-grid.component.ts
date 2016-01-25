@@ -5,7 +5,7 @@ import {Component, OnChanges, Input, SimpleChange} from 'angular2/core';
     template: `
         <section *ngIf="headers">
             <select #selectedHeader>
-                <option *ngFor="#header of headers">{{header}}</option>
+                <option *ngFor="#header of headers; #i = index" [value]="i">{{header}}</option>
             </select>
             <button type="button" (click)="removeColumn(selectedHeader.value)">Remove Column</button>
         </section>
@@ -61,6 +61,8 @@ export class DataGridComponent implements OnChanges {
     }
 
     removeColumn(header) {
-        debugger;
+        this.headers.splice(header, 1);
+        this.rows.map((row) => row.splice(header, 1));
+        this.updateDisplayRows();
     }
 }

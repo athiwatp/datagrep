@@ -40,7 +40,9 @@ System.register(['angular2/core'], function(exports_1) {
                     this.displayRows = this.rows.slice(this.startRow, this.endRow + 1);
                 };
                 DataGridComponent.prototype.removeColumn = function (header) {
-                    debugger;
+                    this.headers.splice(header, 1);
+                    this.rows.map(function (row) { return row.splice(header, 1); });
+                    this.updateDisplayRows();
                 };
                 __decorate([
                     core_1.Input(), 
@@ -49,7 +51,7 @@ System.register(['angular2/core'], function(exports_1) {
                 DataGridComponent = __decorate([
                     core_1.Component({
                         selector: 'data-grid',
-                        template: "\n        <section *ngIf=\"headers\">\n            <select #selectedHeader>\n                <option *ngFor=\"#header of headers\">{{header}}</option>\n            </select>\n            <button type=\"button\" (click)=\"removeColumn(selectedHeader.value)\">Remove Column</button>\n        </section>\n        <table>\n            <thead>\n                <tr>\n                    <th *ngFor=\"#header of headers\">{{header}}</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr *ngFor=\"#row of displayRows\">\n                    <td *ngFor=\"#col of row\">{{col}}</td>\n                </tr>\n            </tbody>\n        </table>\n        <section>\n            <button type=\"button\" (click)=\"page(-10)\">Previous 10</button>\n            <button type=\"button\" (click)=\"page(10)\">Next 10</button>\n        </section>\n    "
+                        template: "\n        <section *ngIf=\"headers\">\n            <select #selectedHeader>\n                <option *ngFor=\"#header of headers; #i = index\" [value]=\"i\">{{header}}</option>\n            </select>\n            <button type=\"button\" (click)=\"removeColumn(selectedHeader.value)\">Remove Column</button>\n        </section>\n        <table>\n            <thead>\n                <tr>\n                    <th *ngFor=\"#header of headers\">{{header}}</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr *ngFor=\"#row of displayRows\">\n                    <td *ngFor=\"#col of row\">{{col}}</td>\n                </tr>\n            </tbody>\n        </table>\n        <section>\n            <button type=\"button\" (click)=\"page(-10)\">Previous 10</button>\n            <button type=\"button\" (click)=\"page(10)\">Next 10</button>\n        </section>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], DataGridComponent);
