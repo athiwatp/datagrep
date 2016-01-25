@@ -4,6 +4,10 @@ import {Component, OnChanges, Input, SimpleChange} from 'angular2/core';
     selector: 'data-grid',
     template: `
         <table>
+            <colgroup>
+                <col span="{{headers.length - 1}}">
+                <col style="background-color: lightgray">
+            </colgroup>
             <thead>
                 <tr>
                     <th *ngFor="#header of headers">{{header}}</th>
