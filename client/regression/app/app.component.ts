@@ -5,8 +5,7 @@ import {DataGridComponent} from './data-grid.component';
     selector: 'linear-regression',
     template: `
         <input type="file" accept="text/csv" (change)="readFileAsText($event)">
-        <data-grid *ngIf="data" [data]="data"></data-grid>
-        <data-plot></data-plot>
+        <data-grid *ngIf="data" [data]="data" (output)="readDataGridOutput()"></data-grid>
     `,
     directives: [DataGridComponent]
 })

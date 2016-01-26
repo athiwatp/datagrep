@@ -41,7 +41,7 @@ System.register(['angular2/core', './data-grid.component'], function(exports_1) 
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'linear-regression',
-                        template: "\n        <input type=\"file\" accept=\"text/csv\" (change)=\"readFileAsText($event)\">\n        <data-grid *ngIf=\"data\" [data]=\"data\"></data-grid>\n        <data-plot></data-plot>\n    ",
+                        template: "\n        <input type=\"file\" accept=\"text/csv\" (change)=\"readFileAsText($event)\">\n        <data-grid *ngIf=\"data\" [data]=\"data\" (output)=\"readDataGridOutput()\"></data-grid>\n    ",
                         directives: [data_grid_component_1.DataGridComponent]
                     }), 
                     __metadata('design:paramtypes', [])

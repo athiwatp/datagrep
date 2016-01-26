@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "angular2": "^2.0.0-beta.1",
+    "d3": "^3.5.13",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.13",
     "reflect-metadata": "^0.1.2",

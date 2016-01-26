@@ -1,4 +1,5 @@
-import {Component, OnChanges, Input, SimpleChange} from 'angular2/core';
+import {Component, Input, OnChanges, SimpleChange} from 'angular2/core';
+import {DataPlotComponent} from './data-plot.component';
 
 @Component({
     selector: 'data-grid',
@@ -25,7 +26,9 @@ import {Component, OnChanges, Input, SimpleChange} from 'angular2/core';
             <button type="button" (click)="page(10)">Next 10</button>
             <button type="button" (click)="gotoLastPage()">Last</button>
         </section>
-    `
+        <data-plot [data]="data"></data-plot>
+    `,
+    directives: [DataPlotComponent]
 })
 
 export class DataGridComponent implements OnChanges {
@@ -33,8 +36,8 @@ export class DataGridComponent implements OnChanges {
     private headers: Array<String>;
     private rows: Array<Array<String>>;
     private displayRows: Array<Array<String>>;
-    public startRow: number;
-    public endRow: number;
+    private startRow: number;
+    private endRow: number;
 
     constructor() {
         this.startRow = 1;
@@ -53,7 +56,7 @@ export class DataGridComponent implements OnChanges {
         this.displayRows = this.rows.slice(this.startRow, this.endRow + 1);
     }
 
-    page(increment) {
+    page(increment: number) {
         if (this.startRow + increment > this.rows.length) return;
         if (this.endRow + increment < 10) return;
         this.startRow += increment;
