@@ -10,6 +10,9 @@
         "noImplicitAny": true
     },
     "exclude": [
-        "node_modules"
+        "data",
+        "node_modules",
+        "server",
+        "spec"
     ]
 }

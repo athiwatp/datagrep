@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+    body {
+        font: 10px sans-serif;
+    }
+    
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+    </style>
+</head>
+
+<body>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="lib/d3/d3.min.js"></script>
+    <script>
+    var availHeight = window.innerHeight,
+        availWidth = window.innerWidth,
+        margin = {
+            top: 20,
+            right: 40,
+            bottom: 30,
+            left: 60
+        },
+        width = availWidth - margin.left - margin.right,
+        height = availHeight - margin.top - margin.bottom;
+
+    function showScatterPlot() {
+        return new Promise(function(resolve, reject) {
+            var x = d3.scale.linear()
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            var svg = d3.select("body").append("svg")
+                .style("position", "absolute")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            // d3.csv("data/wk3_kc_house_train_data.csv", function(d) {
+            d3.csv("data/kc_house_train_data.csv", function(d) {
+                return {
+                    sqft_living: parseFloat(d.sqft_living), //+d.sqft_living
+                    price: parseFloat(d.price) //+d.price
+                };
+            }, function(error, data) {
+                if (error) reject(error);
+
+                x.domain(d3.extent(data, function(d) {
+                    return d.sqft_living;
+                })).nice();
+
+                y.domain(d3.extent(data, function(d) {
+                    return d.price;
+                })).nice();
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis)
+                    .append("text")
+                    .attr("class", "label")
+                    .attr("x", width)
+                    .attr("y", -6)
+                    .style("text-anchor", "end")
+                    .text("sqft_living (sqft)");
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                    .append("text")
+                    .attr("class", "label")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("price ($)");
+
+                svg.selectAll("circle")
+                    .data(data)
+                    .enter().append("circle")
+                    .attr("r", 1)
+                    .attr("cx", function(d) {
+                        return x(d.sqft_living);
+                    })
+                    .attr("cy", function(d) {
+                        return y(d.price);
+                    })
+                    .style("fill", "black");
+
+                resolve(data);
+            });
+        });
+    }
+
+    function clearFit() {
+        d3.select(".fit").remove();
+    }
+
+    function showFit(data, fn) {
+        return new Promise(function(resolve, reject) {
+            var x = d3.scale.linear()
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            var svg = d3.select("body").append("svg")
+                .attr("class", "fit")
+                .style("position", "absolute")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            x.domain(d3.extent(data, function(d) {
+                return d.sqft_living;
+            })).nice();
+
+            y.domain(d3.extent(data, function(d) {
+                return d.price;
+            })).nice();
+
+            var points = [];
+
+            for (var i = x.domain()[0]; i < x.domain()[1] + 1; i++) {
+                points.push({
+                    x: i,
+                    y: fn(i)
+                });
+            }
+
+            var lineFn = d3.svg.line()
+                .x(function(d) {
+                    return x(d.x);
+                })
+                .y(function(d) {
+                    return y(d.y);
+                });
+
+            svg.append("path")
+                .style("fill", "none")
+                .style("stroke", "blue")
+                .style("stroke-width", 2)
+                .attr("d", lineFn(points));
+
+            resolve(data);
+        });
+    }
+
+    function getLinearRegressionCoeffients(data, showFit) {
+        var socket = io(),
+            train_data = [
+                ['sqft_living', 'price']
+            ].concat(data.map(function(data) {
+                return [data.sqft_living, data.price];
+            }));
+
+        socket.emit('linear regression', train_data);
+
+        socket.on('linear regression progress', function(coefficients) {
+            console.log('coefficients: ', coefficients);
+            var intercept = coefficients[0][0],
+                slope = coefficients[1][0],
+                fn = function(x) {
+                    return intercept + slope * x;
+                };
+
+            clearFit();
+            showFit(data, fn);
+        });
+
+        socket.on('linear regression done', function(coefficients) {
+            alert('gradient descent complete');
+        });
+    }
+
+    showScatterPlot()
+        .then(function(data) {
+            getLinearRegressionCoeffients(data, showFit);
+        });
+    </script>
+</body>
