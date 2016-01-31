@@ -7,11 +7,11 @@
 <body>
     <linear-regression>Loading...</linear-regression>
     <title>Linear Regression</title>
-    <script src="node_modules/es6-shim/es6-shim.js"></script>
-    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="node_modules/rxjs/bundles/Rx.js"></script>
-    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script src="lib/es6-shim/es6-shim.js"></script>
+    <script src="lib/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="lib/systemjs/dist/system.src.js"></script>
+    <script src="lib/rxjs/bundles/Rx.js"></script>
+    <script src="lib/angular2/bundles/angular2.dev.js"></script>
     <script>
     System.config({
         packages: {
@@ -21,7 +21,7 @@
             }
         },
         map: {
-            'd3': 'node_modules/d3/d3.js'
+            'd3': 'lib/d3/d3.js'
         }
     });
     System.import('app/boot')
