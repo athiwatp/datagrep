@@ -30,7 +30,6 @@ import {DataPlotComponent} from './data-plot.component';
     `,
     directives: [DataPlotComponent]
 })
-
 export class DataGridComponent implements OnChanges {
     @Input() data: Array<Array<String>>;
     private headers: Array<String>;

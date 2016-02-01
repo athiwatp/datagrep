@@ -1,4 +1,4 @@
-System.register(['angular2/core', './data-grid.component'], function(exports_1) {
+System.register(['angular2/core', './csv-importer.component', './data-grid.component'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,12 +9,15 @@ System.register(['angular2/core', './data-grid.component'], function(exports_1) 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, data_grid_component_1;
+    var core_1, csv_importer_component_1, data_grid_component_1;
     var RegressionComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (csv_importer_component_1_1) {
+                csv_importer_component_1 = csv_importer_component_1_1;
             },
             function (data_grid_component_1_1) {
                 data_grid_component_1 = data_grid_component_1_1;
@@ -23,27 +26,15 @@ System.register(['angular2/core', './data-grid.component'], function(exports_1) 
             RegressionComponent = (function () {
                 function RegressionComponent() {
                 }
-                RegressionComponent.prototype.readFileAsText = function (event) {
-                    var _this = this;
-                    var input = event.target, files = input.files, file = files[0], reader;
-                    if (file) {
-                        reader = new FileReader();
-                        reader.onload = function () { return _this.parseCsv(reader.result); };
-                        reader.readAsText(file);
-                    }
-                };
-                RegressionComponent.prototype.parseCsv = function (csvText) {
-                    var rows = csvText.split(/\r\n|\r|\n/), data = rows.map(function (row) { return row.split(/,(?![^"][^,]+"[^$])/g); }), len = data.length;
-                    if (data[len - 1].length < data[0].length) {
-                        data.pop();
-                    }
+                RegressionComponent.prototype.onDataImported = function (data) {
                     this.data = data;
+                    debugger;
                 };
                 RegressionComponent = __decorate([
                     core_1.Component({
                         selector: 'regression',
-                        template: "\n        <input type=\"file\" accept=\"text/csv\" (change)=\"readFileAsText($event)\">\n        <data-grid *ngIf=\"data\" [data]=\"data\" (output)=\"readDataGridOutput()\"></data-grid>\n    ",
-                        directives: [data_grid_component_1.DataGridComponent]
+                        template: "\n        <csv-importer (data-imported)=\"onDataImported($event)\"></csv-importer>\n        <data-grid *ngIf=\"data\" [data]=\"data\" (output)=\"readDataGridOutput()\"></data-grid>\n    ",
+                        directives: [csv_importer_component_1.CSVImporterComponent, data_grid_component_1.DataGridComponent]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], RegressionComponent);

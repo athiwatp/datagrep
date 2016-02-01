@@ -5,7 +5,6 @@ import * as d3 from 'd3';
     selector: 'data-plot',
     template: `blah`
 })
-
 export class DataPlotComponent implements OnChanges {
     @Input() data: Array<Array<String>>;
 

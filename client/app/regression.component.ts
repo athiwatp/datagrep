@@ -1,40 +1,20 @@
 import {Component} from 'angular2/core';
+import {CSVImporterComponent} from './csv-importer.component';
 import {DataGridComponent} from './data-grid.component';
 
 @Component({
     selector: 'regression',
     template: `
-        <input type="file" accept="text/csv" (change)="readFileAsText($event)">
+        <csv-importer (data-imported)="onDataImported($event)"></csv-importer>
         <data-grid *ngIf="data" [data]="data" (output)="readDataGridOutput()"></data-grid>
     `,
-    directives: [DataGridComponent]
+    directives: [CSVImporterComponent, DataGridComponent]
 })
-
 export class RegressionComponent {
-    public data: Array<Array<String>>;
+    private data: Array<Array<String>>;
 
-    readFileAsText(event: Event) {
-        var input = <HTMLInputElement>event.target,
-            files = <FileList>input.files,
-            file = <File>files[0],
-            reader: FileReader;
-
-        if (file) {
-            reader = new FileReader();
-            reader.onload = () => this.parseCsv(reader.result);
-            reader.readAsText(file);
-        }
-    }
-
-    parseCsv(csvText: String) {
-        var rows = csvText.split(/\r\n|\r|\n/),
-            data = rows.map(row => row.split(/,(?![^"][^,]+"[^$])/g)),
-            len = data.length;
-
-        if (data[len - 1].length < data[0].length) {
-            data.pop();
-        }
-
+    onDataImported(data: Array<Array<String>>) {
         this.data = data;
+        debugger;
     }
 }

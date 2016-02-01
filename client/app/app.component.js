@@ -23,22 +23,6 @@ System.register(['angular2/core', './regression.component'], function(exports_1)
             AppComponent = (function () {
                 function AppComponent() {
                 }
-                AppComponent.prototype.readFileAsText = function (event) {
-                    var _this = this;
-                    var input = event.target, files = input.files, file = files[0], reader;
-                    if (file) {
-                        reader = new FileReader();
-                        reader.onload = function () { return _this.parseCsv(reader.result); };
-                        reader.readAsText(file);
-                    }
-                };
-                AppComponent.prototype.parseCsv = function (csvText) {
-                    var rows = csvText.split(/\r\n|\r|\n/), data = rows.map(function (row) { return row.split(/,(?![^"][^,]+"[^$])/g); }), len = data.length;
-                    if (data[len - 1].length < data[0].length) {
-                        data.pop();
-                    }
-                    this.data = data;
-                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'app',
