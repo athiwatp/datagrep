@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 
 @Component({
     selector: 'data-plot',
-    template: `blah`
+    template: `data plot component`
 })
 export class DataPlotComponent implements OnChanges {
     @Input() data: Array<Array<String>>;
@@ -11,6 +11,6 @@ export class DataPlotComponent implements OnChanges {
     ngOnChanges(changes: { [propName: string]: SimpleChange }) {
         var data = changes['data'].currentValue;
 
-        d3.select("body").style("background-color", "purple");
+        debugger;
     }
 }

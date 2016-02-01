@@ -1,4 +1,4 @@
-System.register(['angular2/core', './csv-importer.component', './data-grid.component'], function(exports_1) {
+System.register(['angular2/core', './csv-importer.component', './data-grid.component', './data-plot.component', 'immutable'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', './csv-importer.component', './data-grid.compo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, csv_importer_component_1, data_grid_component_1;
+    var core_1, csv_importer_component_1, data_grid_component_1, data_plot_component_1, Immutable;
     var RegressionComponent;
     return {
         setters:[
@@ -21,20 +21,26 @@ System.register(['angular2/core', './csv-importer.component', './data-grid.compo
             },
             function (data_grid_component_1_1) {
                 data_grid_component_1 = data_grid_component_1_1;
+            },
+            function (data_plot_component_1_1) {
+                data_plot_component_1 = data_plot_component_1_1;
+            },
+            function (Immutable_1) {
+                Immutable = Immutable_1;
             }],
         execute: function() {
             RegressionComponent = (function () {
                 function RegressionComponent() {
                 }
                 RegressionComponent.prototype.onDataImported = function (data) {
-                    this.data = data;
-                    debugger;
+                    var immutableData = Immutable.fromJS(data);
+                    this.data = immutableData.toJS();
                 };
                 RegressionComponent = __decorate([
                     core_1.Component({
                         selector: 'regression',
-                        template: "\n        <csv-importer (data-imported)=\"onDataImported($event)\"></csv-importer>\n        <data-grid *ngIf=\"data\" [data]=\"data\" (output)=\"readDataGridOutput()\"></data-grid>\n    ",
-                        directives: [csv_importer_component_1.CSVImporterComponent, data_grid_component_1.DataGridComponent]
+                        template: "\n        <csv-importer (data-imported)=\"onDataImported($event)\"></csv-importer>\n        <data-grid *ngIf=\"data\" [data]=\"data\" (output)=\"onDataSaved($event)\"></data-grid>\n        <data-plot *ngIf=\"data\" [data]=\"data\"></data-plot>\n    ",
+                        directives: [csv_importer_component_1.CSVImporterComponent, data_grid_component_1.DataGridComponent, data_plot_component_1.DataPlotComponent]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], RegressionComponent);

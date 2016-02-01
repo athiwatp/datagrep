@@ -1,4 +1,4 @@
-System.register(['angular2/core', './data-plot.component'], function(exports_1) {
+System.register(['angular2/core', 'immutable'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,15 +9,19 @@ System.register(['angular2/core', './data-plot.component'], function(exports_1) 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, data_plot_component_1;
+    var core_1, Immutable;
     var DataGridComponent;
+    function clone(data) {
+        var immutableData = Immutable.fromJS(data);
+        return immutableData.toJS();
+    }
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (data_plot_component_1_1) {
-                data_plot_component_1 = data_plot_component_1_1;
+            function (Immutable_1) {
+                Immutable = Immutable_1;
             }],
         execute: function() {
             DataGridComponent = (function () {
@@ -26,9 +30,9 @@ System.register(['angular2/core', './data-plot.component'], function(exports_1) 
                     this.endRow = 10;
                 }
                 DataGridComponent.prototype.ngOnChanges = function (changes) {
-                    var data = changes['data'].currentValue;
-                    this.headers = data.shift();
-                    this.rows = data;
+                    var clonedData = clone(changes['data'].currentValue);
+                    this.headers = clonedData.shift();
+                    this.rows = clonedData;
                     this.updateDisplayRows();
                 };
                 DataGridComponent.prototype.updateDisplayRows = function () {
@@ -61,8 +65,7 @@ System.register(['angular2/core', './data-plot.component'], function(exports_1) 
                 DataGridComponent = __decorate([
                     core_1.Component({
                         selector: 'data-grid',
-                        template: "\n        <table>\n            <colgroup>\n                <col span=\"{{headers.length - 1}}\">\n                <col style=\"background-color: lightgray\">\n            </colgroup>\n            <thead>\n                <tr>\n                    <th *ngFor=\"#header of headers\">{{header}}</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr *ngFor=\"#row of displayRows\">\n                    <td *ngFor=\"#col of row\">{{col}}</td>\n                </tr>\n            </tbody>\n        </table>\n        <section>\n            <button type=\"button\" (click)=\"gotoFirstPage()\">First</button>\n            <button type=\"button\" (click)=\"page(-10)\">Previous 10</button>\n            <button type=\"button\" (click)=\"page(10)\">Next 10</button>\n            <button type=\"button\" (click)=\"gotoLastPage()\">Last</button>\n        </section>\n        <data-plot [data]=\"data\"></data-plot>\n    ",
-                        directives: [data_plot_component_1.DataPlotComponent]
+                        template: "\n        <table>\n            <colgroup>\n                <col span=\"{{headers.length - 1}}\">\n                <col style=\"background-color: lightgray\">\n            </colgroup>\n            <thead>\n                <tr>\n                    <th *ngFor=\"#header of headers\">{{header}}</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr *ngFor=\"#row of displayRows\">\n                    <td *ngFor=\"#col of row\">{{col}}</td>\n                </tr>\n            </tbody>\n        </table>\n        <section>\n            <button type=\"button\" (click)=\"gotoFirstPage()\">First</button>\n            <button type=\"button\" (click)=\"page(-10)\">Previous 10</button>\n            <button type=\"button\" (click)=\"page(10)\">Next 10</button>\n            <button type=\"button\" (click)=\"gotoLastPage()\">Last</button>\n        </section>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], DataGridComponent);

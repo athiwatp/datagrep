@@ -1,5 +1,11 @@
+///<reference path='../../node_modules/immutable/dist/Immutable.d.ts'/>
 import {Component, Input, OnChanges, SimpleChange} from 'angular2/core';
-import {DataPlotComponent} from './data-plot.component';
+import * as Immutable from 'immutable';
+
+function clone(data: Array<Array<String>>) {
+    var immutableData = Immutable.fromJS(data);
+    return immutableData.toJS();
+}
 
 @Component({
     selector: 'data-grid',
@@ -26,9 +32,7 @@ import {DataPlotComponent} from './data-plot.component';
             <button type="button" (click)="page(10)">Next 10</button>
             <button type="button" (click)="gotoLastPage()">Last</button>
         </section>
-        <data-plot [data]="data"></data-plot>
-    `,
-    directives: [DataPlotComponent]
+    `
 })
 export class DataGridComponent implements OnChanges {
     @Input() data: Array<Array<String>>;
@@ -44,10 +48,10 @@ export class DataGridComponent implements OnChanges {
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }) {
-        var data = changes['data'].currentValue;
+        var clonedData = clone(changes['data'].currentValue);
 
-        this.headers = data.shift();
-        this.rows = data;
+        this.headers = clonedData.shift();
+        this.rows = clonedData;
         this.updateDisplayRows();
     }
 
