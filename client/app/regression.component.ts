@@ -1,20 +1,16 @@
 import {Component} from 'angular2/core';
-import {RegressionComponent} from './regression.component';
+import {DataGridComponent} from './data-grid.component';
 
 @Component({
-    selector: 'app',
+    selector: 'regression',
     template: `
-        <select>
-            <option>Regression</option>
-        </select>
-        <section>
-            <regression>Loading...</regression>
-        </section>
+        <input type="file" accept="text/csv" (change)="readFileAsText($event)">
+        <data-grid *ngIf="data" [data]="data" (output)="readDataGridOutput()"></data-grid>
     `,
-    directives: [RegressionComponent]
+    directives: [DataGridComponent]
 })
 
-export class AppComponent {
+export class RegressionComponent {
     public data: Array<Array<String>>;
 
     readFileAsText(event: Event) {
