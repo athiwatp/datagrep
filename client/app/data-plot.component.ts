@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChange} from 'angular2/core';
-import d3 from 'd3';
+import * as d3 from 'd3';
 
 @Component({
     selector: 'data-plot',
@@ -12,8 +12,6 @@ export class DataPlotComponent implements OnChanges {
     ngOnChanges(changes: { [propName: string]: SimpleChange }) {
         var data = changes['data'].currentValue;
 
-        this.headers = data.shift();
-        this.rows = data;
-        d3.select("body").style("background-color", "green");
+        d3.select("body").style("background-color", "purple");
     }
 }

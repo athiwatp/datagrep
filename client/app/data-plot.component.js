@@ -9,15 +9,15 @@ System.register(['angular2/core', 'd3'], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, d3_1;
+    var core_1, d3;
     var DataPlotComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (d3_1_1) {
-                d3_1 = d3_1_1;
+            function (d3_1) {
+                d3 = d3_1;
             }],
         execute: function() {
             DataPlotComponent = (function () {
@@ -25,9 +25,7 @@ System.register(['angular2/core', 'd3'], function(exports_1) {
                 }
                 DataPlotComponent.prototype.ngOnChanges = function (changes) {
                     var data = changes['data'].currentValue;
-                    this.headers = data.shift();
-                    this.rows = data;
-                    d3_1.default.select("body").style("background-color", "green");
+                    d3.select("body").style("background-color", "purple");
                 };
                 __decorate([
                     core_1.Input(), 

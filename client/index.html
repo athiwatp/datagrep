@@ -6,7 +6,7 @@
 
 <body>
     <linear-regression>Loading...</linear-regression>
-    <title>Linear Regression</title>
+    <script src="lib/es5-shim/es5-shim.js"></script>
     <script src="lib/es6-shim/es6-shim.js"></script>
     <script src="lib/angular2/bundles/angular2-polyfills.js"></script>
     <script src="lib/systemjs/dist/system.src.js"></script>
@@ -20,8 +20,8 @@
                 defaultExtension: 'js'
             }
         },
-        map: {
-            'd3': 'lib/d3/d3.js'
+        paths: {
+            d3: '/lib/d3/d3.js'
         }
     });
     System.import('app/boot')
