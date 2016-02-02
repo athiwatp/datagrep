@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'immutable'], function(exports_1) {
+System.register(['angular2/core', './data.service'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,65 +9,65 @@ System.register(['angular2/core', 'immutable'], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Immutable;
+    var core_1, data_service_1;
     var DataGridComponent;
-    function clone(data) {
-        var immutableData = Immutable.fromJS(data);
-        return immutableData.toJS();
-    }
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (Immutable_1) {
-                Immutable = Immutable_1;
+            function (data_service_1_1) {
+                data_service_1 = data_service_1_1;
             }],
         execute: function() {
             DataGridComponent = (function () {
-                function DataGridComponent() {
-                    this.startRow = 1;
-                    this.endRow = 10;
+                function DataGridComponent(_dataService) {
+                    this._dataService = _dataService;
+                    this._startRow = 1;
+                    this._endRow = 10;
                 }
                 DataGridComponent.prototype.ngOnChanges = function (changes) {
-                    var clonedData = clone(changes['data'].currentValue);
-                    this.headers = clonedData.shift();
-                    this.rows = clonedData;
-                    this.updateDisplayRows();
-                };
-                DataGridComponent.prototype.updateDisplayRows = function () {
-                    this.displayRows = this.rows.slice(this.startRow, this.endRow + 1);
-                };
-                DataGridComponent.prototype.page = function (increment) {
-                    if (this.startRow + increment > this.rows.length)
+                    var _data_currentValue = changes['_data'].currentValue, clonedData;
+                    if (!_data_currentValue)
                         return;
-                    if (this.endRow + increment < 10)
+                    clonedData = this._dataService.clone(_data_currentValue);
+                    this._headers = clonedData.shift();
+                    this._rows = clonedData;
+                    this._updateDisplayRows();
+                };
+                DataGridComponent.prototype._updateDisplayRows = function () {
+                    this._displayRows = this._rows.slice(this._startRow, this._endRow + 1);
+                };
+                DataGridComponent.prototype._paginate = function (increment) {
+                    if (this._startRow + increment > this._rows.length)
                         return;
-                    this.startRow += increment;
-                    this.endRow += increment;
-                    this.updateDisplayRows();
+                    if (this._endRow + increment < 10)
+                        return;
+                    this._startRow += increment;
+                    this._endRow += increment;
+                    this._updateDisplayRows();
                 };
-                DataGridComponent.prototype.gotoFirstPage = function () {
-                    this.startRow = 1;
-                    this.endRow = 10;
-                    this.updateDisplayRows();
+                DataGridComponent.prototype._gotoFirstPage = function () {
+                    this._startRow = 1;
+                    this._endRow = 10;
+                    this._updateDisplayRows();
                 };
-                DataGridComponent.prototype.gotoLastPage = function () {
-                    var rowCount = this.rows.length, lastFew = rowCount % 10;
-                    this.startRow = this.rows.length - (lastFew - 1);
-                    this.endRow = this.startRow + (10 - 1);
-                    this.updateDisplayRows();
+                DataGridComponent.prototype._gotoLastPage = function () {
+                    var rowCount = this._rows.length, lastFew = rowCount % 10;
+                    this._startRow = this._rows.length - (lastFew - 1);
+                    this._endRow = this._startRow + (10 - 1);
+                    this._updateDisplayRows();
                 };
                 __decorate([
-                    core_1.Input(), 
+                    core_1.Input('data'), 
                     __metadata('design:type', Array)
-                ], DataGridComponent.prototype, "data", void 0);
+                ], DataGridComponent.prototype, "_data", void 0);
                 DataGridComponent = __decorate([
                     core_1.Component({
                         selector: 'data-grid',
-                        template: "\n        <table>\n            <colgroup>\n                <col span=\"{{headers.length - 1}}\">\n                <col style=\"background-color: lightgray\">\n            </colgroup>\n            <thead>\n                <tr>\n                    <th *ngFor=\"#header of headers\">{{header}}</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr *ngFor=\"#row of displayRows\">\n                    <td *ngFor=\"#col of row\">{{col}}</td>\n                </tr>\n            </tbody>\n        </table>\n        <section>\n            <button type=\"button\" (click)=\"gotoFirstPage()\">First</button>\n            <button type=\"button\" (click)=\"page(-10)\">Previous 10</button>\n            <button type=\"button\" (click)=\"page(10)\">Next 10</button>\n            <button type=\"button\" (click)=\"gotoLastPage()\">Last</button>\n        </section>\n    "
+                        template: "\n        <table *ngIf=\"_headers\">\n            <colgroup>\n                <col span=\"{{_headers.length - 1}}\">\n                <col style=\"background-color: lightgray\">\n            </colgroup>\n            <thead>\n                <tr>\n                    <th *ngFor=\"#header of _headers\">{{header}}</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr *ngFor=\"#row of _displayRows\">\n                    <td *ngFor=\"#col of row\">{{col}}</td>\n                </tr>\n            </tbody>\n        </table>\n        <section>\n            <button type=\"button\" (click)=\"_gotoFirstPage()\">First</button>\n            <button type=\"button\" (click)=\"_paginate(-10)\">Previous 10</button>\n            <button type=\"button\" (click)=\"_paginate(10)\">Next 10</button>\n            <button type=\"button\" (click)=\"_gotoLastPage()\">Last</button>\n        </section>\n    "
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [data_service_1.DataService])
                 ], DataGridComponent);
                 return DataGridComponent;
             }());

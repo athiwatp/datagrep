@@ -1,24 +1,28 @@
-///<reference path='../../node_modules/immutable/dist/Immutable.d.ts'/>
 import {Component} from 'angular2/core';
 import {CSVImporterComponent} from './csv-importer.component';
 import {DataGridComponent} from './data-grid.component';
 import {DataPlotComponent} from './data-plot.component';
-import * as Immutable from 'immutable';
+import {DataService} from './data.service';
 
 @Component({
     selector: 'regression',
     template: `
-        <csv-importer (data-imported)="onDataImported($event)"></csv-importer>
-        <data-grid *ngIf="data" [data]="data" (output)="onDataSaved($event)"></data-grid>
-        <data-plot *ngIf="data" [data]="data"></data-plot>
+        <csv-importer (data-imported)="_onDataImported($event)"></csv-importer>
+        <data-grid *ngIf="_data" [data]="_data"></data-grid>
+        <data-plot *ngIf="_data" [data]="_data"></data-plot>
     `,
-    directives: [CSVImporterComponent, DataGridComponent, DataPlotComponent]
+    directives: [CSVImporterComponent, DataGridComponent, DataPlotComponent],
+    providers: [DataService]
 })
 export class RegressionComponent {
-    private data: Immutable.List<Array<String>>;
+    public _data: Array<Array<String>>;
 
-    onDataImported(data: Array<Array<String>>) {
-        var immutableData = Immutable.fromJS(data);
-        this.data = immutableData.toJS();
+    constructor(private _dataService: DataService) {
+
+    }
+
+    private _onDataImported(data: Array<Array<String>>) {
+        this._dataService.setData(data);
+        this._data = this._dataService.getData();
     }
 }
