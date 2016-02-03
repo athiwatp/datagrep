@@ -15,13 +15,13 @@ import {DataService} from './data.service';
     providers: [DataService]
 })
 export class RegressionComponent {
-    public _data: Array<Array<String>>;
+    public _data: Array<Array<string>>;
 
     constructor(private _dataService: DataService) {
 
     }
 
-    private _onDataImported(data: Array<Array<String>>) {
+    private _onDataImported(data: Array<Array<string>>) {
         this._dataService.setData(data);
         this._data = this._dataService.getData();
     }
