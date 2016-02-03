@@ -27,11 +27,27 @@ System.register(['angular2/core', './data.service', './point', 'd3'], function(e
             }],
         execute: function() {
             DataPlotComponent = (function () {
-                function DataPlotComponent(_dataService) {
+                function DataPlotComponent(_dataService, el) {
                     this._dataService = _dataService;
-                    this._width = 800;
-                    this._height = 450;
+                    this.el = el;
+                    this.w = 800;
+                    this.h = 450;
+                    this.margin = {
+                        top: 58,
+                        bottom: 100,
+                        left: 80,
+                        right: 40
+                    };
+                    this.width = this.w - this.margin.left - this.margin.right;
+                    this.height = this.h - this.margin.top - this.margin.bottom;
+                    this._el = el;
                 }
+                DataPlotComponent.prototype._process = function (data) {
+                    return data.map(function (row) {
+                        var x = Number.parseFloat(row[0]), y = Number.parseFloat(row[row.length - 1]);
+                        return new point_1.Point(x, y);
+                    }, this);
+                };
                 DataPlotComponent.prototype.ngOnChanges = function (changes) {
                     var _data_currentValue = changes['_data'].currentValue, clonedData, params;
                     if (!_data_currentValue)
@@ -39,31 +55,80 @@ System.register(['angular2/core', './data.service', './point', 'd3'], function(e
                     clonedData = this._dataService.clone(_data_currentValue);
                     this._headers = clonedData.shift();
                     this._rows = this._process(clonedData);
+                    this.setup();
                 };
-                DataPlotComponent.prototype._process = function (data) {
-                    var step1 = data.map(function (row) {
-                        var x = Number.parseFloat(row[0]), y = Number.parseFloat(row[row.length - 1]);
-                        return new point_1.Point(x, y);
-                    }, this);
-                    var xScale = this.getXScale(step1), yScale = this.getYScale(step1);
-                    var step2 = step1.map(function (point) {
-                        return new point_1.Point(xScale(point.x), yScale(point.y));
-                    }, this);
-                    return step2;
+                DataPlotComponent.prototype.setup = function () {
+                    var data = this._rows;
+                    var svg = d3.select(this._el.nativeElement).append('svg')
+                        .classed('chart', true)
+                        .attr('width', this.w)
+                        .attr('height', this.h);
+                    var chart = svg.append('g')
+                        .classed('display', true)
+                        .attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top + ')');
+                    var xScale = this.getXScale(data);
+                    var yScale = this.getYScale(data);
+                    var xAxis = this.getXAxis(data, xScale);
+                    var yAxis = this.getYAxis(data, yScale);
+                    this.plot(chart, {
+                        data: data,
+                        scale: {
+                            x: xScale,
+                            y: yScale
+                        },
+                        axis: {
+                            x: xAxis,
+                            y: yAxis
+                        }
+                    });
+                };
+                DataPlotComponent.prototype.plot = function (chart, params) {
+                    chart.append('g')
+                        .classed('x axis', true)
+                        .attr('transform', 'translate(0, ' + this.height + ')')
+                        .call(params.axis.x);
+                    chart.append('g')
+                        .classed('y axis', true)
+                        .attr('transform', 'translate(0, 0)')
+                        .call(params.axis.y);
+                    chart.selectAll('.point').data(params.data).enter()
+                        .append('circle')
+                        .classed('point', true)
+                        .attr('r', 2);
+                    chart.selectAll('.point')
+                        .attr('cx', function (d) {
+                        return params.scale.x(d.x);
+                    })
+                        .attr('cy', function (d) {
+                        return params.scale.y(d.y);
+                    });
+                    chart.selectAll('.point').data(params.data).exit()
+                        .remove();
                 };
                 DataPlotComponent.prototype.getXScale = function (data) {
                     return d3.scale.linear()
                         .domain([0, d3.max(data, function (d) {
                             return d.x;
                         })])
-                        .range([0, this._width]);
+                        .range([0, this.width]);
                 };
                 DataPlotComponent.prototype.getYScale = function (data) {
                     return d3.scale.linear()
                         .domain([0, d3.max(data, function (d) {
                             return d.y;
                         })])
-                        .range([this._height, 0]);
+                        .range([this.height, 0]);
+                };
+                DataPlotComponent.prototype.getXAxis = function (data, xScale) {
+                    return d3.svg.axis()
+                        .scale(xScale)
+                        .orient('bottom');
+                };
+                DataPlotComponent.prototype.getYAxis = function (data, xScale) {
+                    return d3.svg.axis()
+                        .scale(xScale)
+                        .orient('left')
+                        .ticks(5);
                 };
                 __decorate([
                     core_1.Input('data'), 
@@ -72,10 +137,11 @@ System.register(['angular2/core', './data.service', './point', 'd3'], function(e
                 DataPlotComponent = __decorate([
                     core_1.Component({
                         selector: 'data-plot',
-                        template: "\n        <svg class=\"chart\" [attr.width]=\"_width\" [attr.height]=\"_height\">\n            <g *ngIf=\"_headers\" transform='translate(80, 58)'>\n                <circle *ngFor=\"#row of _rows\" class=\"point\" r=\"2\" [attr.cx]=\"row.x\" [attr.cy]=\"row.y\"></circle>\n            </g>\n        </svg>\n    ",
-                        styles: ["\n        .chart {\n            background-color: lightgray;\n        }\n    "]
+                        template: '',
+                        styles: ["\n        .chart {\n            background-color: #F5F2EB;\n            border: 1px solid #CCC;\n        }\n        .axis path,\n        .axis line {\n            fill: none;\n            stroke: #000;\n            shape-rendering: crispEdges;\n        }\n    "],
+                        encapsulation: core_1.ViewEncapsulation.None
                     }), 
-                    __metadata('design:paramtypes', [data_service_1.DataService])
+                    __metadata('design:paramtypes', [data_service_1.DataService, core_1.ElementRef])
                 ], DataPlotComponent);
                 return DataPlotComponent;
             }());

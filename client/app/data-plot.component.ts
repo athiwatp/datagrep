@@ -1,31 +1,52 @@
-import {Component, Input, OnChanges, SimpleChange} from 'angular2/core';
+import {Component, Input, OnChanges, SimpleChange, ElementRef, ViewEncapsulation} from 'angular2/core';
 import {DataService} from './data.service';
 import {Point} from './point';
 import * as d3 from 'd3';
 
 @Component({
     selector: 'data-plot',
-    template: `
-        <svg class="chart" [attr.width]="_width" [attr.height]="_height">
-            <g *ngIf="_headers" transform='translate(80, 58)'>
-                <circle *ngFor="#row of _rows" class="point" r="2" [attr.cx]="row.x" [attr.cy]="row.y"></circle>
-            </g>
-        </svg>
-    `,
+    template: '',
     styles: [`
         .chart {
-            background-color: lightgray;
+            background-color: #F5F2EB;
+            border: 1px solid #CCC;
         }
-    `]
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+    `],
+    encapsulation: ViewEncapsulation.None
 })
 export class DataPlotComponent implements OnChanges {
     @Input('data') _data: Array<Array<string>>;
-    private _width: number = 800;
-    private _height: number = 450;
+    private w: number = 800;
+    private h: number = 450;
+    private margin: any = {
+        top: 58,
+        bottom: 100,
+        left: 80,
+        right: 40
+    };
+    private width: number = this.w - this.margin.left - this.margin.right;
+    private height: number = this.h - this.margin.top - this.margin.bottom;
     private _headers: Array<string>;
     private _rows: Array<Point>;
+    private _el: ElementRef;
 
-    constructor(private _dataService: DataService) {
+    constructor(private _dataService: DataService, private el: ElementRef) {
+        this._el = el;
+    }
+
+    _process(data: Array<Array<string>>): Array<Point> { // get first col as x and last col as y
+        return data.map(function(row) {
+            var x = Number.parseFloat(row[0]),
+                y = Number.parseFloat(row[row.length - 1]);
+
+            return new Point(x, y);
+        }, this);
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }) {
@@ -39,39 +60,97 @@ export class DataPlotComponent implements OnChanges {
 
         this._headers = clonedData.shift();
         this._rows = this._process(clonedData);
+
+        this.setup();
     }
 
-    _process(data: Array<Array<string>>) { // get first col as x and last col as y
-        var step1: Array<Point> = data.map(function(row) {
-            var x = Number.parseFloat(row[0]),
-                y = Number.parseFloat(row[row.length - 1]);
+    setup() {
+        var data = this._rows;
 
-            return new Point(x, y);
-        }, this);
+        var svg = d3.select(this._el.nativeElement).append('svg')
+            .classed('chart', true)
+            .attr('width', this.w)
+            .attr('height', this.h);
 
-        var xScale = this.getXScale(step1),
-            yScale = this.getYScale(step1);
+        var chart = svg.append('g')
+            .classed('display', true)
+            .attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top + ')');
 
-        var step2 = step1.map(function(point) {
-            return new Point(xScale(point.x), yScale(point.y));
-        }, this);
+        var xScale = this.getXScale(data);
 
-        return step2;
+        var yScale = this.getYScale(data);
+
+        var xAxis = this.getXAxis(data, xScale);
+
+        var yAxis = this.getYAxis(data, yScale);
+
+        this.plot(chart, {
+            data: data,
+            scale: {
+                x: xScale,
+                y: yScale
+            },
+            axis: {
+                x: xAxis,
+                y: yAxis
+            }
+        });
     }
 
-    getXScale(data: Array<Point>) {
+    plot(chart: d3.Selection<any>, params: any) {
+        chart.append('g')
+            .classed('x axis', true)
+            .attr('transform', 'translate(0, ' + this.height + ')')
+            .call(params.axis.x);
+
+        chart.append('g')
+            .classed('y axis', true)
+            .attr('transform', 'translate(0, 0)')
+            .call(params.axis.y);
+
+        chart.selectAll('.point').data(params.data).enter()
+            .append('circle')
+            .classed('point', true)
+            .attr('r', 2);
+
+        chart.selectAll('.point')
+            .attr('cx', function(d) {
+                return params.scale.x(d.x);
+            })
+            .attr('cy', function(d) {
+                return params.scale.y(d.y);
+            });
+
+        chart.selectAll('.point').data(params.data).exit()
+            .remove();
+    }
+
+    getXScale(data: Array<Point>): d3.scale.Linear<number, number> {
         return d3.scale.linear()
             .domain([0, d3.max(data, function(d) {
                 return d.x;
             })])
-            .range([0, this._width]);
+            .range([0, this.width]);
     }
 
-    getYScale(data: Array<Point>) {
+    getYScale(data: Array<Point>): d3.scale.Linear<number, number> {
         return d3.scale.linear()
             .domain([0, d3.max(data, function(d) {
                 return d.y;
             })])
-            .range([this._height, 0]);
+            .range([this.height, 0]);
+    }
+
+    getXAxis(data: Array<Point>, xScale: d3.scale.Linear<number, number>): d3.svg.Axis {
+        return d3.svg.axis()
+            .scale(xScale)
+            .orient('bottom');
+    }
+
+    getYAxis(data: Array<Point>, xScale: d3.scale.Linear<number, number>): d3.svg.Axis {
+        return d3.svg.axis()
+            .scale(xScale)
+            .orient('left')
+            .ticks(5);
     }
 }
