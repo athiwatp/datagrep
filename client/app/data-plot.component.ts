@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 
 @Component({
     selector: 'data-plot',
-    template: '',
+    template: '<button type="button" (click)="getLinearRegressionCoeffients()">Run Gradient Descent</button>',
     styles: [`
         .chart {
             background-color: #F5F2EB;
@@ -15,6 +15,11 @@ import * as d3 from 'd3';
         .axis line {
             fill: none;
             stroke: #000;
+            shape-rendering: crispEdges;
+        }
+        .trendline {
+            fill: none;
+            stroke: red;
             shape-rendering: crispEdges;
         }
     `],
@@ -152,5 +157,65 @@ export class DataPlotComponent implements OnChanges {
             .scale(xScale)
             .orient('left')
             .ticks(5);
+    }
+
+    getLinearRegressionCoeffients() {
+        var that = this,
+            socket: any = io(),
+            train_data: any = this._data;
+
+        socket.emit('linear regression', train_data);
+
+        socket.on('linear regression progress', function(coefficients: any) {
+            console.log('coefficients: ', coefficients);
+            var intercept = coefficients[0][0],
+                slope = coefficients[1][0],
+                fn = function(x: any) {
+                    return intercept + slope * x;
+                };
+
+            that.clearFit();
+            that.showFit(fn);
+        });
+
+        socket.on('linear regression done', function(coefficients: any) {
+            alert('gradient descent complete');
+        });
+    }
+
+    clearFit() {
+        d3.select(this._el.nativeElement).select('.fit').remove();
+    }
+
+    showFit(fn: any) {
+        var svg = d3.select(this._el.nativeElement).select('.chart');
+
+        var chart = svg.append('g')
+            .classed('display fit', true)
+            .attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top + ')');
+
+        var xScale = this.getXScale(this._rows),
+            yScale = this.getYScale(this._rows);
+
+        var line = d3.svg.line()
+            .x(function(d: any) {
+                return xScale(d.x);
+            })
+            .y(function(d: any) {
+                return yScale(fn(d.x));
+            })
+            .interpolate('monotone');
+
+        chart.selectAll('.trendline').data([this._rows]).enter()
+            .append('path')
+            .classed('trendline', true);
+
+        chart.selectAll('.trendline')
+            .attr('d', function(d) {
+                return line(d);
+            });
+
+        chart.selectAll('.trendline').data([this._rows]).exit()
+            .remove();
     }
 }

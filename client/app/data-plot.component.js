@@ -130,6 +130,48 @@ System.register(['angular2/core', './data.service', './point', 'd3'], function(e
                         .orient('left')
                         .ticks(5);
                 };
+                DataPlotComponent.prototype.getLinearRegressionCoeffients = function () {
+                    var that = this, socket = io(), train_data = this._data;
+                    socket.emit('linear regression', train_data);
+                    socket.on('linear regression progress', function (coefficients) {
+                        console.log('coefficients: ', coefficients);
+                        var intercept = coefficients[0][0], slope = coefficients[1][0], fn = function (x) {
+                            return intercept + slope * x;
+                        };
+                        that.clearFit();
+                        that.showFit(fn);
+                    });
+                    socket.on('linear regression done', function (coefficients) {
+                        alert('gradient descent complete');
+                    });
+                };
+                DataPlotComponent.prototype.clearFit = function () {
+                    d3.select(this._el.nativeElement).select('.fit').remove();
+                };
+                DataPlotComponent.prototype.showFit = function (fn) {
+                    var svg = d3.select(this._el.nativeElement).select('.chart');
+                    var chart = svg.append('g')
+                        .classed('display fit', true)
+                        .attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top + ')');
+                    var xScale = this.getXScale(this._rows), yScale = this.getYScale(this._rows);
+                    var line = d3.svg.line()
+                        .x(function (d) {
+                        return xScale(d.x);
+                    })
+                        .y(function (d) {
+                        return yScale(fn(d.x));
+                    })
+                        .interpolate('monotone');
+                    chart.selectAll('.trendline').data([this._rows]).enter()
+                        .append('path')
+                        .classed('trendline', true);
+                    chart.selectAll('.trendline')
+                        .attr('d', function (d) {
+                        return line(d);
+                    });
+                    chart.selectAll('.trendline').data([this._rows]).exit()
+                        .remove();
+                };
                 __decorate([
                     core_1.Input('data'), 
                     __metadata('design:type', Array)
@@ -137,8 +179,8 @@ System.register(['angular2/core', './data.service', './point', 'd3'], function(e
                 DataPlotComponent = __decorate([
                     core_1.Component({
                         selector: 'data-plot',
-                        template: '',
-                        styles: ["\n        .chart {\n            background-color: #F5F2EB;\n            border: 1px solid #CCC;\n        }\n        .axis path,\n        .axis line {\n            fill: none;\n            stroke: #000;\n            shape-rendering: crispEdges;\n        }\n    "],
+                        template: '<button type="button" (click)="getLinearRegressionCoeffients()">Run Gradient Descent</button>',
+                        styles: ["\n        .chart {\n            background-color: #F5F2EB;\n            border: 1px solid #CCC;\n        }\n        .axis path,\n        .axis line {\n            fill: none;\n            stroke: #000;\n            shape-rendering: crispEdges;\n        }\n        .trendline {\n            fill: none;\n            stroke: red;\n            shape-rendering: crispEdges;\n        }\n    "],
                         encapsulation: core_1.ViewEncapsulation.None
                     }), 
                     __metadata('design:paramtypes', [data_service_1.DataService, core_1.ElementRef])
