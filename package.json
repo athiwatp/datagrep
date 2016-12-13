@@ -1,60 +1,23 @@
 {
   "name": "datagrep",
-  "version": "0.0.1",
-  "description": "A JavaScript Machine Learning App",
-  "main": "server/server.js",
+  "version": "0.0.3",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "concurrent \"npm run tsc:w\" \"node .\" ",
-    "pretest": "jshint .",
-    "test": "jasmine",
-    "tsc": "tsc",
-    "tsc:w": "tsc -w"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mjschock/datagrep.git"
+    "url": "git+https://github.com/mjschock/datagrep.git"
   },
-  "keywords": [
-    "javascript",
-    "machine learning"
-  ],
-  "author": "Michael Schock",
+  "author": "mjschock",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mjschock/datagrep/issues"
   },
-  "homepage": "https://github.com/mjschock/datagrep",
+  "homepage": "https://github.com/mjschock/datagrep#readme",
   "dependencies": {
-    "angular2": "2.0.0-beta.2",
-    "co": "^4.6.0",
-    "compression": "^1.6.1",
-    "cors": "^2.5.2",
-    "csv-parse": "^1.0.1",
-    "d3": "^3.5.14",
-    "decimal.js": "^4.0.3",
-    "es5-shim": "^4.5.2",
-    "es6-promise": "^3.0.2",
-    "es6-shim": "^0.33.3",
-    "flux": "^2.1.1",
-    "immutable": "^3.7.6",
-    "jasmine": "^2.3.2",
-    "jshint": "^2.9.1",
-    "loopback": "^2.22.0",
-    "loopback-boot": "^2.6.5",
-    "loopback-component-explorer": "^2.2.0",
-    "loopback-datasource-juggler": "^2.39.0",
-    "numbers": "^0.6.0",
-    "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.0",
-    "serve-favicon": "^2.0.1",
-    "socket.io": "^1.4.5",
-    "systemjs": "0.19.6",
-    "typescript": "^1.8.0",
-    "zone.js": "0.5.10"
-  },
-  "devDependencies": {
-    "concurrently": "^1.0.0",
-    "typescript": "^1.7.5",
-    "jshint": "^2.5.6"
+    "decimal.js": "^7.1.0",
+    "numbers": "^0.6.0"
   }
 }
