@@ -2,6 +2,6 @@
 
 A JavaScript Machine Learning Library
 
-!! Work in progress !!
+[![Travis](https://travis-ci.org/mjschock/datagrep.svg)](https://travis-ci.org/mjschock/datagrep)
 
-[![Travis](https://travis-ci.org/mjschock/datagrep.svg?branch=master)]()
+!! Work in progress !!
