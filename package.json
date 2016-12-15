@@ -1,10 +1,12 @@
 {
   "name": "datagrep",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/datagrep.js",
   "module": "src/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rimraf dist && webpack",
     "prepublish": "npm run build",
