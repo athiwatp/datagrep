@@ -405,7 +405,7 @@ exports.regression_gradient_descent_v4 = function*(feature_matrix, output, initi
 
 exports.readCsv = function(file) {
     return new Promise(function(resolve, reject) {
-        var fs = require('fs'),
+        var fs = require('graceful-fs'),
             parse = require('csv-parse'),
             parser = parse({
                 delimiter: ',',

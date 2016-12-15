@@ -3,7 +3,7 @@ var numbers = require('numbers'),
 
 function readCsvFile(file) {
     return new Promise(function(resolve, reject) {
-        var fs = require('fs'),
+        var fs = require('graceful-fs'),
             parse = require('csv-parse'),
             parser = parse({
                 delimiter: ','

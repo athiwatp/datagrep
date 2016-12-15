@@ -2,8 +2,12 @@
   "name": "datagrep",
   "version": "0.0.6",
   "description": "",
-  "main": "index.js",
+  "main": "dist/datagrep.js",
+  "module": "src/index.js",
+  "files": ["dist"],
   "scripts": {
+    "build": "rimraf dist && webpack",
+    "prepublish": "npm run build",
     "test": "karma start --single-run"
   },
   "repository": {
@@ -17,14 +21,18 @@
   },
   "homepage": "https://github.com/mjschock/datagrep#readme",
   "dependencies": {
+    "csv-parse": "^1.1.7",
     "decimal.js": "^7.1.0",
-    "numbers": "^0.6.0"
+    "graceful-fs": "^4.1.11",
+    "numbers": "^0.6.0",
+    "rimraf": "^2.5.4"
   },
   "devDependencies": {
     "jasmine": "2.5.2",
     "jasmine-core": "2.5.2",
     "karma": "1.3.0",
     "karma-jasmine": "1.1.0",
-    "karma-phantomjs-launcher": "1.0.2"
+    "karma-phantomjs-launcher": "1.0.2",
+    "webpack": "2.1.0-beta.28"
   }
 }
