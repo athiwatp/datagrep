@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Tue Dec 13 2016 18:41:07 GMT-0800 (PST)
+var webpackConfig = require('./webpack.config');
 
 module.exports = function(config) {
   config.set({
@@ -15,8 +16,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'src/*.js',
-      'spec/**/*[sS]pec.js'
+      // all files ending in ".spec"
+      {pattern: 'spec/**/*.spec.js', watched: false, included: true}
+      // each file acts as entry point for the webpack configuration
     ],
 
 
@@ -28,6 +30,26 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'spec/**/*[sS]pec.js': ['webpack']
+    },
+
+
+    webpack: {
+      // karma watches the test entry points
+      // (you don't need to specify the entry option)
+      // webpack watches dependencies
+
+      // webpack configuration
+      // externals: webpackConfig.externals,
+      module: webpackConfig.module,
+      target: module.target
+    },
+
+
+    webpackMiddleware: {
+      noInfo: true,
+      // stats: 'errors-only'
+      stats: 'none'
     },
 
 

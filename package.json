@@ -1,7 +1,7 @@
 {
   "name": "datagrep",
   "version": "0.1.1",
-  "description": "",
+  "description": "A JavaScript Machine Learning Library",
   "main": "dist/datagrep.js",
   "module": "src/index.js",
   "files": [
@@ -23,18 +23,23 @@
   },
   "homepage": "https://github.com/mjschock/datagrep#readme",
   "dependencies": {
-    "csv-parse": "^1.1.7",
-    "decimal.js": "^7.1.0",
-    "graceful-fs": "^4.1.11",
-    "numbers": "^0.6.0",
-    "rimraf": "^2.5.4"
+    "babel-runtime": "6.20.0",
+    "csv-parse": "1.1.7",
+    "numjs": "0.12.1"
   },
   "devDependencies": {
+    "babel-core": "6.21.0",
+    "babel-loader": "6.2.10",
+    "babel-plugin-transform-runtime": "6.15.0",
+    "babel-preset-latest": "6.16.0",
     "jasmine": "2.5.2",
     "jasmine-core": "2.5.2",
     "karma": "1.3.0",
     "karma-jasmine": "1.1.0",
     "karma-phantomjs-launcher": "1.0.2",
+    "karma-webpack": "^1.8.0",
+    "raw-loader": "0.5.1",
+    "rimraf": "^2.5.4",
     "webpack": "2.1.0-beta.28"
   }
 }
