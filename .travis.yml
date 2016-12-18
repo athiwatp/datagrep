@@ -6,6 +6,7 @@ addons:
       - ubuntu-toolchain-r-test
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gcc48 --enable-all-languages; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install homebrew/science/vips --with-webp --with-graphicsmagick; fi
 env:
   - CXX=g++-4.8
