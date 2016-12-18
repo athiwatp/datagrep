@@ -1,9 +1,4 @@
-import computeCost from './app/computeCost';
+import app from './app';
 
-export {
-    computeCost
-}
-
-export default {
-    computeCost
-}
+export default app;
+export * from './app';
