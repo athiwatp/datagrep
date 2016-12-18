@@ -5,7 +5,5 @@ env:
   - CXX=g++-6.2
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
       - g++-6.2
