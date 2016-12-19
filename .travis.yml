@@ -6,12 +6,10 @@ addons:
       - ubuntu-toolchain-r-test
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gcc48; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install homebrew/science/vips --with-webp --with-graphicsmagick; fi
 env:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then CXX=g++-4.8; fi
+  - CXX=g++-4.8
 language: node_js
-python: 2.7
 node_js:
   - "node"
 os:
