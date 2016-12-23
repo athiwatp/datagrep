@@ -1,6 +1,5 @@
 import { errors } from '../utils/common';
 import { dot, multiply, numRows, subtract, transpose } from '../utils/linearAlgebra';
-import computeCost from './computeCost';
 
 export default (X, y, theta, alpha, numIters) => {
     const k = alpha/numRows(y);
