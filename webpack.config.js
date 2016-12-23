@@ -1,5 +1,3 @@
-var webpack = require('webpack');
-
 module.exports = {
   entry: {
     datagrep: './src/index.js'
@@ -12,7 +10,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     library: 'datagrep',
-    libraryTarget:'umd',
+    libraryTarget: 'umd',
     path: './dist'
   },
   module: {

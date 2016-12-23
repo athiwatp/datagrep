@@ -8,9 +8,14 @@
     "dist"
   ],
   "scripts": {
-    "build": "rimraf dist && webpack",
+    "build": "webpack",
+    "clean": "rimraf dist",
+    "lint": "standard --verbose | snazzy",
+    "karma": "karma start --single-run",
+    "prebuild": "npm run clean",
     "prepublish": "npm run build",
-    "test": "karma start --single-run"
+    "tdd": "karma start",
+    "test": "npm run lint && npm run karma"
   },
   "repository": {
     "type": "git",
@@ -40,6 +45,8 @@
     "karma-webpack": "^1.8.0",
     "raw-loader": "0.5.1",
     "rimraf": "^2.5.4",
+    "snazzy": "5.0.0",
+    "standard": "8.6.0",
     "webpack": "2.1.0-beta.28"
   }
 }
