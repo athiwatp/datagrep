@@ -6,8 +6,8 @@ describe("datagrep.computeCost", () => {
 
   it("computes the cost", async (done) => {
       let data = await csv.parseCsv(text);
-      let { X, y } = linearAlgebra.parseVariableMatrices(data);
-      let theta = linearAlgebra.getNullMatrix(1, linearAlgebra.numCols(X));
+      let { X, y } = linearAlgebra.splitXy(data);
+      let theta = linearAlgebra.nullMatrix(linearAlgebra.numCols(X), 1);
       let cost = datagrep.computeCost(X, y, theta);
 
       expect(Number.parseFloat(cost.toFixed(4))).toBe(32.0727);

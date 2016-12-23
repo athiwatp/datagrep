@@ -1,8 +1,10 @@
-import { numRows } from '../utils/linearAlgebra';
+import { errors } from '../utils/common';
+import { multiply, numRows, subtract, square } from '../utils/linearAlgebra';
 
 export default (X, y, theta) => {
-    let errors = X.dot(theta.T).subtract(y),
-        cost = 1/(2*numRows(X)) * (errors).T.dot(errors).tolist()[0][0];
+    let m = numRows(X),
+        _errors = errors(X, theta, y),
+        cost = 1/(2*m) * square(_errors);
 
     return cost;
 }
