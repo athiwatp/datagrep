@@ -15,7 +15,9 @@ matrix:
        - os: linux
          env: CXX=g++-4.8
          after_script:
+           - npm run coverage
            - npm run coveralls
+           - npm run codeclimate
 node_js:
   - "node"
 os:
