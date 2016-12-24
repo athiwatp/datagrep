@@ -1,4 +1,4 @@
-/* eslint-env jasmine */
+/* eslint-env jest */
 import datagrep, { default as dgrep, gradientDescent, computeCost, utils } from '../src/index'
 
 describe('datagrep API', () => {

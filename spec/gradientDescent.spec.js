@@ -1,12 +1,12 @@
-/* eslint-env jasmine */
+/* eslint-env jest */
 import datagrep, { utils } from '../src/index'
-import text from './ex1data1.txt'
+import path from 'path'
 
 describe('datagrep.gradientDescent', () => {
   const { csv, linearAlgebra } = utils
 
   it('performs gradient descent', async (done) => {
-    const data = await csv.parseCsv(text)
+    const data = await csv.parseCsv(path.resolve('spec/ex1data1.csv'))
     const { X, y } = linearAlgebra.splitXy(data)
     const theta = linearAlgebra.nullMatrix(linearAlgebra.numCols(X), 1)
     const alpha = 0.01
