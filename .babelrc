@@ -11,7 +11,8 @@
                 ["transform-runtime", {
                     "polyfill": false
                 }]
-            ]
+            ],
+            "sourceMaps": "inline"
         }
     }
 }
