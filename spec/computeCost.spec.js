@@ -1,7 +1,6 @@
 /* eslint-env jest */
 import datagrep, { utils } from '../src/index'
 import path from 'path'
-
 describe('datagrep.computeCost', () => {
   const { csv, linearAlgebra } = utils
 
@@ -11,6 +10,6 @@ describe('datagrep.computeCost', () => {
     const theta = linearAlgebra.nullMatrix(linearAlgebra.numCols(X), 1)
     const cost = datagrep.computeCost(X, y, theta)
 
-    expect(Number.parseFloat(cost.toFixed(7))).toBe(32.0727339)
+    expect(Number.parseFloat(cost)).toBe(32.072733877455676)
   })
 })

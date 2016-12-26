@@ -10,8 +10,8 @@ describe('datagrep.normalEqn', () => {
     const { X, y } = linearAlgebra.splitXy(data)
     const [theta0, theta1] = datagrep.normalEqn(X, y)
 
-    expect(Number.parseFloat(theta0[0].toFixed(7))).toBe(-3.8957809)
-    expect(Number.parseFloat(theta1[0].toFixed(7))).toBe(1.1930336)
+    expect(Number.parseFloat(theta0[0])).toBe(-3.8957808783117756)
+    expect(Number.parseFloat(theta1[0])).toBe(1.1930336441895864)
   })
 
   it('computes theta for sample #1', async () => {
@@ -19,8 +19,8 @@ describe('datagrep.normalEqn', () => {
     const { X, y } = linearAlgebra.splitXy(data)
     const [theta0, theta1, theta2] = datagrep.normalEqn(X, y)
 
-    expect(Number.parseFloat(theta0[0].toFixed(7))).toBe(89597.909545)
-    expect(Number.parseFloat(theta1[0].toFixed(7))).toBe(139.210674)
-    expect(Number.parseFloat(theta2[0].toFixed(7))).toBe(-8738.0191129)
+    expect(Number.parseFloat(theta0[0])).toBe(89597.90954502113)
+    expect(Number.parseFloat(theta1[0])).toBe(139.2106740175284)
+    expect(Number.parseFloat(theta2[0])).toBe(-8738.019112926442)
   })
 })

@@ -86,13 +86,11 @@ function nullMatrix (numRows, numCols) {
 }
 
 function numCols (a) {
-  let cols = nj.array(a).shape[1] || 1
-  return cols
+  return nj.array(a).shape[1] || 1
 }
 
 function numRows (a) {
-  let rows = nj.array(a).shape[0]
-  return rows
+  return nj.array(a).shape[0]
 }
 
 function pinv (M, rcond = 1e-15) {

@@ -1,57 +1,60 @@
 /* eslint-env jest */
-import datagrep, { utils } from '../src/index'
+import { utils } from '../src/index'
 import path from 'path'
+const parseFloat = Number.parseFloat
 
 describe('datagrep.linearAlgebra', () => {
   const { csv, linearAlgebra } = utils
+  const { dot, splitXy, svd, transpose } = linearAlgebra
 
   describe('svd', () => {
     it('returns the singular value decomposition', async () => {
       const data = await csv.parseCsv(path.resolve('spec/data/sample1.csv'))
-      const { X } = linearAlgebra.splitXy(data)
-      const transposeX = linearAlgebra.transpose(X)
-      const M = linearAlgebra.dot(transposeX, X)
-      const [U, Σ, V, s] = linearAlgebra.svd(M)
-      const transposeV = linearAlgebra.transpose(V)
+      const { X } = splitXy(data)
+      const transposeX = transpose(X)
+      const M = dot(transposeX, X)
+      const [U, Σ, V, s] = svd(M)
+      const transposeV = transpose(V)
 
-      const _M = linearAlgebra.dot(U, linearAlgebra.dot(Σ, V))
+      const _M = dot(U, dot(Σ, V))
 
-      expect(Number.parseFloat(U[0][0].toFixed(7))).toBe(-0.000433)
-      expect(Number.parseFloat(U[0][1].toFixed(7))).toBe(0.2892451)
-      expect(Number.parseFloat(U[0][2].toFixed(7))).toBe(-0.957255)
-      expect(Number.parseFloat(U[1][0].toFixed(7))).toBe(-0.9999989)
-      expect(Number.parseFloat(U[1][1].toFixed(7))).toBe(-0.0015078)
-      expect(Number.parseFloat(U[1][2].toFixed(7))).toBe(-0.0000033)
-      expect(Number.parseFloat(U[2][0].toFixed(7))).toBe(-0.0014443)
-      expect(Number.parseFloat(U[2][1].toFixed(7))).toBe(0.9572539)
-      expect(Number.parseFloat(U[2][2].toFixed(7))).toBe(0.2892454)
+      expect(parseFloat(U[0][0])).toBe(-0.0004329688371766067)
+      expect(parseFloat(U[0][1])).toBe(0.2892450879376866)
+      expect(parseFloat(U[0][2])).toBe(-0.9572549773398447)
+      expect(parseFloat(U[1][0])).toBe(-0.9999988632238788)
+      expect(parseFloat(U[1][1])).toBe(-0.001507826260650405)
+      expect(parseFloat(U[1][2])).toBe(-0.0000033042339224693554)
+      expect(parseFloat(U[2][0])).toBe(-0.0014443299264028464)
+      expect(parseFloat(U[2][1])).toBe(0.9572538877246142)
+      expect(parseFloat(U[2][2])).toBe(0.2892454119725601)
 
-      expect(Number.parseFloat(Σ[0][0].toFixed(7))).toBe(217179899.769454)
-      expect(Number.parseFloat(Σ[1][1].toFixed(7))).toBe(49.9280025) // matlab says 0
-      expect(Number.parseFloat(Σ[2][2].toFixed(7))).toBe(2.3025436) // matlab says 0
+      expect(parseFloat(Σ[0][0])).toBe(217179899.76945397)
+      expect(parseFloat(Σ[1][1])).toBe(49.92800246161647) // matlab says 0
+      expect(parseFloat(Σ[2][2])).toBe(2.3025435515414254) // matlab says 0
       expect(Σ[0][0]).toBe(s[0])
       expect(Σ[1][1]).toBe(s[1])
       expect(Σ[2][2]).toBe(s[2])
 
-      expect(Number.parseFloat(transposeV[0][0].toFixed(7))).toBe(-0.000433)
-      expect(Number.parseFloat(transposeV[0][1].toFixed(7))).toBe(0.2892451)
-      expect(Number.parseFloat(transposeV[0][2].toFixed(7))).toBe(-0.957255)
-      expect(Number.parseFloat(transposeV[1][0].toFixed(7))).toBe(-0.9999989)
-      expect(Number.parseFloat(transposeV[1][1].toFixed(7))).toBe(-0.0015078)
-      expect(Number.parseFloat(transposeV[1][2].toFixed(7))).toBe(-0.0000033)
-      expect(Number.parseFloat(transposeV[2][0].toFixed(7))).toBe(-0.0014443)
-      expect(Number.parseFloat(transposeV[2][1].toFixed(7))).toBe(0.9572539)
-      expect(Number.parseFloat(transposeV[2][2].toFixed(7))).toBe(0.2892454)
+      expect(parseFloat(transposeV[0][0])).toBe(-0.00043296883717683533)
+      expect(parseFloat(transposeV[0][1])).toBe(0.28924508793749687)
+      expect(parseFloat(transposeV[0][2])).toBe(-0.957254977339902)
+      expect(parseFloat(transposeV[1][0])).toBe(-0.9999988632238789)
+      expect(parseFloat(transposeV[1][1])).toBe(-0.0015078262606505112)
+      expect(parseFloat(transposeV[1][2])).toBe(-0.000003304233921993771)
+      expect(parseFloat(transposeV[2][0])).toBe(-0.0014443299264028462)
+      expect(parseFloat(transposeV[2][1])).toBe(0.9572538877246716)
+      expect(parseFloat(transposeV[2][2])).toBe(0.28924541197237047)
 
-      expect(_M[0][0].toFixed(7)).toBe(M[0][0].toFixed(7))
-      expect(_M[0][1].toFixed(7)).toBe(M[0][1].toFixed(7))
-      expect(_M[0][2].toFixed(7)).toBe(M[0][2].toFixed(7))
-      expect(_M[1][0].toFixed(7)).toBe(M[1][0].toFixed(7))
-      expect(_M[1][1].toFixed(7)).toBe(M[1][1].toFixed(7))
-      expect(_M[1][2].toFixed(7)).toBe(M[1][2].toFixed(7))
-      expect(_M[2][0].toFixed(7)).toBe(M[2][0].toFixed(7))
-      expect(_M[2][1].toFixed(7)).toBe(M[2][1].toFixed(7))
-      expect(_M[2][2].toFixed(7)).toBe(M[2][2].toFixed(7))
+      let precision = 12
+      expect(parseFloat(_M[0][0].toPrecision(precision))).toBe(M[0][0])
+      expect(parseFloat(_M[0][1].toPrecision(precision))).toBe(M[0][1])
+      expect(parseFloat(_M[0][2].toPrecision(precision))).toBe(M[0][2])
+      expect(parseFloat(_M[1][0].toPrecision(precision))).toBe(M[1][0])
+      expect(parseFloat(_M[1][1].toPrecision(precision))).toBe(M[1][1])
+      expect(parseFloat(_M[1][2].toPrecision(precision))).toBe(M[1][2])
+      expect(parseFloat(_M[2][0].toPrecision(precision))).toBe(M[2][0])
+      expect(parseFloat(_M[2][1].toPrecision(precision))).toBe(M[2][1])
+      expect(parseFloat(_M[2][2].toPrecision(precision))).toBe(M[2][2])
     })
   })
 })

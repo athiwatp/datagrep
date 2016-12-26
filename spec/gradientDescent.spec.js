@@ -13,7 +13,7 @@ describe('datagrep.gradientDescent', () => {
     const iterations = 1500
     const [theta0, theta1] = datagrep.gradientDescent(X, y, theta, alpha, iterations)
 
-    expect(Number.parseFloat(theta0[0].toFixed(7))).toBe(-3.6302914)
-    expect(Number.parseFloat(theta1[0].toFixed(7))).toBe(1.1663624)
+    expect(Number.parseFloat(theta0[0])).toBe(-3.63029143940436)
+    expect(Number.parseFloat(theta1[0])).toBe(1.166362350335582)
   })
 })
