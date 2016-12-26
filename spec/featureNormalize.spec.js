@@ -11,9 +11,9 @@ describe('datagrep.featureNormalize', () => {
     const [normX, mu, sigma] = datagrep.featureNormalize(X)
 
     expect(normX.length).toBe(X.length)
-    expect(Number.parseFloat(mu[0].toFixed(5))).toBe(2000.68085)
-    expect(Number.parseFloat(mu[1].toFixed(5))).toBe(3.17021)
-    expect(Number.parseFloat(sigma[0].toFixed(5))).toBe(794.70235)
-    expect(Number.parseFloat(sigma[1].toFixed(5))).toBe(0.76098)
+    expect(Number.parseFloat(mu[0].toFixed(7))).toBe(2000.6808511)
+    expect(Number.parseFloat(mu[1].toFixed(7))).toBe(3.1702128)
+    expect(Number.parseFloat(sigma[0].toFixed(7))).toBe(794.7023535)
+    expect(Number.parseFloat(sigma[1].toFixed(7))).toBe(0.7609819)
   })
 })

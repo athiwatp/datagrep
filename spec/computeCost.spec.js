@@ -11,6 +11,6 @@ describe('datagrep.computeCost', () => {
     const theta = linearAlgebra.nullMatrix(linearAlgebra.numCols(X), 1)
     const cost = datagrep.computeCost(X, y, theta)
 
-    expect(Number.parseFloat(cost.toFixed(5))).toBe(32.07273)
+    expect(Number.parseFloat(cost.toFixed(7))).toBe(32.0727339)
   })
 })

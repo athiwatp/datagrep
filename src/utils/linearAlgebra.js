@@ -1,18 +1,32 @@
 import nj from 'numjs'
+import numeric from 'numericjs'
 
 export {
   divide,
   dot,
+  max,
   mean,
   multiply,
   nullMatrix,
   numCols,
   numRows,
+  pinv,
   splitXy,
   square,
   std,
   subtract,
+  svd,
   transpose
+}
+
+function _approximateMachineEpsilon () {
+  let epsilon = 1.0
+
+  while ((1.0 + 0.5 * epsilon) !== 1.0) {
+    epsilon = 0.5 * epsilon
+  }
+
+  return epsilon
 }
 
 function divide (a, b) {
@@ -34,6 +48,11 @@ function divide (a, b) {
 
 function dot (a, b) {
   return nj.dot(a, b).tolist()
+}
+
+function max (a) {
+  // TODO: accomodate any dimension
+  return nj.max(a)
 }
 
 function mean (a) {
@@ -67,11 +86,42 @@ function nullMatrix (numRows, numCols) {
 }
 
 function numCols (a) {
-  return nj.array(a).shape[1]
+  let cols = nj.array(a).shape[1] || 1
+  return cols
 }
 
 function numRows (a) {
-  return nj.array(a).shape[0]
+  let rows = nj.array(a).shape[0]
+  return rows
+}
+
+function pinv (M, rcond = 1e-15) {
+  let [U,, V, s] = svd(M)
+  const ε = _approximateMachineEpsilon()
+  const m = numRows(U)
+  const n = numCols(transpose(V))
+  const diagDim = Math.max(m, n)
+  const tolerance = ε * diagDim * max(s)
+  const pinvΣ = transpose(numeric.diag(s.map((sNum, index) => {
+    return index < diagDim && sNum > tolerance ? 1 / sNum : 0
+  })))
+  const transposeU = transpose(U)
+  // const pinvM = dot(V, dot(pinvΣ, transposeU))
+  const pinvM = dot(transpose(V), dot(pinvΣ, transposeU))
+
+  return pinvM
+}
+
+// singular value decomposition
+function svd (a) {
+  const res = numeric.svd(a)
+  const U = res.U
+  const s = res.S // singular values, or s-numbers
+  const Σ = numeric.diag(s)
+  const transposeV = res.V
+  const V = transpose(transposeV)
+
+  return [U, Σ, V, s]
 }
 
 function splitXy (data, addOnes = true) {
