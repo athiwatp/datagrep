@@ -140,10 +140,11 @@ function square (a) {
 
 function std (a) {
   const t = nj.array(a).T
-
+  const options = { 'ddof': 1 }
   const stdDevs = t.tolist().map((row) => {
-    return nj.array(row).std(false)
+    return nj.array(row).std(options)
   })
+
   return stdDevs
 }
 
