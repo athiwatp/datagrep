@@ -104,7 +104,6 @@ function pinv (M, rcond = 1e-15) {
     return index < diagDim && sNum > tolerance ? 1 / sNum : 0
   })))
   const transposeU = transpose(U)
-  // const pinvM = dot(V, dot(pinvΣ, transposeU))
   const pinvM = dot(transpose(V), dot(pinvΣ, transposeU))
 
   return pinvM
