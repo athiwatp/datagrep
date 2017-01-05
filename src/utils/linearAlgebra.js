@@ -29,21 +29,25 @@ function _approximateMachineEpsilon () {
   return epsilon
 }
 
-function divide (a, b) {
-  // TODO: DRY - this is very similar to subtract
+function _arithmetic (operation, a, b) {
+  operation = nj[operation]
   a = nj.array(a)
   b = nj.array(b)
 
   if (a.size !== b.size) {
-    let quotients = b.tolist().map((currentValue, index) => {
+    let results = b.tolist().map((currentValue, index) => {
       let col = a.slice(0, [index, index + 1]).tolist()
-      let quotient = nj.divide(col, currentValue).tolist()
-      return quotient
+      let result = operation(col, currentValue).tolist()
+      return result
     })
-    return transpose(quotients)[0]
+    return transpose(results)[0]
   }
 
-  return nj.divide(a, b).tolist()
+  return operation(a, b).tolist()
+}
+
+function divide (a, b) {
+  return _arithmetic('divide', a, b)
 }
 
 function dot (a, b) {
@@ -149,19 +153,7 @@ function std (a) {
 }
 
 function subtract (a, b) {
-  a = nj.array(a)
-  b = nj.array(b)
-
-  if (a.size !== b.size) {
-    let diffs = b.tolist().map((currentValue, index) => {
-      let col = a.slice(0, [index, index + 1]).tolist()
-      let diff = nj.subtract(col, currentValue).tolist()
-      return diff
-    })
-    return transpose(diffs)[0]
-  }
-
-  return nj.subtract(a, b).tolist()
+  return _arithmetic('subtract', a, b)
 }
 
 function transpose (a) {
