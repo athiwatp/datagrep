@@ -3,6 +3,7 @@ addons:
     packages:
       - gcc-4.8
       - g++-4.8
+      - libblas-dev
     sources:
       - ubuntu-toolchain-r-test
 before_install:
