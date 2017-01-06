@@ -1,7 +1,9 @@
 import nj from 'numjs'
 import numeric from 'numericjs'
+import { Vector } from 'vectorious'
 
 export {
+  add,
   divide,
   dot,
   max,
@@ -44,6 +46,10 @@ function _arithmetic (operation, a, b) {
   }
 
   return operation(a, b).tolist()
+}
+
+function add (a, b) {
+  return new Vector(a).add(new Vector(b)).toArray()
 }
 
 function divide (a, b) {

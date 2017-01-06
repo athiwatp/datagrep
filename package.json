@@ -16,7 +16,8 @@
     "lint": "standard --verbose | snazzy",
     "prebuild": "npm run clean",
     "prepublish": "npm run build",
-    "tdd": "node --debug-brk ./node_modules/.bin/jest -i --watch",
+    "tdd": "jest -i --watch",
+    "tdd-debug": "node --debug-brk ./node_modules/.bin/jest -i --watch",
     "test": "npm run lint && jest"
   },
   "repository": {
@@ -33,7 +34,8 @@
     "babel-runtime": "6.20.0",
     "csv-parse": "1.1.7",
     "numericjs": "1.2.6",
-    "numjs": "0.12.3"
+    "numjs": "0.12.3",
+    "vectorious": "4.7.0"
   },
   "devDependencies": {
     "babel-core": "6.21.0",

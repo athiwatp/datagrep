@@ -2,10 +2,11 @@
 import { utils } from '../src/index'
 import path from 'path'
 const parseFloat = Number.parseFloat
+const precision = 12
 
 describe('datagrep.linearAlgebra', () => {
   const { csv, linearAlgebra } = utils
-  const { dot, splitXy, svd, transpose } = linearAlgebra
+  const { add, dot, multiply, splitXy, subtract, svd, transpose } = linearAlgebra
 
   describe('svd', () => {
     it('returns the singular value decomposition', async () => {
@@ -45,7 +46,6 @@ describe('datagrep.linearAlgebra', () => {
       expect(parseFloat(transposeV[2][1])).toBe(0.9572538877246716)
       expect(parseFloat(transposeV[2][2])).toBe(0.28924541197237047)
 
-      let precision = 12
       expect(parseFloat(_M[0][0].toPrecision(precision))).toBe(M[0][0])
       expect(parseFloat(_M[0][1].toPrecision(precision))).toBe(M[0][1])
       expect(parseFloat(_M[0][2].toPrecision(precision))).toBe(M[0][2])
@@ -55,6 +55,40 @@ describe('datagrep.linearAlgebra', () => {
       expect(parseFloat(_M[2][0].toPrecision(precision))).toBe(M[2][0])
       expect(parseFloat(_M[2][1].toPrecision(precision))).toBe(M[2][1])
       expect(parseFloat(_M[2][2].toPrecision(precision))).toBe(M[2][2])
+    })
+  })
+
+  describe('add', () => {
+    it('adds vectors', () => {
+      const a = [8.218, -9.341]
+      const b = [-1.129, 2.111]
+      const sum = add(a, b)
+
+      expect(sum[0]).toBe(7.089)
+      expect(parseFloat(sum[1].toPrecision(precision))).toBe(-7.230)
+    })
+  })
+
+  describe('subtract', () => {
+    it('subtracts vectors', () => {
+      const a = [7.119, 8.215]
+      const b = [-8.223, 0.878]
+      const diff = subtract(a, b)
+
+      expect(diff[0]).toBe(15.342)
+      expect(diff[1]).toBe(7.337)
+    })
+  })
+
+  describe('multiply', () => {
+    it('multiplies a scalar and a vector', () => {
+      const a = 7.41
+      const b = [1.671, -1.012, -0.318]
+      const product = multiply(a, b)
+
+      expect(product[0]).toBe(12.38211)
+      expect(product[1]).toBe(-7.49892)
+      expect(product[2]).toBe(-2.35638)
     })
   })
 })
