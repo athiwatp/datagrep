@@ -12,3 +12,25 @@ A JavaScript Machine Learning Library
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![Coverage Status](https://coveralls.io/repos/github/mjschock/datagrep/badge.svg)](https://coveralls.io/github/mjschock/datagrep)
 [![Known Vulnerabilities](https://snyk.io/test/github/mjschock/datagrep/badge.svg)](https://snyk.io/test/github/mjschock/datagrep)
+
+## Prerequisites
+### Debian/Ubuntu
+```bash
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install gcc-4.8 g++-4.8 libblas-dev
+```
+* Environment variables:
+ * CXX=g++-4.8
+
+### macOS
+```bash
+brew update
+brew install homebrew/science/vips --with-webp --with-graphicsmagick
+```
+* Environment variables:
+ * CC=gcc-4.8
+ * CXX=g++-4.8
+
+### Windows
+* TODO
