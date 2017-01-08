@@ -1,6 +1,6 @@
 {
   "name": "datagrep",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "A JavaScript Machine Learning Library",
   "main": "dist/datagrep.js",
   "module": "src/index.js",
