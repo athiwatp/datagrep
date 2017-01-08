@@ -167,6 +167,7 @@ describe('datagrep.linearAlgebra', () => {
     const f = [-1.821, 1.072, -2.94]
     const g = [2.118, 4.827]
     const h = [0, 0]
+    console.log('Math.PI: ', Math.PI)
 
     it('returns a boolean indicating whether the vectors are parallel', () => {
       expect(isParallel(a, b)).toBe(true)

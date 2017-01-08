@@ -75,11 +75,13 @@ function dot (a, b) {
 
 function isParallel (a, b) {
   let radians = angle(a, b)
+  console.log('radians: ', radians)
   return isNaN(radians) || radians === 0 || radians === Math.PI
 }
 
 function isOrthogonal (a, b) {
   let radians = angle(a, b)
+  console.log('radians: ', radians)
   return isNaN(radians) || radians === Math.PI / 2
 }
 
