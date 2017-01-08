@@ -111,7 +111,7 @@ describe('datagrep.linearAlgebra', () => {
       const b = [8.813, -1.331, -6.247]
 
       expect(magnitude(a)).toBe(7.440282924728065)
-      expect(magnitude(b)).toBe(10.884187567292289)
+      expect(parseFloat(magnitude(b).toPrecision(16))).toBe(10.88418756729229)
     })
   })
 
@@ -124,7 +124,7 @@ describe('datagrep.linearAlgebra', () => {
 
       expect(normA[0]).toBe(0.9339352140866403)
       expect(normA[1]).toBe(-0.35744232526233)
-      expect(normB[0]).toBe(0.3404012959433014)
+      expect(parseFloat(normB[0].toPrecision(15))).toBe(0.340401295943301)
       expect(normB[1]).toBe(0.5300437012984873)
       expect(normB[2]).toBe(-0.7766470449528029)
     })
@@ -147,7 +147,7 @@ describe('datagrep.linearAlgebra', () => {
       const a = [3.183, -7.627]
       const b = [-2.668, 5.319]
 
-      expect(angle(a, b)).toBe(3.0720263098372476)
+      expect(parseFloat(angle(a, b).toPrecision(15))).toBe(3.07202630983725)
     })
 
     it('optionally returns the angle in degrees between two vectors', () => {
