@@ -125,7 +125,7 @@ describe('datagrep.linearAlgebra', () => {
       expect(normA[0]).toBe(0.9339352140866403)
       expect(normA[1]).toBe(-0.35744232526233)
       expect(parseFloat(normB[0].toPrecision(15))).toBe(0.340401295943301)
-      expect(normB[1]).toBe(0.5300437012984873)
+      expect(parseFloat(normB[1].toPrecision(15))).toBe(0.530043701298487)
       expect(normB[2]).toBe(-0.7766470449528029)
     })
   })
