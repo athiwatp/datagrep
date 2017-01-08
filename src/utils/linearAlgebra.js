@@ -4,6 +4,7 @@ import { Vector } from 'vectorious'
 
 export {
   add,
+  angle,
   divide,
   dot,
   magnitude,
@@ -52,6 +53,14 @@ function _arithmetic (operation, a, b) {
 
 function add (a, b) {
   return new Vector(a).add(new Vector(b)).toArray()
+}
+
+function angle (a, b, convertToDegrees = false) {
+  const degreesPerRadian = 180 / Math.PI
+  const radians = new Vector(a).angle(new Vector(b))
+
+  if (convertToDegrees) return radians * degreesPerRadian
+  return radians
 }
 
 function divide (a, b) {

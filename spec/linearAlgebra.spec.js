@@ -8,6 +8,7 @@ describe('datagrep.linearAlgebra', () => {
   const { csv, linearAlgebra } = utils
   const {
     add,
+    angle,
     dot,
     magnitude,
     multiply,
@@ -124,6 +125,34 @@ describe('datagrep.linearAlgebra', () => {
       expect(normB[0]).toBe(0.3404012959433014)
       expect(normB[1]).toBe(0.5300437012984873)
       expect(normB[2]).toBe(-0.7766470449528029)
+    })
+  })
+
+  describe('dot product', () => {
+    it('returns the dot product of two vectors', () => {
+      const a = [7.887, 4.138]
+      const b = [-8.802, 6.776]
+      const c = [-5.955, -4.904, -1.874]
+      const d = [-4.496, -8.755, 7.103]
+
+      expect(dot(a, b)[0]).toBe(-41.382286)
+      expect(dot(c, d)[0]).toBe(56.397178000000004)
+    })
+  })
+
+  describe('angle', () => {
+    it('returns the angle in radians between two vectors', () => {
+      const a = [3.183, -7.627]
+      const b = [-2.668, 5.319]
+
+      expect(angle(a, b)).toBe(3.0720263098372476)
+    })
+
+    it('optionally returns the angle in degrees between two vectors', () => {
+      const c = [7.35, 0.221, 5.188]
+      const d = [2.751, 8.259, 3.985]
+
+      expect(angle(c, d, true)).toBe(60.27581120523091)
     })
   })
 })
