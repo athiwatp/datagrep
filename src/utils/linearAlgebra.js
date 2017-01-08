@@ -6,9 +6,11 @@ export {
   add,
   divide,
   dot,
+  magnitude,
   max,
   mean,
   multiply,
+  normalize,
   nullMatrix,
   numCols,
   numRows,
@@ -60,6 +62,10 @@ function dot (a, b) {
   return nj.dot(a, b).tolist()
 }
 
+function magnitude (a) {
+  return new Vector(a).magnitude()
+}
+
 function max (a) {
   // TODO: accomodate any dimension
   return nj.max(a)
@@ -89,6 +95,10 @@ function multiply (a, b) {
   }
 
   return result.tolist()
+}
+
+function normalize (a) {
+  return new Vector(a).normalize().toArray()
 }
 
 function nullMatrix (numRows, numCols) {

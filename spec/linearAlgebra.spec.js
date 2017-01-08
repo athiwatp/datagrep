@@ -6,7 +6,17 @@ const precision = 12
 
 describe('datagrep.linearAlgebra', () => {
   const { csv, linearAlgebra } = utils
-  const { add, dot, multiply, splitXy, subtract, svd, transpose } = linearAlgebra
+  const {
+    add,
+    dot,
+    magnitude,
+    multiply,
+    normalize,
+    splitXy,
+    subtract,
+    svd,
+    transpose
+  } = linearAlgebra
 
   describe('svd', () => {
     it('returns the singular value decomposition', async () => {
@@ -89,6 +99,31 @@ describe('datagrep.linearAlgebra', () => {
       expect(product[0]).toBe(12.38211)
       expect(product[1]).toBe(-7.49892)
       expect(product[2]).toBe(-2.35638)
+    })
+  })
+
+  describe('magnitude', () => {
+    it('returns the magnitude of a vector', () => {
+      const a = [-0.221, 7.437]
+      const b = [8.813, -1.331, -6.247]
+
+      expect(magnitude(a)).toBe(7.440282924728065)
+      expect(magnitude(b)).toBe(10.884187567292289)
+    })
+  })
+
+  describe('normalize', () => {
+    it('returns the normalized vector', () => {
+      const a = [5.581, -2.136]
+      const b = [1.996, 3.108, -4.554]
+      const normA = normalize(a)
+      const normB = normalize(b)
+
+      expect(normA[0]).toBe(0.9339352140866403)
+      expect(normA[1]).toBe(-0.35744232526233)
+      expect(normB[0]).toBe(0.3404012959433014)
+      expect(normB[1]).toBe(0.5300437012984873)
+      expect(normB[2]).toBe(-0.7766470449528029)
     })
   })
 })
