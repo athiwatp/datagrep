@@ -10,6 +10,8 @@ describe('datagrep.linearAlgebra', () => {
     add,
     angle,
     dot,
+    isParallel,
+    isOrthogonal,
     magnitude,
     multiply,
     normalize,
@@ -153,6 +155,31 @@ describe('datagrep.linearAlgebra', () => {
       const d = [2.751, 8.259, 3.985]
 
       expect(angle(c, d, true)).toBe(60.27581120523091)
+    })
+  })
+
+  describe('isParallel and isOrthogonal', () => {
+    const a = [-7.579, -7.88]
+    const b = [22.737, 23.64]
+    const c = [-2.029, 9.97, 4.172]
+    const d = [-9.231, -6.639, -7.245]
+    const e = [-2.328, -7.284, -1.214]
+    const f = [-1.821, 1.072, -2.94]
+    const g = [2.118, 4.827]
+    const h = [0, 0]
+
+    it('returns a boolean indicating whether the vectors are parallel', () => {
+      expect(isParallel(a, b)).toBe(true)
+      expect(isParallel(c, d)).toBe(false)
+      expect(isParallel(e, f)).toBe(false)
+      expect(isParallel(g, h)).toBe(true)
+    })
+
+    it('returns a boolean indicating whether the vectors are orthogonal', () => {
+      expect(isOrthogonal(a, b)).toBe(false)
+      expect(isOrthogonal(c, d)).toBe(false)
+      expect(isOrthogonal(e, f)).toBe(true)
+      expect(isOrthogonal(g, h)).toBe(true)
     })
   })
 })

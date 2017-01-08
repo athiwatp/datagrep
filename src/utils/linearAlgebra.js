@@ -7,6 +7,8 @@ export {
   angle,
   divide,
   dot,
+  isParallel,
+  isOrthogonal,
   magnitude,
   max,
   mean,
@@ -69,6 +71,16 @@ function divide (a, b) {
 
 function dot (a, b) {
   return nj.dot(a, b).tolist()
+}
+
+function isParallel (a, b) {
+  let radians = angle(a, b)
+  return isNaN(radians) || radians === 0 || radians === Math.PI
+}
+
+function isOrthogonal (a, b) {
+  let radians = angle(a, b)
+  return isNaN(radians) || radians === Math.PI / 2
 }
 
 function magnitude (a) {
