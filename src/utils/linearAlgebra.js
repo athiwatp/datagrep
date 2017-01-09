@@ -76,13 +76,11 @@ function dot (a, b) {
 
 function isParallel (a, b, precision = 21) {
   let radians = parseFloat(angle(a, b).toPrecision(precision))
-  console.log('radians: ', radians)
   return isNaN(radians) || radians === 0 || radians === parseFloat(Math.PI.toPrecision(precision))
 }
 
 function isOrthogonal (a, b, precision = 21) {
   let radians = parseFloat(angle(a, b).toPrecision(precision))
-  console.log('radians: ', radians)
   return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))
 }
 
