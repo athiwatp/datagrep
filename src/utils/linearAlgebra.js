@@ -1,6 +1,7 @@
 import nj from 'numjs'
 import numeric from 'numericjs'
 import { Vector } from 'vectorious'
+const parseFloat = Number.parseFloat
 
 export {
   add,
@@ -73,16 +74,16 @@ function dot (a, b) {
   return nj.dot(a, b).tolist()
 }
 
-function isParallel (a, b) {
-  let radians = angle(a, b)
+function isParallel (a, b, precision = 21) {
+  let radians = parseFloat(angle(a, b).toPrecision(precision))
   console.log('radians: ', radians)
-  return isNaN(radians) || radians === 0 || radians === Math.PI
+  return isNaN(radians) || radians === 0 || radians === parseFloat(Math.PI.toPrecision(precision))
 }
 
-function isOrthogonal (a, b) {
-  let radians = angle(a, b)
+function isOrthogonal (a, b, precision = 21) {
+  let radians = parseFloat(angle(a, b).toPrecision(precision))
   console.log('radians: ', radians)
-  return isNaN(radians) || radians === Math.PI / 2
+  return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))
 }
 
 function magnitude (a) {

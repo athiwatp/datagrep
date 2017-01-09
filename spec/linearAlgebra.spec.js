@@ -159,6 +159,7 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('isParallel and isOrthogonal', () => {
+    const precision = 7
     const a = [-7.579, -7.88]
     const b = [22.737, 23.64]
     const c = [-2.029, 9.97, 4.172]
@@ -170,17 +171,17 @@ describe('datagrep.linearAlgebra', () => {
     console.log('Math.PI: ', Math.PI)
 
     it('returns a boolean indicating whether the vectors are parallel', () => {
-      expect(isParallel(a, b)).toBe(true)
-      expect(isParallel(c, d)).toBe(false)
-      expect(isParallel(e, f)).toBe(false)
-      expect(isParallel(g, h)).toBe(true)
+      expect(isParallel(a, b, precision)).toBe(true)
+      expect(isParallel(c, d, precision)).toBe(false)
+      expect(isParallel(e, f, precision)).toBe(false)
+      expect(isParallel(g, h, precision)).toBe(true)
     })
 
     it('returns a boolean indicating whether the vectors are orthogonal', () => {
-      expect(isOrthogonal(a, b)).toBe(false)
-      expect(isOrthogonal(c, d)).toBe(false)
-      expect(isOrthogonal(e, f)).toBe(true)
-      expect(isOrthogonal(g, h)).toBe(true)
+      expect(isOrthogonal(a, b, precision)).toBe(false)
+      expect(isOrthogonal(c, d, precision)).toBe(false)
+      expect(isOrthogonal(e, f, precision)).toBe(true)
+      expect(isOrthogonal(g, h, precision)).toBe(true)
     })
   })
 })
