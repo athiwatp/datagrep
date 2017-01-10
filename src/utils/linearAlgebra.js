@@ -20,12 +20,15 @@ export {
   numRows,
   pinv,
   project,
+  projectAndReject,
+  reject,
   splitXy,
   square,
   std,
   subtract,
   svd,
-  transpose
+  transpose,
+  unit
 }
 
 function _arithmetic (operation, a, b) {
@@ -146,6 +149,17 @@ function project (a, b) {
   return new Vector(a).project(new Vector(b)).toArray()
 }
 
+function projectAndReject (a, b) {
+  return {
+    projection: project(a, b),
+    rejection: reject(a, b)
+  }
+}
+
+function reject (a, b) {
+  return subtract(a, project(a, b))
+}
+
 // singular value decomposition
 function svd (a) {
   const res = numeric.svd(a)
@@ -191,4 +205,8 @@ function subtract (a, b) {
 
 function transpose (a) {
   return nj.array(a).T.tolist()
+}
+
+function unit (a) {
+  return multiply(a, 1 / magnitude(a))
 }

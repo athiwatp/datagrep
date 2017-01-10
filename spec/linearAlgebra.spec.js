@@ -16,6 +16,8 @@ describe('datagrep.linearAlgebra', () => {
     multiply,
     normalize,
     project,
+    projectAndReject,
+    reject,
     splitXy,
     subtract,
     svd,
@@ -193,6 +195,40 @@ describe('datagrep.linearAlgebra', () => {
 
       expect(projection[0]).toBe(1.0826069624844668)
       expect(projection[1]).toBe(2.671742758325302)
+    })
+  })
+
+  describe('reject', () => {
+    it('returns the rejection of a vector onto another', () => {
+      const a = [-9.88, -3.264, -8.159]
+      const b = [-2.155, -9.353, -9.473]
+      const rejection = reject(a, b)
+
+      expect(rejection[0]).toBe(-8.350081043195763)
+      expect(rejection[1]).toBe(3.37606125428772)
+      expect(rejection[2]).toBe(-1.433746042781186)
+    })
+  })
+
+  describe('projectAndReject', () => {
+    it('returns the projection and rejection of a vector onto another', () => {
+      const a = [3.009, -6.172, 3.692, -2.51]
+      const b = [6.404, -9.144, 2.759, 8.718]
+      const { projection, rejection } = projectAndReject(a, b)
+      const sum = add(projection, rejection)
+
+      expect(projection[0]).toBe(1.9685161672140896)
+      expect(projection[1]).toBe(-2.810760748439356)
+      expect(projection[2]).toBe(0.8480849633578502)
+      expect(projection[3]).toBe(2.6798132332561577)
+      expect(rejection[0]).toBe(1.0404838327859103)
+      expect(rejection[1]).toBe(-3.3612392515606437)
+      expect(rejection[2]).toBe(2.8439150366421497)
+      expect(rejection[3]).toBe(-5.1898132332561575)
+      expect(sum[0]).toBe(a[0])
+      expect(sum[1]).toBe(a[1])
+      expect(sum[2]).toBe(a[2])
+      expect(sum[3]).toBe(a[3])
     })
   })
 })
