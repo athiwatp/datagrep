@@ -234,7 +234,7 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('crossproduct', () => {
-    it('returns the magnitude of the cross product of two 3D vectors', () => {
+    it('returns the cross product of two 3D vectors', () => {
       const a = [8.462, 7.893, -8.187]
       const b = [6.984, -5.975, 4.778]
       const c = [-8.987, -9.838, 5.031]
