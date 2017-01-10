@@ -9,6 +9,7 @@ describe('datagrep.linearAlgebra', () => {
   const {
     add,
     angle,
+    crossproduct,
     dot,
     isParallel,
     isOrthogonal,
@@ -229,6 +230,24 @@ describe('datagrep.linearAlgebra', () => {
       expect(sum[1]).toBe(a[1])
       expect(sum[2]).toBe(a[2])
       expect(sum[3]).toBe(a[3])
+    })
+  })
+
+  describe('crossproduct', () => {
+    it('returns the magnitude of the cross product of two 3D vectors', () => {
+      const a = [8.462, 7.893, -8.187]
+      const b = [6.984, -5.975, 4.778]
+      const c = [-8.987, -9.838, 5.031]
+      const d = [-4.268, -1.861, -8.866]
+      const e = [1.5, 9.547, 3.691]
+      const f = [-6.007, 0.124, 5.772]
+      const vectorproduct = crossproduct(a, b)
+
+      expect(vectorproduct[0]).toBe(-11.204570999999994)
+      expect(vectorproduct[1]).toBe(-97.609444)
+      expect(vectorproduct[2]).toBe(-105.68516199999999)
+      expect(magnitude(crossproduct(c, d))).toBe(142.12222140184633)
+      expect(magnitude(crossproduct(e, f)) / 2).toBe(42.56493739941894)
     })
   })
 })

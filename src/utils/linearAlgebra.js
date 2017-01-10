@@ -1,11 +1,12 @@
 import nj from 'numjs'
 import numeric from 'numericjs'
-import { Vector } from 'vectorious'
+import { Matrix, Vector } from 'vectorious'
 const parseFloat = Number.parseFloat
 
 export {
   add,
   angle,
+  crossproduct,
   divide,
   dot,
   isParallel,
@@ -58,6 +59,13 @@ function angle (a, b, convertToDegrees = false) {
 
   if (convertToDegrees) return radians * degreesPerRadian
   return radians
+}
+
+function crossproduct (a, b) {
+  const i = new Matrix([a.slice(1), b.slice(1)]).determinant()
+  const j = -new Matrix([a.slice(0, 1).concat(a.slice(2)), b.slice(0, 1).concat(b.slice(2))]).determinant()
+  const k = new Matrix([a.slice(0, 2), b.slice(0, 2)]).determinant()
+  return [i, j, k]
 }
 
 function divide (a, b) {
