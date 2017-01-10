@@ -19,22 +19,13 @@ export {
   numCols,
   numRows,
   pinv,
+  project,
   splitXy,
   square,
   std,
   subtract,
   svd,
   transpose
-}
-
-function _approximateMachineEpsilon () {
-  let epsilon = 1.0
-
-  while ((1.0 + 0.5 * epsilon) !== 1.0) {
-    epsilon = 0.5 * epsilon
-  }
-
-  return epsilon
 }
 
 function _arithmetic (operation, a, b) {
@@ -137,7 +128,7 @@ function numRows (a) {
 
 function pinv (M, rcond = 1e-15) {
   let [U,, V, s] = svd(M)
-  const ε = _approximateMachineEpsilon()
+  const ε = numeric.epsilon
   const m = numRows(U)
   const n = numCols(transpose(V))
   const diagDim = Math.max(m, n)
@@ -149,6 +140,10 @@ function pinv (M, rcond = 1e-15) {
   const pinvM = dot(transpose(V), dot(pinvΣ, transposeU))
 
   return pinvM
+}
+
+function project (a, b) {
+  return new Vector(a).project(new Vector(b)).toArray()
 }
 
 // singular value decomposition

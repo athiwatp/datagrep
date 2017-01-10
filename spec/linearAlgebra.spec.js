@@ -15,6 +15,7 @@ describe('datagrep.linearAlgebra', () => {
     magnitude,
     multiply,
     normalize,
+    project,
     splitXy,
     subtract,
     svd,
@@ -181,6 +182,17 @@ describe('datagrep.linearAlgebra', () => {
       expect(isOrthogonal(c, d, precision)).toBe(false)
       expect(isOrthogonal(e, f, precision)).toBe(true)
       expect(isOrthogonal(g, h, precision)).toBe(true)
+    })
+  })
+
+  describe('project', () => {
+    it('returns the projection of a vector onto another', () => {
+      const a = [3.039, 1.879]
+      const b = [0.825, 2.036]
+      const projection = project(a, b)
+
+      expect(projection[0]).toBe(1.0826069624844668)
+      expect(projection[1]).toBe(2.671742758325302)
     })
   })
 })
