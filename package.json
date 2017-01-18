@@ -61,6 +61,7 @@
   },
   "jest": {
     "coverageDirectory": "docs/coverage",
+    "coveragePathIgnorePatterns": ["docs", "/node_modules/"],
     "testEnvironment": "node"
   }
 }
