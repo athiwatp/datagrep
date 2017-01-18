@@ -12,11 +12,9 @@ export default (X, y, theta, alpha, numIters) => {
   const transposeX = transpose(X)
 
   for (let iter = 0; iter < numIters; iter++) {
-    const _errors = errors(X, theta, y)
-    const _dot = dot(transposeX, _errors)
-    const _multiply = multiply(_dot, k)
+    const delta = multiply(k, dot(transposeX, errors(X, theta, y)))
 
-    theta = subtract(theta, _multiply)
+    theta = subtract(theta, delta)
   }
 
   return theta

@@ -3,8 +3,7 @@ import { numRows, square } from '../utils/linearAlgebra'
 
 export default (X, y, theta) => {
   const m = numRows(X)
-  const _errors = errors(X, theta, y)
-  const cost = 1 / (2 * m) * square(_errors)
+  const cost = 1 / (2 * m) * square(errors(X, theta, y))
 
   return cost
 }
