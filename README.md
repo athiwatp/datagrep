@@ -13,6 +13,8 @@ A JavaScript Machine Learning Library
 [![Coverage Status](https://coveralls.io/repos/github/mjschock/datagrep/badge.svg)](https://coveralls.io/github/mjschock/datagrep)
 [![Known Vulnerabilities](https://snyk.io/test/github/mjschock/datagrep/badge.svg)](https://snyk.io/test/github/mjschock/datagrep)
 
+## <a href="https://mjschock.github.io/datagrep/">Documentation</a>
+
 ## Prerequisites
 ### Debian/Ubuntu
 ```bash
