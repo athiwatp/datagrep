@@ -1,0 +1,88 @@
+{
+  "coverage": "0%",
+  "expectCount": 33,
+  "actualCount": 0,
+  "files": {
+    "src/utils/linearAlgebra.js": {
+      "expectCount": 26,
+      "actualCount": 0,
+      "undocumentLines": [
+        52,
+        56,
+        64,
+        71,
+        75,
+        84,
+        79,
+        89,
+        93,
+        98,
+        113,
+        124,
+        128,
+        132,
+        136,
+        140,
+        156,
+        160,
+        167,
+        183,
+        194,
+        200,
+        210,
+        172,
+        214,
+        218
+      ]
+    },
+    "src/app/computeCost.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        4
+      ]
+    },
+    "src/utils/common.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        7
+      ]
+    },
+    "src/app/featureNormalize.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        8
+      ]
+    },
+    "src/app/gradientDescent.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        10
+      ]
+    },
+    "src/app/normalEqn.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        7
+      ]
+    },
+    "src/utils/csv.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        6
+      ]
+    },
+    "src/utils/file.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        5
+      ]
+    }
+  }
+}

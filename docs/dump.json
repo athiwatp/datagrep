@@ -1,0 +1,2236 @@
+[
+  {
+    "__docId__": 0,
+    "kind": "file",
+    "name": "src/app/computeCost.js",
+    "content": "import { errors } from '../utils/common'\nimport { numRows, square } from '../utils/linearAlgebra'\n\nexport default (X, y, theta) => {\n  const m = numRows(X)\n  const cost = 1 / (2 * m) * square(errors(X, theta, y))\n\n  return cost\n}\n",
+    "static": true,
+    "longname": "src/app/computeCost.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 1,
+    "kind": "function",
+    "name": "computeCost",
+    "memberof": "src/app/computeCost.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/app/computeCost.js~computeCost",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/app/computeCost.js",
+    "importStyle": "computeCost",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "y",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "theta",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 2,
+    "kind": "file",
+    "name": "src/app/featureNormalize.js",
+    "content": "import {\n    divide,\n    mean,\n    subtract,\n    std\n} from '../utils/linearAlgebra'\n\nexport default (X) => {\n  const mu = mean(X)\n  const sigma = std(X)\n  const normX = divide(subtract(X, mu), sigma)\n\n  return [normX, mu, sigma]\n}\n",
+    "static": true,
+    "longname": "src/app/featureNormalize.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 3,
+    "kind": "function",
+    "name": "featureNormalize",
+    "memberof": "src/app/featureNormalize.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/app/featureNormalize.js~featureNormalize",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/app/featureNormalize.js",
+    "importStyle": "featureNormalize",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 4,
+    "kind": "file",
+    "name": "src/app/gradientDescent.js",
+    "content": "import { errors } from '../utils/common'\nimport {\n    dot,\n    multiply,\n    numRows,\n    subtract,\n    transpose\n} from '../utils/linearAlgebra'\n\nexport default (X, y, theta, alpha, numIters) => {\n  const k = alpha / numRows(y)\n  const transposeX = transpose(X)\n\n  for (let iter = 0; iter < numIters; iter++) {\n    const delta = multiply(k, dot(transposeX, errors(X, theta, y)))\n\n    theta = subtract(theta, delta)\n  }\n\n  return theta\n}\n",
+    "static": true,
+    "longname": "src/app/gradientDescent.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 5,
+    "kind": "function",
+    "name": "gradientDescent",
+    "memberof": "src/app/gradientDescent.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/app/gradientDescent.js~gradientDescent",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/app/gradientDescent.js",
+    "importStyle": "gradientDescent",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "y",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "theta",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "alpha",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "numIters",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 6,
+    "kind": "file",
+    "name": "src/app/index.js",
+    "content": "import computeCost from './computeCost'\nimport featureNormalize from './featureNormalize'\nimport gradientDescent from './gradientDescent'\nimport normalEqn from './normalEqn'\nimport utils from '../utils'\n\nexport default {\n  computeCost,\n  featureNormalize,\n  gradientDescent,\n  normalEqn,\n  utils\n}\nexport {\n    computeCost,\n    featureNormalize,\n    gradientDescent,\n    normalEqn,\n    utils\n}\n",
+    "static": true,
+    "longname": "src/app/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 7,
+    "kind": "file",
+    "name": "src/app/normalEqn.js",
+    "content": "import {\n    dot,\n    pinv,\n    transpose\n} from '../utils/linearAlgebra'\n\nexport default (X, y) => {\n  const transposeX = transpose(X)\n  const theta = dot(pinv(dot(transposeX, X)), dot(transposeX, y))\n\n  return theta\n}\n",
+    "static": true,
+    "longname": "src/app/normalEqn.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 8,
+    "kind": "function",
+    "name": "normalEqn",
+    "memberof": "src/app/normalEqn.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/app/normalEqn.js~normalEqn",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/app/normalEqn.js",
+    "importStyle": "normalEqn",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "y",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 9,
+    "kind": "file",
+    "name": "src/index.js",
+    "content": "import app from './app'\n\nexport default app\nexport * from './app'\n",
+    "static": true,
+    "longname": "src/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 10,
+    "kind": "file",
+    "name": "src/utils/common.js",
+    "content": "import { dot, subtract } from './linearAlgebra'\n\nexport {\n    errors\n}\n\nfunction errors (X, theta, y) {\n  return subtract(dot(X, theta), y)\n}\n",
+    "static": true,
+    "longname": "src/utils/common.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 11,
+    "kind": "function",
+    "name": "errors",
+    "memberof": "src/utils/common.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/common.js~errors",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/common.js",
+    "importStyle": "{errors}",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "theta",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "y",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 12,
+    "kind": "file",
+    "name": "src/utils/csv.js",
+    "content": "import parse from 'csv-parse'\nimport { readFile } from './file'\n\nexport { parseCsv }\n\nfunction parseCsv (file, options = { auto_parse: true, skip_empty_lines: true }) {\n  return new Promise(async (resolve, reject) => {\n    const csvString = await readFile(file)\n    parse(csvString, options, (err, output) => {\n      if (err) reject(err)\n      resolve(output)\n    })\n  })\n}\n",
+    "static": true,
+    "longname": "src/utils/csv.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 13,
+    "kind": "function",
+    "name": "parseCsv",
+    "memberof": "src/utils/csv.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/csv.js~parseCsv",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/csv.js",
+    "importStyle": "{parseCsv}",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "file",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "options",
+        "optional": true,
+        "types": [
+          "{\"auto_parse\": boolean, \"skip_empty_lines\": boolean}"
+        ],
+        "defaultRaw": {
+          "auto_parse": true,
+          "skip_empty_lines": true
+        },
+        "defaultValue": "{\"auto_parse\":true,\"skip_empty_lines\":true}"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 14,
+    "kind": "file",
+    "name": "src/utils/file.js",
+    "content": "import fs from 'fs'\n\nexport { readFile }\n\nfunction readFile (file) {\n  return new Promise((resolve, reject) => {\n    fs.readFile(file, 'utf8', (err, data) => {\n      if (err) reject(err)\n      resolve(data)\n    })\n  })\n}\n",
+    "static": true,
+    "longname": "src/utils/file.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 15,
+    "kind": "function",
+    "name": "readFile",
+    "memberof": "src/utils/file.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/file.js~readFile",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/file.js",
+    "importStyle": "{readFile}",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "file",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 16,
+    "kind": "file",
+    "name": "src/utils/index.js",
+    "content": "import * as common from './common'\nimport * as csv from './csv'\nimport * as linearAlgebra from './linearAlgebra'\n\nexport default {\n  common,\n  csv,\n  linearAlgebra\n}\n",
+    "static": true,
+    "longname": "src/utils/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 17,
+    "kind": "file",
+    "name": "src/utils/linearAlgebra.js",
+    "content": "import nj from 'numjs'\nimport numeric from 'numericjs'\nimport { Matrix, Vector } from 'vectorious'\nconst parseFloat = Number.parseFloat\n\nexport {\n  add,\n  angle,\n  crossproduct,\n  divide,\n  dot,\n  isParallel,\n  isOrthogonal,\n  magnitude,\n  max,\n  mean,\n  multiply,\n  normalize,\n  nullMatrix,\n  numCols,\n  numRows,\n  pinv,\n  project,\n  projectAndReject,\n  reject,\n  splitXy,\n  square,\n  std,\n  subtract,\n  svd,\n  transpose,\n  unit\n}\n\nfunction _arithmetic (operation, a, b) {\n  operation = nj[operation]\n  a = nj.array(a)\n  b = nj.array(b)\n\n  if (a.size !== b.size) {\n    let results = b.tolist().map((currentValue, index) => {\n      let col = a.slice(0, [index, index + 1]).tolist()\n      let result = operation(col, currentValue).tolist()\n      return result\n    })\n    return transpose(results)[0]\n  }\n\n  return operation(a, b).tolist()\n}\n\nfunction add (a, b) {\n  return new Vector(a).add(new Vector(b)).toArray()\n}\n\nfunction angle (a, b, convertToDegrees = false) {\n  const degreesPerRadian = 180 / Math.PI\n  const radians = new Vector(a).angle(new Vector(b))\n\n  if (convertToDegrees) return radians * degreesPerRadian\n  return radians\n}\n\nfunction crossproduct (a, b) {\n  const i = new Matrix([a.slice(1), b.slice(1)]).determinant()\n  const j = -new Matrix([a.slice(0, 1).concat(a.slice(2)), b.slice(0, 1).concat(b.slice(2))]).determinant()\n  const k = new Matrix([a.slice(0, 2), b.slice(0, 2)]).determinant()\n  return [i, j, k]\n}\n\nfunction divide (a, b) {\n  return _arithmetic('divide', a, b)\n}\n\nfunction dot (a, b) {\n  return nj.dot(a, b).tolist()\n}\n\nfunction isParallel (a, b, precision = 21) {\n  let radians = parseFloat(angle(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === 0 || radians === parseFloat(Math.PI.toPrecision(precision))\n}\n\nfunction isOrthogonal (a, b, precision = 21) {\n  let radians = parseFloat(angle(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))\n}\n\nfunction magnitude (a) {\n  return new Vector(a).magnitude()\n}\n\nfunction max (a) {\n  // TODO: accomodate any dimension\n  return nj.max(a)\n}\n\nfunction mean (a) {\n  const _numRows = numRows(a)\n  const sums = a.reduce((accumulator, currentValue) => {\n    currentValue.forEach((currentValue, index) => {\n      accumulator[index] += currentValue\n    })\n    return accumulator\n  }, new Array(numCols(a)).fill(0))\n  const mean = sums.map((currentValue) => {\n    return currentValue / _numRows\n  })\n\n  return mean\n}\n\nfunction multiply (a, b) {\n  let result\n  try {\n    result = nj.multiply(a, b)\n  } catch (error) {\n    result = nj.multiply(b, a)\n  }\n\n  return result.tolist()\n}\n\nfunction normalize (a) {\n  return new Vector(a).normalize().toArray()\n}\n\nfunction nullMatrix (numRows, numCols) {\n  return nj.zeros([numRows, numCols]).tolist()\n}\n\nfunction numCols (a) {\n  return nj.array(a).shape[1] || 1\n}\n\nfunction numRows (a) {\n  return nj.array(a).shape[0]\n}\n\nfunction pinv (M, rcond = 1e-15) {\n  let [U,, V, s] = svd(M)\n  const ε = numeric.epsilon\n  const m = numRows(U)\n  const n = numCols(transpose(V))\n  const diagDim = Math.max(m, n)\n  const tolerance = ε * diagDim * max(s)\n  const pinvΣ = transpose(numeric.diag(s.map((sNum, index) => {\n    return index < diagDim && sNum > tolerance ? 1 / sNum : 0\n  })))\n  const transposeU = transpose(U)\n  const pinvM = dot(transpose(V), dot(pinvΣ, transposeU))\n\n  return pinvM\n}\n\nfunction project (a, b) {\n  return new Vector(a).project(new Vector(b)).toArray()\n}\n\nfunction projectAndReject (a, b) {\n  return {\n    projection: project(a, b),\n    rejection: reject(a, b)\n  }\n}\n\nfunction reject (a, b) {\n  return subtract(a, project(a, b))\n}\n\n// singular value decomposition\nfunction svd (a) {\n  const res = numeric.svd(a)\n  const U = res.U\n  const s = res.S // singular values, or s-numbers\n  const Σ = numeric.diag(s)\n  const transposeV = res.V\n  const V = transpose(transposeV)\n\n  return [U, Σ, V, s]\n}\n\nfunction splitXy (data, addOnes = true) {\n  const dataAsMatrix = nj.array(data)\n  const [numRows, numCols] = dataAsMatrix.shape\n  const y = dataAsMatrix.slice(0, -1).tolist()\n  let X = dataAsMatrix.slice(0, [numCols - 1])\n  if (addOnes) X = nj.concatenate(nj.ones([numRows, 1]), X)\n  X = X.tolist()\n\n  return { X, y }\n}\n\nfunction square (a) {\n  a = nj.array(a)\n\n  return a.T.dot(a).tolist()[0][0]\n}\n\nfunction std (a) {\n  const t = nj.array(a).T\n  const options = { 'ddof': 1 }\n  const stdDevs = t.tolist().map((row) => {\n    return nj.array(row).std(options)\n  })\n\n  return stdDevs\n}\n\nfunction subtract (a, b) {\n  return _arithmetic('subtract', a, b)\n}\n\nfunction transpose (a) {\n  return nj.array(a).T.tolist()\n}\n\nfunction unit (a) {\n  return multiply(a, 1 / magnitude(a))\n}\n",
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 18,
+    "kind": "variable",
+    "name": "parseFloat",
+    "memberof": "src/utils/linearAlgebra.js",
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~parseFloat",
+    "access": null,
+    "export": false,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 19,
+    "kind": "function",
+    "name": "_arithmetic",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~_arithmetic",
+    "access": null,
+    "export": false,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 35,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "operation",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 20,
+    "kind": "function",
+    "name": "add",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~add",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{add}",
+    "description": null,
+    "lineNumber": 52,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 21,
+    "kind": "function",
+    "name": "angle",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~angle",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{angle}",
+    "description": null,
+    "lineNumber": 56,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "convertToDegrees",
+        "optional": true,
+        "types": [
+          "boolean"
+        ],
+        "defaultRaw": false,
+        "defaultValue": "false"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 22,
+    "kind": "function",
+    "name": "crossproduct",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~crossproduct",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{crossproduct}",
+    "description": null,
+    "lineNumber": 64,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 23,
+    "kind": "function",
+    "name": "divide",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~divide",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{divide}",
+    "description": null,
+    "lineNumber": 71,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 24,
+    "kind": "function",
+    "name": "dot",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~dot",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{dot}",
+    "description": null,
+    "lineNumber": 75,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 25,
+    "kind": "function",
+    "name": "isParallel",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~isParallel",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{isParallel}",
+    "description": null,
+    "lineNumber": 79,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "precision",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 21,
+        "defaultValue": "21"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 26,
+    "kind": "function",
+    "name": "isOrthogonal",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~isOrthogonal",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{isOrthogonal}",
+    "description": null,
+    "lineNumber": 84,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "precision",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 21,
+        "defaultValue": "21"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 27,
+    "kind": "function",
+    "name": "magnitude",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~magnitude",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{magnitude}",
+    "description": null,
+    "lineNumber": 89,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 28,
+    "kind": "function",
+    "name": "max",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~max",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{max}",
+    "description": null,
+    "lineNumber": 93,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 29,
+    "kind": "function",
+    "name": "mean",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~mean",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{mean}",
+    "description": null,
+    "lineNumber": 98,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 30,
+    "kind": "function",
+    "name": "multiply",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~multiply",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{multiply}",
+    "description": null,
+    "lineNumber": 113,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 31,
+    "kind": "function",
+    "name": "normalize",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~normalize",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{normalize}",
+    "description": null,
+    "lineNumber": 124,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 32,
+    "kind": "function",
+    "name": "nullMatrix",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~nullMatrix",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{nullMatrix}",
+    "description": null,
+    "lineNumber": 128,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "numRows",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "numCols",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 33,
+    "kind": "function",
+    "name": "numCols",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~numCols",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{numCols}",
+    "description": null,
+    "lineNumber": 132,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 34,
+    "kind": "function",
+    "name": "numRows",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~numRows",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{numRows}",
+    "description": null,
+    "lineNumber": 136,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 35,
+    "kind": "function",
+    "name": "pinv",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~pinv",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{pinv}",
+    "description": null,
+    "lineNumber": 140,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "M",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "rcond",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 1e-15,
+        "defaultValue": "1e-15"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 36,
+    "kind": "function",
+    "name": "project",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~project",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{project}",
+    "description": null,
+    "lineNumber": 156,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 37,
+    "kind": "function",
+    "name": "projectAndReject",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~projectAndReject",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{projectAndReject}",
+    "description": null,
+    "lineNumber": 160,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "{\"projection\": *, \"rejection\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 38,
+    "kind": "function",
+    "name": "reject",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~reject",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{reject}",
+    "description": null,
+    "lineNumber": 167,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 39,
+    "kind": "function",
+    "name": "splitXy",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~splitXy",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{splitXy}",
+    "description": null,
+    "lineNumber": 183,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "addOnes",
+        "optional": true,
+        "types": [
+          "boolean"
+        ],
+        "defaultRaw": true,
+        "defaultValue": "true"
+      }
+    ],
+    "return": {
+      "types": [
+        "{\"X\": *, \"y\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 40,
+    "kind": "function",
+    "name": "square",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~square",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{square}",
+    "description": null,
+    "lineNumber": 194,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 41,
+    "kind": "function",
+    "name": "std",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~std",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{std}",
+    "description": null,
+    "lineNumber": 200,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 42,
+    "kind": "function",
+    "name": "subtract",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~subtract",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{subtract}",
+    "description": null,
+    "lineNumber": 210,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 43,
+    "kind": "function",
+    "name": "svd",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~svd",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{svd}",
+    "description": null,
+    "lineNumber": 172,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 44,
+    "kind": "function",
+    "name": "transpose",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~transpose",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{transpose}",
+    "description": null,
+    "lineNumber": 214,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 45,
+    "kind": "function",
+    "name": "unit",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~unit",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{unit}",
+    "description": null,
+    "lineNumber": 218,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Infinity",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~NaN",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 49,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~undefined",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 50,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~null",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 51,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 52,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 53,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 54,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 55,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 56,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 57,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Symbol",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 58,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Error",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 59,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~EvalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 60,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~InternalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 61,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RangeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 62,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 63,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 64,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~TypeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 65,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~URIError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 66,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 67,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Date",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 69,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~String",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 70,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~string",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 71,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RegExp",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 72,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 73,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 74,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 75,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 76,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 77,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 78,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 79,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 80,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 81,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 82,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Map",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 83,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Set",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 84,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 85,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 86,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~DataView",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 88,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~JSON",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 89,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Promise",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 90,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Generator",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 91,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 92,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Reflect",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 93,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Proxy",
+    "access": null,
+    "description": "",
+    "lineNumber": 193,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 95,
+    "kind": "external",
+    "name": "CanvasRenderingContext2D",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 96,
+    "kind": "external",
+    "name": "DocumentFragment",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 97,
+    "kind": "external",
+    "name": "Element",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~Element",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 98,
+    "kind": "external",
+    "name": "Event",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~Event",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 99,
+    "kind": "external",
+    "name": "Node",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~Node",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 100,
+    "kind": "external",
+    "name": "NodeList",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~NodeList",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 101,
+    "kind": "external",
+    "name": "XMLHttpRequest",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 102,
+    "kind": "external",
+    "name": "AudioContext",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~AudioContext",
+    "access": null,
+    "description": "",
+    "lineNumber": 34,
+    "builtinExternal": true
+  }
+]

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/utils/linearAlgebra.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/mjschock/datagrep" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">app</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-computeCost">computeCost</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-featureNormalize">featureNormalize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-gradientDescent">gradientDescent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-normalEqn">normalEqn</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-errors">errors</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseCsv">parseCsv</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-readFile">readFile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-add">add</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-angle">angle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-crossproduct">crossproduct</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-divide">divide</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dot">dot</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isOrthogonal">isOrthogonal</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isParallel">isParallel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-magnitude">magnitude</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-max">max</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mean">mean</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-multiply">multiply</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-normalize">normalize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nullMatrix">nullMatrix</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-numCols">numCols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-numRows">numRows</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pinv">pinv</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-project">project</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-projectAndReject">projectAndReject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reject">reject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-splitXy">splitXy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-square">square</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-std">std</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subtract">subtract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-svd">svd</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transpose">transpose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unit">unit</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/utils/linearAlgebra.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import nj from &apos;numjs&apos;
+import numeric from &apos;numericjs&apos;
+import { Matrix, Vector } from &apos;vectorious&apos;
+const parseFloat = Number.parseFloat
+
+export {
+  add,
+  angle,
+  crossproduct,
+  divide,
+  dot,
+  isParallel,
+  isOrthogonal,
+  magnitude,
+  max,
+  mean,
+  multiply,
+  normalize,
+  nullMatrix,
+  numCols,
+  numRows,
+  pinv,
+  project,
+  projectAndReject,
+  reject,
+  splitXy,
+  square,
+  std,
+  subtract,
+  svd,
+  transpose,
+  unit
+}
+
+function _arithmetic (operation, a, b) {
+  operation = nj[operation]
+  a = nj.array(a)
+  b = nj.array(b)
+
+  if (a.size !== b.size) {
+    let results = b.tolist().map((currentValue, index) =&gt; {
+      let col = a.slice(0, [index, index + 1]).tolist()
+      let result = operation(col, currentValue).tolist()
+      return result
+    })
+    return transpose(results)[0]
+  }
+
+  return operation(a, b).tolist()
+}
+
+function add (a, b) {
+  return new Vector(a).add(new Vector(b)).toArray()
+}
+
+function angle (a, b, convertToDegrees = false) {
+  const degreesPerRadian = 180 / Math.PI
+  const radians = new Vector(a).angle(new Vector(b))
+
+  if (convertToDegrees) return radians * degreesPerRadian
+  return radians
+}
+
+function crossproduct (a, b) {
+  const i = new Matrix([a.slice(1), b.slice(1)]).determinant()
+  const j = -new Matrix([a.slice(0, 1).concat(a.slice(2)), b.slice(0, 1).concat(b.slice(2))]).determinant()
+  const k = new Matrix([a.slice(0, 2), b.slice(0, 2)]).determinant()
+  return [i, j, k]
+}
+
+function divide (a, b) {
+  return _arithmetic(&apos;divide&apos;, a, b)
+}
+
+function dot (a, b) {
+  return nj.dot(a, b).tolist()
+}
+
+function isParallel (a, b, precision = 21) {
+  let radians = parseFloat(angle(a, b).toPrecision(precision))
+  return isNaN(radians) || radians === 0 || radians === parseFloat(Math.PI.toPrecision(precision))
+}
+
+function isOrthogonal (a, b, precision = 21) {
+  let radians = parseFloat(angle(a, b).toPrecision(precision))
+  return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))
+}
+
+function magnitude (a) {
+  return new Vector(a).magnitude()
+}
+
+function max (a) {
+  // TODO: accomodate any dimension
+  return nj.max(a)
+}
+
+function mean (a) {
+  const _numRows = numRows(a)
+  const sums = a.reduce((accumulator, currentValue) =&gt; {
+    currentValue.forEach((currentValue, index) =&gt; {
+      accumulator[index] += currentValue
+    })
+    return accumulator
+  }, new Array(numCols(a)).fill(0))
+  const mean = sums.map((currentValue) =&gt; {
+    return currentValue / _numRows
+  })
+
+  return mean
+}
+
+function multiply (a, b) {
+  let result
+  try {
+    result = nj.multiply(a, b)
+  } catch (error) {
+    result = nj.multiply(b, a)
+  }
+
+  return result.tolist()
+}
+
+function normalize (a) {
+  return new Vector(a).normalize().toArray()
+}
+
+function nullMatrix (numRows, numCols) {
+  return nj.zeros([numRows, numCols]).tolist()
+}
+
+function numCols (a) {
+  return nj.array(a).shape[1] || 1
+}
+
+function numRows (a) {
+  return nj.array(a).shape[0]
+}
+
+function pinv (M, rcond = 1e-15) {
+  let [U,, V, s] = svd(M)
+  const &#x3B5; = numeric.epsilon
+  const m = numRows(U)
+  const n = numCols(transpose(V))
+  const diagDim = Math.max(m, n)
+  const tolerance = &#x3B5; * diagDim * max(s)
+  const pinv&#x3A3; = transpose(numeric.diag(s.map((sNum, index) =&gt; {
+    return index &lt; diagDim &amp;&amp; sNum &gt; tolerance ? 1 / sNum : 0
+  })))
+  const transposeU = transpose(U)
+  const pinvM = dot(transpose(V), dot(pinv&#x3A3;, transposeU))
+
+  return pinvM
+}
+
+function project (a, b) {
+  return new Vector(a).project(new Vector(b)).toArray()
+}
+
+function projectAndReject (a, b) {
+  return {
+    projection: project(a, b),
+    rejection: reject(a, b)
+  }
+}
+
+function reject (a, b) {
+  return subtract(a, project(a, b))
+}
+
+// singular value decomposition
+function svd (a) {
+  const res = numeric.svd(a)
+  const U = res.U
+  const s = res.S // singular values, or s-numbers
+  const &#x3A3; = numeric.diag(s)
+  const transposeV = res.V
+  const V = transpose(transposeV)
+
+  return [U, &#x3A3;, V, s]
+}
+
+function splitXy (data, addOnes = true) {
+  const dataAsMatrix = nj.array(data)
+  const [numRows, numCols] = dataAsMatrix.shape
+  const y = dataAsMatrix.slice(0, -1).tolist()
+  let X = dataAsMatrix.slice(0, [numCols - 1])
+  if (addOnes) X = nj.concatenate(nj.ones([numRows, 1]), X)
+  X = X.tolist()
+
+  return { X, y }
+}
+
+function square (a) {
+  a = nj.array(a)
+
+  return a.T.dot(a).tolist()[0][0]
+}
+
+function std (a) {
+  const t = nj.array(a).T
+  const options = { &apos;ddof&apos;: 1 }
+  const stdDevs = t.tolist().map((row) =&gt; {
+    return nj.array(row).std(options)
+  })
+
+  return stdDevs
+}
+
+function subtract (a, b) {
+  return _arithmetic(&apos;subtract&apos;, a, b)
+}
+
+function transpose (a) {
+  return nj.array(a).T.tolist()
+}
+
+function unit (a) {
+  return multiply(a, 1 / magnitude(a))
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
