@@ -1,4 +1,4 @@
-# datagrep
+# <a href="http://datagrep.com">datagrep</a>
 
 A JavaScript Machine Learning Library
 
