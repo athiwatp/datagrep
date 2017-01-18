@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/utils/csv.js | API Document</title>
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">spec/api.spec.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -69,21 +69,21 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/utils/csv.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import parse from &apos;csv-parse&apos;
-import { readFile } from &apos;./file&apos;
+<div class="content" data-ice="content"><h1 data-ice="title">spec/api.spec.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-env jest */
+import datagrep, { default as dgrep, gradientDescent, computeCost, utils } from &apos;../src/index&apos;
 
-export { parseCsv }
-
-function parseCsv (file, options = { auto_parse: true, skip_empty_lines: true }) {
-  return new Promise(async (resolve, reject) =&gt; {
-    const csvString = await readFile(file)
-    parse(csvString, options, (err, output) =&gt; {
-      if (err) reject(err)
-      resolve(output)
-    })
+describe(&apos;datagrep API&apos;, () =&gt; {
+  it(&apos;has a default and named export which are equal&apos;, () =&gt; {
+    expect(dgrep).toBe(datagrep)
   })
-}
+
+  it(&apos;has named exports&apos;, () =&gt; {
+    expect(computeCost).toBe(datagrep.computeCost)
+    expect(gradientDescent).toBe(datagrep.gradientDescent)
+    expect(utils).toBe(datagrep.utils)
+  })
+})
 </code></pre>
 
 </div>

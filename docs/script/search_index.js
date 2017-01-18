@@ -528,6 +528,288 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "",
+    "test-file/spec/api.spec.js.html#lineNumber4",
+    "datagrep API",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/api.spec.js.html#lineNumber5",
+    "datagrep API has a default and named export which are equal",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/api.spec.js.html#lineNumber9",
+    "datagrep API has named exports",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/computeCost.spec.js.html#lineNumber4",
+    "datagrep.computeCost",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/computeCost.spec.js.html#lineNumber7",
+    "datagrep.computeCost computes the cost",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/featureNormalize.spec.js.html#lineNumber5",
+    "datagrep.featureNormalize",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/featureNormalize.spec.js.html#lineNumber8",
+    "datagrep.featureNormalize normalizes the feature matrix",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/gradientDescent.spec.js.html#lineNumber5",
+    "datagrep.gradientDescent",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/gradientDescent.spec.js.html#lineNumber8",
+    "datagrep.gradientDescent performs gradient descent",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber7",
+    "datagrep.linearAlgebra",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber78",
+    "datagrep.linearAlgebra add",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber79",
+    "datagrep.linearAlgebra add adds vectors",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber149",
+    "datagrep.linearAlgebra angle",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber157",
+    "datagrep.linearAlgebra angle optionally returns the angle in degrees between two vectors",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber150",
+    "datagrep.linearAlgebra angle returns the angle in radians between two vectors",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber236",
+    "datagrep.linearAlgebra crossproduct",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber237",
+    "datagrep.linearAlgebra crossproduct returns the cross product of two 3D vectors",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber137",
+    "datagrep.linearAlgebra dot product",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber138",
+    "datagrep.linearAlgebra dot product returns the dot product of two vectors",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber165",
+    "datagrep.linearAlgebra isParallel and isOrthogonal",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber183",
+    "datagrep.linearAlgebra isParallel and isOrthogonal returns a boolean indicating whether the vectors are orthogonal",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber176",
+    "datagrep.linearAlgebra isParallel and isOrthogonal returns a boolean indicating whether the vectors are parallel",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber112",
+    "datagrep.linearAlgebra magnitude",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber113",
+    "datagrep.linearAlgebra magnitude returns the magnitude of a vector",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber100",
+    "datagrep.linearAlgebra multiply",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber101",
+    "datagrep.linearAlgebra multiply multiplies a scalar and a vector",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber122",
+    "datagrep.linearAlgebra normalize",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber123",
+    "datagrep.linearAlgebra normalize returns the normalized vector",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber191",
+    "datagrep.linearAlgebra project",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber192",
+    "datagrep.linearAlgebra project returns the projection of a vector onto another",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber214",
+    "datagrep.linearAlgebra projectAndReject",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber215",
+    "datagrep.linearAlgebra projectAndReject returns the projection and rejection of a vector onto another",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber202",
+    "datagrep.linearAlgebra reject",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber203",
+    "datagrep.linearAlgebra reject returns the rejection of a vector onto another",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber89",
+    "datagrep.linearAlgebra subtract",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber90",
+    "datagrep.linearAlgebra subtract subtracts vectors",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber28",
+    "datagrep.linearAlgebra svd",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/linearAlgebra.spec.js.html#lineNumber29",
+    "datagrep.linearAlgebra svd returns the singular value decomposition",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/normalEqn.spec.js.html#lineNumber5",
+    "datagrep.normalEqn",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/normalEqn.spec.js.html#lineNumber8",
+    "datagrep.normalEqn computes theta for sample #0",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/normalEqn.spec.js.html#lineNumber17",
+    "datagrep.normalEqn computes theta for sample #1",
+    "test"
+  ],
+  [
+    "spec/api.spec.js",
+    "test-file/spec/api.spec.js.html",
+    "spec/api.spec.js",
+    "testFile"
+  ],
+  [
+    "spec/computecost.spec.js",
+    "test-file/spec/computeCost.spec.js.html",
+    "spec/computeCost.spec.js",
+    "testFile"
+  ],
+  [
+    "spec/featurenormalize.spec.js",
+    "test-file/spec/featureNormalize.spec.js.html",
+    "spec/featureNormalize.spec.js",
+    "testFile"
+  ],
+  [
+    "spec/gradientdescent.spec.js",
+    "test-file/spec/gradientDescent.spec.js.html",
+    "spec/gradientDescent.spec.js",
+    "testFile"
+  ],
+  [
+    "spec/linearalgebra.spec.js",
+    "test-file/spec/linearAlgebra.spec.js.html",
+    "spec/linearAlgebra.spec.js",
+    "testFile"
+  ],
+  [
+    "spec/normaleqn.spec.js",
+    "test-file/spec/normalEqn.spec.js.html",
+    "spec/normalEqn.spec.js",
+    "testFile"
+  ],
+  [
     "src/app/computecost.js",
     "file/src/app/computeCost.js.html",
     "src/app/computeCost.js",
