@@ -1,6 +1,6 @@
 {
   "name": "datagrep",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "A JavaScript Machine Learning Library",
   "main": "dist/datagrep.js",
   "module": "src/index.js",
@@ -61,7 +61,10 @@
   },
   "jest": {
     "coverageDirectory": "docs/coverage",
-    "coveragePathIgnorePatterns": ["docs", "/node_modules/"],
+    "coveragePathIgnorePatterns": [
+      "docs",
+      "/node_modules/"
+    ],
     "testEnvironment": "node"
   }
 }
