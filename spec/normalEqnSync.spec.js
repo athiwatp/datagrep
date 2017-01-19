@@ -4,7 +4,7 @@ import path from 'path'
 
 const parseFloat = Number.parseFloat
 
-describe('datagrep.normalEqn', () => {
+describe('datagrep.normalEqnSync', () => {
   const { csv, linearAlgebra } = utils
 
   it('computes theta for sample #0', () => {

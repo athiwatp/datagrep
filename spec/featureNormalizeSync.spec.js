@@ -2,7 +2,7 @@
 import datagrep, { utils } from '../src/index'
 import path from 'path'
 
-describe('datagrep.featureNormalize', () => {
+describe('datagrep.featureNormalizeSync', () => {
   const { csv, linearAlgebra } = utils
 
   it('normalizes the feature matrix', () => {

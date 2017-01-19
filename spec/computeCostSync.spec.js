@@ -2,7 +2,7 @@
 import datagrep, { utils } from '../src/index'
 import path from 'path'
 
-describe('datagrep.computeCost', () => {
+describe('datagrep.computeCostSync', () => {
   const { csv, linearAlgebra } = utils
 
   it('computes the cost', () => {
