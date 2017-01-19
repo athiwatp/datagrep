@@ -2,6 +2,14 @@
   "name": "datagrep",
   "version": "2.0.5",
   "description": "A JavaScript Machine Learning Library",
+  "keywords": [
+    "Machine Learning",
+    "Gradient Descent",
+    "Pseudoinverse",
+    "pinv",
+    "Singular Value Decomposition",
+    "SVD"
+  ],
   "main": "dist/datagrep.js",
   "module": "src/index.js",
   "files": [
@@ -52,7 +60,7 @@
     "rimraf": "^2.5.4",
     "snazzy": "6.0.0",
     "standard": "8.6.0",
-    "webpack": "2.1.0-beta.28"
+    "webpack": "2.2.0"
   },
   "standard": {
     "ignore": [

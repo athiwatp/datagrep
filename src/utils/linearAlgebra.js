@@ -224,11 +224,21 @@ function numRowsSync (a) {
   return nj.array(a).shape[0]
 }
 
-function pinv (M, rcond = 1e-15, callback = () => {}) {
+/**
+ * Compute the (Moore-Penrose) pseudo-inverse (pinv) of a matrix asynchronously.
+ * @param {Array[]} M - the matrix
+ * @returns {Promise<Array[], Error>} resolves to pinvM - the calculated pseudo-inverse
+ */
+function pinv (M, callback = () => {}) {
   return asyncify(pinvSync, callback)(...arguments)
 }
 
-function pinvSync (M, rcond = 1e-15) {
+/**
+ * Compute the (Moore-Penrose) pseudo-inverse (pinv) of a matrix synchronously.
+ * @param {Array[]} M - the matrix
+ * @returns {Array[]} pinvM - the calculated pseudo-inverse
+ */
+function pinvSync (M) {
   let [U,, V, s] = svdSync(M)
   const ε = numeric.epsilon
   const m = numRowsSync(U)
@@ -271,13 +281,22 @@ function rejectSync (a, b) {
   return subtractSync(a, projectSync(a, b))
 }
 
+/**
+ * Compute the singular value decomposition (SVD) of a matrix asynchronously.
+ * @param {Array[]} M - the matrix
+ * @returns {Promise<Array[], Error>} resolves to [U, Σ, V, s] - the calculated singular value decomposition
+ */
 function svd (a, callback = () => {}) {
   return asyncify(svdSync, callback)(...arguments)
 }
 
-// singular value decomposition
-function svdSync (a) {
-  const res = numeric.svd(a)
+/**
+ * Compute the singular value decomposition (SVD) of a matrix synchronously.
+ * @param {Array[]} M - the matrix
+ * @returns {Array[]} [U, Σ, V, s] - the calculated singular value decomposition
+ */
+function svdSync (M) {
+  const res = numeric.svd(M)
   const U = res.U
   const s = res.S // singular values, or s-numbers
   const Σ = numeric.diag(s)
