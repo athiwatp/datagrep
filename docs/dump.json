@@ -4023,7 +4023,7 @@
     "__docId__": 149,
     "kind": "testFile",
     "name": "spec/computeCostSync.spec.js",
-    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.computeCost', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes the cost', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const theta = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)\n    const cost = datagrep.computeCostSync(X, y, theta)\n\n    expect(Number.parseFloat(cost)).toBe(32.072733877455676)\n  })\n})\n",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.computeCostSync', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes the cost', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const theta = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)\n    const cost = datagrep.computeCostSync(X, y, theta)\n\n    expect(Number.parseFloat(cost)).toBe(32.072733877455676)\n  })\n})\n",
     "static": true,
     "longname": "spec/computeCostSync.spec.js",
     "access": null,
@@ -4040,7 +4040,7 @@
     "static": true,
     "longname": "spec/computeCostSync.spec.js~describe5",
     "access": null,
-    "description": "datagrep.computeCost",
+    "description": "datagrep.computeCostSync",
     "lineNumber": 5
   },
   {
@@ -4097,7 +4097,7 @@
     "__docId__": 155,
     "kind": "testFile",
     "name": "spec/featureNormalizeSync.spec.js",
-    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.featureNormalize', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('normalizes the feature matrix', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample1.csv'))\n    const { X } = linearAlgebra.splitXySync(data, false)\n    const [normX, mu, sigma] = datagrep.featureNormalizeSync(X)\n\n    expect(normX.length).toBe(X.length)\n    expect(Number.parseFloat(mu[0])).toBe(2000.6808510638298)\n    expect(Number.parseFloat(mu[1])).toBe(3.1702127659574466)\n    expect(Number.parseFloat(sigma[0])).toBe(794.7023535338894)\n    expect(Number.parseFloat(sigma[1])).toBe(0.7609818867801011)\n  })\n})\n",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.featureNormalizeSync', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('normalizes the feature matrix', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample1.csv'))\n    const { X } = linearAlgebra.splitXySync(data, false)\n    const [normX, mu, sigma] = datagrep.featureNormalizeSync(X)\n\n    expect(normX.length).toBe(X.length)\n    expect(Number.parseFloat(mu[0])).toBe(2000.6808510638298)\n    expect(Number.parseFloat(mu[1])).toBe(3.1702127659574466)\n    expect(Number.parseFloat(sigma[0])).toBe(794.7023535338894)\n    expect(Number.parseFloat(sigma[1])).toBe(0.7609818867801011)\n  })\n})\n",
     "static": true,
     "longname": "spec/featureNormalizeSync.spec.js",
     "access": null,
@@ -4114,7 +4114,7 @@
     "static": true,
     "longname": "spec/featureNormalizeSync.spec.js~describe9",
     "access": null,
-    "description": "datagrep.featureNormalize",
+    "description": "datagrep.featureNormalizeSync",
     "lineNumber": 5
   },
   {
@@ -4659,7 +4659,7 @@
     "__docId__": 199,
     "kind": "testFile",
     "name": "spec/normalEqnSync.spec.js",
-    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\nconst parseFloat = Number.parseFloat\n\ndescribe('datagrep.normalEqn', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes theta for sample #0', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const [theta0, theta1] = datagrep.normalEqnSync(X, y)\n\n    expect(parseFloat(theta0[0])).toBe(-3.8957808783117756)\n    expect(parseFloat(theta1[0])).toBe(1.1930336441895864)\n  })\n\n  it('computes theta for sample #1', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample1.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const [theta0, theta1, theta2] = datagrep.normalEqnSync(X, y)\n\n    expect(parseFloat(theta0[0])).toBe(89597.90954502113)\n    expect(parseFloat(theta1[0])).toBe(139.2106740175284)\n    expect(parseFloat(theta2[0])).toBe(-8738.019112926442)\n  })\n})\n",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\nconst parseFloat = Number.parseFloat\n\ndescribe('datagrep.normalEqnSync', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes theta for sample #0', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const [theta0, theta1] = datagrep.normalEqnSync(X, y)\n\n    expect(parseFloat(theta0[0])).toBe(-3.8957808783117756)\n    expect(parseFloat(theta1[0])).toBe(1.1930336441895864)\n  })\n\n  it('computes theta for sample #1', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample1.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const [theta0, theta1, theta2] = datagrep.normalEqnSync(X, y)\n\n    expect(parseFloat(theta0[0])).toBe(89597.90954502113)\n    expect(parseFloat(theta1[0])).toBe(139.2106740175284)\n    expect(parseFloat(theta2[0])).toBe(-8738.019112926442)\n  })\n})\n",
     "static": true,
     "longname": "spec/normalEqnSync.spec.js",
     "access": null,
@@ -4676,7 +4676,7 @@
     "static": true,
     "longname": "spec/normalEqnSync.spec.js~describe48",
     "access": null,
-    "description": "datagrep.normalEqn",
+    "description": "datagrep.normalEqnSync",
     "lineNumber": 7
   },
   {

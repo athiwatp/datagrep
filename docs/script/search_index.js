@@ -751,20 +751,8 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/spec/computeCostSync.spec.js.html#lineNumber5",
-    "datagrep.computeCost",
-    "test"
-  ],
-  [
-    "",
     "test-file/spec/computeCost.spec.js.html#lineNumber5",
     "datagrep.computeCost",
-    "test"
-  ],
-  [
-    "",
-    "test-file/spec/computeCostSync.spec.js.html#lineNumber8",
-    "datagrep.computeCost computes the cost",
     "test"
   ],
   [
@@ -775,13 +763,19 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/spec/featureNormalize.spec.js.html#lineNumber5",
-    "datagrep.featureNormalize",
+    "test-file/spec/computeCostSync.spec.js.html#lineNumber5",
+    "datagrep.computeCostSync",
     "test"
   ],
   [
     "",
-    "test-file/spec/featureNormalizeSync.spec.js.html#lineNumber5",
+    "test-file/spec/computeCostSync.spec.js.html#lineNumber8",
+    "datagrep.computeCostSync computes the cost",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/featureNormalize.spec.js.html#lineNumber5",
     "datagrep.featureNormalize",
     "test"
   ],
@@ -793,8 +787,14 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/spec/featureNormalizeSync.spec.js.html#lineNumber5",
+    "datagrep.featureNormalizeSync",
+    "test"
+  ],
+  [
+    "",
     "test-file/spec/featureNormalizeSync.spec.js.html#lineNumber8",
-    "datagrep.featureNormalize normalizes the feature matrix",
+    "datagrep.featureNormalizeSync normalizes the feature matrix",
     "test"
   ],
   [
@@ -1009,18 +1009,6 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/spec/normalEqnSync.spec.js.html#lineNumber7",
-    "datagrep.normalEqn",
-    "test"
-  ],
-  [
-    "",
-    "test-file/spec/normalEqnSync.spec.js.html#lineNumber10",
-    "datagrep.normalEqn computes theta for sample #0",
-    "test"
-  ],
-  [
-    "",
     "test-file/spec/normalEqn.spec.js.html#lineNumber10",
     "datagrep.normalEqn computes theta for sample #0",
     "test"
@@ -1033,8 +1021,20 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/spec/normalEqnSync.spec.js.html#lineNumber7",
+    "datagrep.normalEqnSync",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/normalEqnSync.spec.js.html#lineNumber10",
+    "datagrep.normalEqnSync computes theta for sample #0",
+    "test"
+  ],
+  [
+    "",
     "test-file/spec/normalEqnSync.spec.js.html#lineNumber19",
-    "datagrep.normalEqn computes theta for sample #1",
+    "datagrep.normalEqnSync computes theta for sample #1",
     "test"
   ],
   [
