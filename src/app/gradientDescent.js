@@ -7,15 +7,18 @@ import {
     transpose
 } from '../utils/linearAlgebra'
 
-export default (X, y, theta, alpha, numIters) => {
-  const k = alpha / numRows(y)
-  const transposeX = transpose(X)
+export default (X, y, theta, alpha, numIters, callback = () => {}) => {
+  return new Promise(async (resolve, reject) => {
+    const k = alpha / await numRows(y)
+    const transposeX = await transpose(X)
 
-  for (let iter = 0; iter < numIters; iter++) {
-    const delta = multiply(k, dot(transposeX, errors(X, theta, y)))
+    for (let iter = 0; iter < numIters; iter++) {
+      const delta = await multiply(k, await dot(transposeX, await errors(X, theta, y)))
 
-    theta = subtract(theta, delta)
-  }
+      theta = await subtract(theta, delta)
+    }
 
-  return theta
+    callback(theta)
+    resolve(theta)
+  })
 }

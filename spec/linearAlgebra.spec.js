@@ -28,13 +28,13 @@ describe('datagrep.linearAlgebra', () => {
   describe('svd', () => {
     it('returns the singular value decomposition', async () => {
       const data = await csv.parseCsv(path.resolve('spec/data/sample1.csv'))
-      const { X } = splitXy(data)
-      const transposeX = transpose(X)
-      const M = dot(transposeX, X)
-      const [U, Σ, V, s] = svd(M)
-      const transposeV = transpose(V)
+      const { X } = await splitXy(data)
+      const transposeX = await transpose(X)
+      const M = await dot(transposeX, X)
+      const [U, Σ, V, s] = await svd(M)
+      const transposeV = await transpose(V)
 
-      const _M = dot(U, dot(Σ, V))
+      const _M = await dot(U, await dot(Σ, V))
 
       expect(parseFloat(U[0][0])).toBe(-0.0004329688371766067)
       expect(parseFloat(U[0][1])).toBe(0.2892450879376866)
@@ -76,10 +76,10 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('add', () => {
-    it('adds vectors', () => {
+    it('adds vectors', async () => {
       const a = [8.218, -9.341]
       const b = [-1.129, 2.111]
-      const sum = add(a, b)
+      const sum = await add(a, b)
 
       expect(sum[0]).toBe(7.089)
       expect(parseFloat(sum[1].toPrecision(precision))).toBe(-7.230)
@@ -87,10 +87,10 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('subtract', () => {
-    it('subtracts vectors', () => {
+    it('subtracts vectors', async () => {
       const a = [7.119, 8.215]
       const b = [-8.223, 0.878]
-      const diff = subtract(a, b)
+      const diff = await subtract(a, b)
 
       expect(diff[0]).toBe(15.342)
       expect(diff[1]).toBe(7.337)
@@ -98,10 +98,10 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('multiply', () => {
-    it('multiplies a scalar and a vector', () => {
+    it('multiplies a scalar and a vector', async () => {
       const a = 7.41
       const b = [1.671, -1.012, -0.318]
-      const product = multiply(a, b)
+      const product = await multiply(a, b)
 
       expect(product[0]).toBe(12.38211)
       expect(product[1]).toBe(-7.49892)
@@ -110,21 +110,21 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('magnitude', () => {
-    it('returns the magnitude of a vector', () => {
+    it('returns the magnitude of a vector', async () => {
       const a = [-0.221, 7.437]
       const b = [8.813, -1.331, -6.247]
 
-      expect(magnitude(a)).toBe(7.440282924728065)
-      expect(parseFloat(magnitude(b).toPrecision(16))).toBe(10.88418756729229)
+      expect(await magnitude(a)).toBe(7.440282924728065)
+      expect(parseFloat((await magnitude(b)).toPrecision(16))).toBe(10.88418756729229)
     })
   })
 
   describe('normalize', () => {
-    it('returns the normalized vector', () => {
+    it('returns the normalized vector', async () => {
       const a = [5.581, -2.136]
       const b = [1.996, 3.108, -4.554]
-      const normA = normalize(a)
-      const normB = normalize(b)
+      const normA = await normalize(a)
+      const normB = await normalize(b)
 
       expect(normA[0]).toBe(0.9339352140866403)
       expect(normA[1]).toBe(-0.35744232526233)
@@ -135,30 +135,30 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('dot product', () => {
-    it('returns the dot product of two vectors', () => {
+    it('returns the dot product of two vectors', async () => {
       const a = [7.887, 4.138]
       const b = [-8.802, 6.776]
       const c = [-5.955, -4.904, -1.874]
       const d = [-4.496, -8.755, 7.103]
 
-      expect(dot(a, b)[0]).toBe(-41.382286)
-      expect(dot(c, d)[0]).toBe(56.397178000000004)
+      expect((await dot(a, b))[0]).toBe(-41.382286)
+      expect((await dot(c, d))[0]).toBe(56.397178000000004)
     })
   })
 
   describe('angle', () => {
-    it('returns the angle in radians between two vectors', () => {
+    it('returns the angle in radians between two vectors', async () => {
       const a = [3.183, -7.627]
       const b = [-2.668, 5.319]
 
-      expect(parseFloat(angle(a, b).toPrecision(15))).toBe(3.07202630983725)
+      expect(parseFloat((await angle(a, b)).toPrecision(15))).toBe(3.07202630983725)
     })
 
-    it('optionally returns the angle in degrees between two vectors', () => {
+    it('optionally returns the angle in degrees between two vectors', async () => {
       const c = [7.35, 0.221, 5.188]
       const d = [2.751, 8.259, 3.985]
 
-      expect(angle(c, d, true)).toBe(60.27581120523091)
+      expect(await angle(c, d, true)).toBe(60.27581120523091)
     })
   })
 
@@ -173,26 +173,26 @@ describe('datagrep.linearAlgebra', () => {
     const g = [2.118, 4.827]
     const h = [0, 0]
 
-    it('returns a boolean indicating whether the vectors are parallel', () => {
-      expect(isParallel(a, b, precision)).toBe(true)
-      expect(isParallel(c, d, precision)).toBe(false)
-      expect(isParallel(e, f, precision)).toBe(false)
-      expect(isParallel(g, h, precision)).toBe(true)
+    it('returns a boolean indicating whether the vectors are parallel', async () => {
+      expect(await isParallel(a, b, precision)).toBe(true)
+      expect(await isParallel(c, d, precision)).toBe(false)
+      expect(await isParallel(e, f, precision)).toBe(false)
+      expect(await isParallel(g, h, precision)).toBe(true)
     })
 
-    it('returns a boolean indicating whether the vectors are orthogonal', () => {
-      expect(isOrthogonal(a, b, precision)).toBe(false)
-      expect(isOrthogonal(c, d, precision)).toBe(false)
-      expect(isOrthogonal(e, f, precision)).toBe(true)
-      expect(isOrthogonal(g, h, precision)).toBe(true)
+    it('returns a boolean indicating whether the vectors are orthogonal', async () => {
+      expect(await isOrthogonal(a, b, precision)).toBe(false)
+      expect(await isOrthogonal(c, d, precision)).toBe(false)
+      expect(await isOrthogonal(e, f, precision)).toBe(true)
+      expect(await isOrthogonal(g, h, precision)).toBe(true)
     })
   })
 
   describe('project', () => {
-    it('returns the projection of a vector onto another', () => {
+    it('returns the projection of a vector onto another', async () => {
       const a = [3.039, 1.879]
       const b = [0.825, 2.036]
-      const projection = project(a, b)
+      const projection = await project(a, b)
 
       expect(projection[0]).toBe(1.0826069624844668)
       expect(projection[1]).toBe(2.671742758325302)
@@ -200,10 +200,10 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('reject', () => {
-    it('returns the rejection of a vector onto another', () => {
+    it('returns the rejection of a vector onto another', async () => {
       const a = [-9.88, -3.264, -8.159]
       const b = [-2.155, -9.353, -9.473]
-      const rejection = reject(a, b)
+      const rejection = await reject(a, b)
 
       expect(rejection[0]).toBe(-8.350081043195763)
       expect(rejection[1]).toBe(3.37606125428772)
@@ -212,11 +212,11 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('projectAndReject', () => {
-    it('returns the projection and rejection of a vector onto another', () => {
+    it('returns the projection and rejection of a vector onto another', async () => {
       const a = [3.009, -6.172, 3.692, -2.51]
       const b = [6.404, -9.144, 2.759, 8.718]
-      const { projection, rejection } = projectAndReject(a, b)
-      const sum = add(projection, rejection)
+      const { projection, rejection } = await projectAndReject(a, b)
+      const sum = await add(projection, rejection)
 
       expect(projection[0]).toBe(1.9685161672140896)
       expect(projection[1]).toBe(-2.810760748439356)
@@ -234,20 +234,20 @@ describe('datagrep.linearAlgebra', () => {
   })
 
   describe('crossproduct', () => {
-    it('returns the cross product of two 3D vectors', () => {
+    it('returns the cross product of two 3D vectors', async () => {
       const a = [8.462, 7.893, -8.187]
       const b = [6.984, -5.975, 4.778]
       const c = [-8.987, -9.838, 5.031]
       const d = [-4.268, -1.861, -8.866]
       const e = [1.5, 9.547, 3.691]
       const f = [-6.007, 0.124, 5.772]
-      const vectorproduct = crossproduct(a, b)
+      const vectorproduct = await crossproduct(a, b)
 
       expect(vectorproduct[0]).toBe(-11.204570999999994)
       expect(vectorproduct[1]).toBe(-97.609444)
       expect(vectorproduct[2]).toBe(-105.68516199999999)
-      expect(magnitude(crossproduct(c, d))).toBe(142.12222140184633)
-      expect(magnitude(crossproduct(e, f)) / 2).toBe(42.56493739941894)
+      expect(await magnitude(await crossproduct(c, d))).toBe(142.12222140184633)
+      expect(await magnitude(await crossproduct(e, f)) / 2).toBe(42.56493739941894)
     })
   })
 })

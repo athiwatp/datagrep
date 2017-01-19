@@ -5,10 +5,10 @@ import path from 'path'
 describe('datagrep.featureNormalize', () => {
   const { csv, linearAlgebra } = utils
 
-  it('normalizes the feature matrix', async () => {
-    const data = await csv.parseCsv(path.resolve('spec/data/sample1.csv'))
-    const { X } = await linearAlgebra.splitXy(data, false)
-    const [normX, mu, sigma] = await datagrep.featureNormalize(X)
+  it('normalizes the feature matrix', () => {
+    const data = csv.parseCsvSync(path.resolve('spec/data/sample1.csv'))
+    const { X } = linearAlgebra.splitXySync(data, false)
+    const [normX, mu, sigma] = datagrep.featureNormalizeSync(X)
 
     expect(normX.length).toBe(X.length)
     expect(Number.parseFloat(mu[0])).toBe(2000.6808510638298)

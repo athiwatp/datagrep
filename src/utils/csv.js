@@ -1,7 +1,8 @@
 import parse from 'csv-parse'
-import { readFile } from './file'
+import parseSync from 'csv-parse/lib/sync'
+import { readFile, readFileSync } from './file'
 
-export { parseCsv }
+export { parseCsv, parseCsvSync }
 
 function parseCsv (file, options = { auto_parse: true, skip_empty_lines: true }) {
   return new Promise(async (resolve, reject) => {
@@ -11,4 +12,9 @@ function parseCsv (file, options = { auto_parse: true, skip_empty_lines: true })
       resolve(output)
     })
   })
+}
+
+function parseCsvSync (file, options = { auto_parse: true, skip_empty_lines: true }) {
+  const csvString = readFileSync(file)
+  return parseSync(csvString, options)
 }

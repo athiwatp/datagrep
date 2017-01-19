@@ -5,10 +5,10 @@ import {
     std
 } from '../utils/linearAlgebra'
 
-export default (X) => {
-  const mu = mean(X)
-  const sigma = std(X)
-  const normX = divide(subtract(X, mu), sigma)
+export default async (X) => {
+  const mu = await mean(X)
+  const sigma = await std(X)
+  const normX = await divide(await subtract(X, mu), sigma)
 
   return [normX, mu, sigma]
 }
