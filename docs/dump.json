@@ -3,7 +3,7 @@
     "__docId__": 0,
     "kind": "file",
     "name": "src/app/computeCost.js",
-    "content": "import { errors } from '../utils/common'\nimport { numRows, square } from '../utils/linearAlgebra'\n\nexport default (X, y, theta) => {\n  const m = numRows(X)\n  const cost = 1 / (2 * m) * square(errors(X, theta, y))\n\n  return cost\n}\n",
+    "content": "import { errors } from '../utils/common'\nimport { numRows, square } from '../utils/linearAlgebra'\n\nexport default (X, y, theta, callback = () => {}) => {\n  return new Promise(async (resolve, reject) => {\n    const m = await numRows(X)\n    const cost = 1 / (2 * m) * await square(await errors(X, theta, y))\n\n    callback(cost)\n    resolve(cost)\n  })\n}\n",
     "static": true,
     "longname": "src/app/computeCost.js",
     "access": null,
@@ -50,6 +50,13 @@
         "types": [
           "*"
         ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
       }
     ],
     "return": {
@@ -61,10 +68,10 @@
   {
     "__docId__": 2,
     "kind": "file",
-    "name": "src/app/featureNormalize.js",
-    "content": "import {\n    divide,\n    mean,\n    subtract,\n    std\n} from '../utils/linearAlgebra'\n\nexport default (X) => {\n  const mu = mean(X)\n  const sigma = std(X)\n  const normX = divide(subtract(X, mu), sigma)\n\n  return [normX, mu, sigma]\n}\n",
+    "name": "src/app/computeCostSync.js",
+    "content": "import { errorsSync } from '../utils/common'\nimport { numRowsSync, squareSync } from '../utils/linearAlgebra'\n\nexport default (X, y, theta) => {\n  const m = numRowsSync(X)\n  const cost = 1 / (2 * m) * squareSync(errorsSync(X, theta, y))\n\n  return cost\n}\n",
     "static": true,
-    "longname": "src/app/featureNormalize.js",
+    "longname": "src/app/computeCostSync.js",
     "access": null,
     "description": null,
     "lineNumber": 1
@@ -72,10 +79,69 @@
   {
     "__docId__": 3,
     "kind": "function",
+    "name": "computeCostSync",
+    "memberof": "src/app/computeCostSync.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/app/computeCostSync.js~computeCostSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/app/computeCostSync.js",
+    "importStyle": "computeCostSync",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "y",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "theta",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 4,
+    "kind": "file",
+    "name": "src/app/featureNormalize.js",
+    "content": "import {\n    divide,\n    mean,\n    subtract,\n    std\n} from '../utils/linearAlgebra'\n\nexport default async (X) => {\n  const mu = await mean(X)\n  const sigma = await std(X)\n  const normX = await divide(await subtract(X, mu), sigma)\n\n  return [normX, mu, sigma]\n}\n",
+    "static": true,
+    "longname": "src/app/featureNormalize.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 5,
+    "kind": "function",
     "name": "featureNormalize",
     "memberof": "src/app/featureNormalize.js",
     "generator": false,
-    "async": false,
+    "async": true,
     "static": true,
     "longname": "src/app/featureNormalize.js~featureNormalize",
     "access": null,
@@ -106,10 +172,57 @@
     }
   },
   {
-    "__docId__": 4,
+    "__docId__": 6,
+    "kind": "file",
+    "name": "src/app/featureNormalizeSync.js",
+    "content": "import {\n    divideSync,\n    meanSync,\n    subtractSync,\n    stdSync\n} from '../utils/linearAlgebra'\n\nexport default (X) => {\n  const mu = meanSync(X)\n  const sigma = stdSync(X)\n  const normX = divideSync(subtractSync(X, mu), sigma)\n\n  return [normX, mu, sigma]\n}\n",
+    "static": true,
+    "longname": "src/app/featureNormalizeSync.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 7,
+    "kind": "function",
+    "name": "featureNormalizeSync",
+    "memberof": "src/app/featureNormalizeSync.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/app/featureNormalizeSync.js~featureNormalizeSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/app/featureNormalizeSync.js",
+    "importStyle": "featureNormalizeSync",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 8,
     "kind": "file",
     "name": "src/app/gradientDescent.js",
-    "content": "import { errors } from '../utils/common'\nimport {\n    dot,\n    multiply,\n    numRows,\n    subtract,\n    transpose\n} from '../utils/linearAlgebra'\n\nexport default (X, y, theta, alpha, numIters) => {\n  const k = alpha / numRows(y)\n  const transposeX = transpose(X)\n\n  for (let iter = 0; iter < numIters; iter++) {\n    const delta = multiply(k, dot(transposeX, errors(X, theta, y)))\n\n    theta = subtract(theta, delta)\n  }\n\n  return theta\n}\n",
+    "content": "import { errors } from '../utils/common'\nimport {\n    dot,\n    multiply,\n    numRows,\n    subtract,\n    transpose\n} from '../utils/linearAlgebra'\n\nexport default (X, y, theta, alpha, numIters, callback = () => {}) => {\n  return new Promise(async (resolve, reject) => {\n    const k = alpha / await numRows(y)\n    const transposeX = await transpose(X)\n\n    for (let iter = 0; iter < numIters; iter++) {\n      const delta = await multiply(k, await dot(transposeX, await errors(X, theta, y)))\n\n      theta = await subtract(theta, delta)\n    }\n\n    callback(theta)\n    resolve(theta)\n  })\n}\n",
     "static": true,
     "longname": "src/app/gradientDescent.js",
     "access": null,
@@ -117,7 +230,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 5,
+    "__docId__": 9,
     "kind": "function",
     "name": "gradientDescent",
     "memberof": "src/app/gradientDescent.js",
@@ -168,6 +281,13 @@
         "types": [
           "*"
         ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
       }
     ],
     "return": {
@@ -177,10 +297,81 @@
     }
   },
   {
-    "__docId__": 6,
+    "__docId__": 10,
+    "kind": "file",
+    "name": "src/app/gradientDescentSync.js",
+    "content": "import { errorsSync } from '../utils/common'\nimport {\n    dotSync,\n    multiplySync,\n    numRowsSync,\n    subtractSync,\n    transposeSync\n} from '../utils/linearAlgebra'\n\nexport default (X, y, theta, alpha, numIters) => {\n  const k = alpha / numRowsSync(y)\n  const transposeX = transposeSync(X)\n\n  for (let iter = 0; iter < numIters; iter++) {\n    const delta = multiplySync(k, dotSync(transposeX, errorsSync(X, theta, y)))\n\n    theta = subtractSync(theta, delta)\n  }\n\n  return theta\n}\n",
+    "static": true,
+    "longname": "src/app/gradientDescentSync.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 11,
+    "kind": "function",
+    "name": "gradientDescentSync",
+    "memberof": "src/app/gradientDescentSync.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/app/gradientDescentSync.js~gradientDescentSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/app/gradientDescentSync.js",
+    "importStyle": "gradientDescentSync",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "y",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "theta",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "alpha",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "numIters",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 12,
     "kind": "file",
     "name": "src/app/index.js",
-    "content": "import computeCost from './computeCost'\nimport featureNormalize from './featureNormalize'\nimport gradientDescent from './gradientDescent'\nimport normalEqn from './normalEqn'\nimport utils from '../utils'\n\nexport default {\n  computeCost,\n  featureNormalize,\n  gradientDescent,\n  normalEqn,\n  utils\n}\nexport {\n    computeCost,\n    featureNormalize,\n    gradientDescent,\n    normalEqn,\n    utils\n}\n",
+    "content": "import computeCost from './computeCost'\nimport computeCostSync from './computeCostSync'\nimport featureNormalize from './featureNormalize'\nimport featureNormalizeSync from './featureNormalizeSync'\nimport gradientDescent from './gradientDescent'\nimport gradientDescentSync from './gradientDescentSync'\nimport normalEqn from './normalEqn'\nimport normalEqnSync from './normalEqnSync'\nimport utils from '../utils'\n\nexport default {\n  computeCost,\n  computeCostSync,\n  featureNormalize,\n  featureNormalizeSync,\n  gradientDescent,\n  gradientDescentSync,\n  normalEqn,\n  normalEqnSync,\n  utils\n}\nexport {\n    computeCost,\n    computeCostSync,\n    featureNormalize,\n    featureNormalizeSync,\n    gradientDescent,\n    gradientDescentSync,\n    normalEqn,\n    normalEqnSync,\n    utils\n}\n",
     "static": true,
     "longname": "src/app/index.js",
     "access": null,
@@ -188,10 +379,10 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 7,
+    "__docId__": 13,
     "kind": "file",
     "name": "src/app/normalEqn.js",
-    "content": "import {\n    dot,\n    pinv,\n    transpose\n} from '../utils/linearAlgebra'\n\nexport default (X, y) => {\n  const transposeX = transpose(X)\n  const theta = dot(pinv(dot(transposeX, X)), dot(transposeX, y))\n\n  return theta\n}\n",
+    "content": "import {\n    dot,\n    pinv,\n    transpose\n} from '../utils/linearAlgebra'\n\nexport default (X, y, callback = () => {}) => {\n  return new Promise(async (resolve, reject) => {\n    const transposeX = await transpose(X)\n    const theta = await dot(await pinv(await dot(transposeX, X)), await dot(transposeX, y))\n\n    callback(theta)\n    resolve(theta)\n  })\n}\n",
     "static": true,
     "longname": "src/app/normalEqn.js",
     "access": null,
@@ -199,7 +390,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 8,
+    "__docId__": 14,
     "kind": "function",
     "name": "normalEqn",
     "memberof": "src/app/normalEqn.js",
@@ -232,6 +423,13 @@
         "types": [
           "*"
         ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
       }
     ],
     "return": {
@@ -241,7 +439,60 @@
     }
   },
   {
-    "__docId__": 9,
+    "__docId__": 15,
+    "kind": "file",
+    "name": "src/app/normalEqnSync.js",
+    "content": "import {\n    dotSync,\n    pinvSync,\n    transposeSync\n} from '../utils/linearAlgebra'\n\nexport default (X, y) => {\n  const transposeX = transposeSync(X)\n  const theta = dotSync(pinvSync(dotSync(transposeX, X)), dotSync(transposeX, y))\n\n  return theta\n}\n",
+    "static": true,
+    "longname": "src/app/normalEqnSync.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 16,
+    "kind": "function",
+    "name": "normalEqnSync",
+    "memberof": "src/app/normalEqnSync.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/app/normalEqnSync.js~normalEqnSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/app/normalEqnSync.js",
+    "importStyle": "normalEqnSync",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "y",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 17,
     "kind": "file",
     "name": "src/index.js",
     "content": "import app from './app'\n\nexport default app\nexport * from './app'\n",
@@ -252,10 +503,10 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 10,
+    "__docId__": 18,
     "kind": "file",
     "name": "src/utils/common.js",
-    "content": "import { dot, subtract } from './linearAlgebra'\n\nexport {\n    errors\n}\n\nfunction errors (X, theta, y) {\n  return subtract(dot(X, theta), y)\n}\n",
+    "content": "import { dotSync, subtractSync } from './linearAlgebra'\n\nexport {\n    asyncify,\n    errors,\n    errorsSync\n}\n\nfunction asyncify (fnSync, callback) {\n  return (...args) => {\n    return new Promise((resolve, reject) => {\n      // TODO: Zalgo? process.nextTick()?\n      let result\n      try {\n        result = fnSync(...args)\n      } catch (error) {\n        callback(error)\n        return reject(error)\n      }\n      callback(null, result)\n      resolve(result)\n    })\n  }\n}\n\nfunction errors (X, theta, y, callback = () => {}) {\n  return asyncify(errorsSync, callback)(...arguments)\n}\n\nfunction errorsSync (X, theta, y) {\n  return subtractSync(dotSync(X, theta), y)\n}\n",
     "static": true,
     "longname": "src/utils/common.js",
     "access": null,
@@ -263,7 +514,49 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 11,
+    "__docId__": 19,
+    "kind": "function",
+    "name": "asyncify",
+    "memberof": "src/utils/common.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/common.js~asyncify",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/common.js",
+    "importStyle": "{asyncify}",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "fnSync",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 20,
     "kind": "function",
     "name": "errors",
     "memberof": "src/utils/common.js",
@@ -276,7 +569,62 @@
     "importPath": "datagrep/src/utils/common.js",
     "importStyle": "{errors}",
     "description": null,
-    "lineNumber": 7,
+    "lineNumber": 26,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "X",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "theta",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "y",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 21,
+    "kind": "function",
+    "name": "errorsSync",
+    "memberof": "src/utils/common.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/common.js~errorsSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/common.js",
+    "importStyle": "{errorsSync}",
+    "description": null,
+    "lineNumber": 30,
     "undocument": true,
     "unknown": [
       {
@@ -311,10 +659,10 @@
     }
   },
   {
-    "__docId__": 12,
+    "__docId__": 22,
     "kind": "file",
     "name": "src/utils/csv.js",
-    "content": "import parse from 'csv-parse'\nimport { readFile } from './file'\n\nexport { parseCsv }\n\nfunction parseCsv (file, options = { auto_parse: true, skip_empty_lines: true }) {\n  return new Promise(async (resolve, reject) => {\n    const csvString = await readFile(file)\n    parse(csvString, options, (err, output) => {\n      if (err) reject(err)\n      resolve(output)\n    })\n  })\n}\n",
+    "content": "import parse from 'csv-parse'\nimport parseSync from 'csv-parse/lib/sync'\nimport { readFile, readFileSync } from './file'\n\nexport { parseCsv, parseCsvSync }\n\nfunction parseCsv (file, options = { auto_parse: true, skip_empty_lines: true }) {\n  return new Promise(async (resolve, reject) => {\n    const csvString = await readFile(file)\n    parse(csvString, options, (err, output) => {\n      if (err) reject(err)\n      resolve(output)\n    })\n  })\n}\n\nfunction parseCsvSync (file, options = { auto_parse: true, skip_empty_lines: true }) {\n  const csvString = readFileSync(file)\n  return parseSync(csvString, options)\n}\n",
     "static": true,
     "longname": "src/utils/csv.js",
     "access": null,
@@ -322,7 +670,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 13,
+    "__docId__": 23,
     "kind": "function",
     "name": "parseCsv",
     "memberof": "src/utils/csv.js",
@@ -335,7 +683,7 @@
     "importPath": "datagrep/src/utils/csv.js",
     "importStyle": "{parseCsv}",
     "description": null,
-    "lineNumber": 6,
+    "lineNumber": 7,
     "undocument": true,
     "unknown": [
       {
@@ -370,10 +718,58 @@
     }
   },
   {
-    "__docId__": 14,
+    "__docId__": 24,
+    "kind": "function",
+    "name": "parseCsvSync",
+    "memberof": "src/utils/csv.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/csv.js~parseCsvSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/csv.js",
+    "importStyle": "{parseCsvSync}",
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "file",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "options",
+        "optional": true,
+        "types": [
+          "{\"auto_parse\": boolean, \"skip_empty_lines\": boolean}"
+        ],
+        "defaultRaw": {
+          "auto_parse": true,
+          "skip_empty_lines": true
+        },
+        "defaultValue": "{\"auto_parse\":true,\"skip_empty_lines\":true}"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 25,
     "kind": "file",
     "name": "src/utils/file.js",
-    "content": "import fs from 'fs'\n\nexport { readFile }\n\nfunction readFile (file) {\n  return new Promise((resolve, reject) => {\n    fs.readFile(file, 'utf8', (err, data) => {\n      if (err) reject(err)\n      resolve(data)\n    })\n  })\n}\n",
+    "content": "import fs from 'fs'\n\nconst encoding = 'utf8'\n\nexport { readFile, readFileSync }\n\nfunction readFile (file) {\n  return new Promise((resolve, reject) => {\n    fs.readFile(file, encoding, (err, data) => {\n      if (err) reject(err)\n      resolve(data)\n    })\n  })\n}\n\nfunction readFileSync (file) {\n  return fs.readFileSync(file, encoding)\n}\n",
     "static": true,
     "longname": "src/utils/file.js",
     "access": null,
@@ -381,7 +777,33 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 15,
+    "__docId__": 26,
+    "kind": "variable",
+    "name": "encoding",
+    "memberof": "src/utils/file.js",
+    "static": true,
+    "longname": "src/utils/file.js~encoding",
+    "access": null,
+    "export": false,
+    "importPath": "datagrep/src/utils/file.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 27,
     "kind": "function",
     "name": "readFile",
     "memberof": "src/utils/file.js",
@@ -394,7 +816,7 @@
     "importPath": "datagrep/src/utils/file.js",
     "importStyle": "{readFile}",
     "description": null,
-    "lineNumber": 5,
+    "lineNumber": 7,
     "undocument": true,
     "unknown": [
       {
@@ -417,7 +839,43 @@
     }
   },
   {
-    "__docId__": 16,
+    "__docId__": 28,
+    "kind": "function",
+    "name": "readFileSync",
+    "memberof": "src/utils/file.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/file.js~readFileSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/file.js",
+    "importStyle": "{readFileSync}",
+    "description": null,
+    "lineNumber": 16,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "file",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 29,
     "kind": "file",
     "name": "src/utils/index.js",
     "content": "import * as common from './common'\nimport * as csv from './csv'\nimport * as linearAlgebra from './linearAlgebra'\n\nexport default {\n  common,\n  csv,\n  linearAlgebra\n}\n",
@@ -428,10 +886,10 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 17,
+    "__docId__": 30,
     "kind": "file",
     "name": "src/utils/linearAlgebra.js",
-    "content": "import nj from 'numjs'\nimport numeric from 'numericjs'\nimport { Matrix, Vector } from 'vectorious'\nconst parseFloat = Number.parseFloat\n\nexport {\n  add,\n  angle,\n  crossproduct,\n  divide,\n  dot,\n  isParallel,\n  isOrthogonal,\n  magnitude,\n  max,\n  mean,\n  multiply,\n  normalize,\n  nullMatrix,\n  numCols,\n  numRows,\n  pinv,\n  project,\n  projectAndReject,\n  reject,\n  splitXy,\n  square,\n  std,\n  subtract,\n  svd,\n  transpose,\n  unit\n}\n\nfunction _arithmetic (operation, a, b) {\n  operation = nj[operation]\n  a = nj.array(a)\n  b = nj.array(b)\n\n  if (a.size !== b.size) {\n    let results = b.tolist().map((currentValue, index) => {\n      let col = a.slice(0, [index, index + 1]).tolist()\n      let result = operation(col, currentValue).tolist()\n      return result\n    })\n    return transpose(results)[0]\n  }\n\n  return operation(a, b).tolist()\n}\n\nfunction add (a, b) {\n  return new Vector(a).add(new Vector(b)).toArray()\n}\n\nfunction angle (a, b, convertToDegrees = false) {\n  const degreesPerRadian = 180 / Math.PI\n  const radians = new Vector(a).angle(new Vector(b))\n\n  if (convertToDegrees) return radians * degreesPerRadian\n  return radians\n}\n\nfunction crossproduct (a, b) {\n  const i = new Matrix([a.slice(1), b.slice(1)]).determinant()\n  const j = -new Matrix([a.slice(0, 1).concat(a.slice(2)), b.slice(0, 1).concat(b.slice(2))]).determinant()\n  const k = new Matrix([a.slice(0, 2), b.slice(0, 2)]).determinant()\n  return [i, j, k]\n}\n\nfunction divide (a, b) {\n  return _arithmetic('divide', a, b)\n}\n\nfunction dot (a, b) {\n  return nj.dot(a, b).tolist()\n}\n\nfunction isParallel (a, b, precision = 21) {\n  let radians = parseFloat(angle(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === 0 || radians === parseFloat(Math.PI.toPrecision(precision))\n}\n\nfunction isOrthogonal (a, b, precision = 21) {\n  let radians = parseFloat(angle(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))\n}\n\nfunction magnitude (a) {\n  return new Vector(a).magnitude()\n}\n\nfunction max (a) {\n  // TODO: accomodate any dimension\n  return nj.max(a)\n}\n\nfunction mean (a) {\n  const _numRows = numRows(a)\n  const sums = a.reduce((accumulator, currentValue) => {\n    currentValue.forEach((currentValue, index) => {\n      accumulator[index] += currentValue\n    })\n    return accumulator\n  }, new Array(numCols(a)).fill(0))\n  const mean = sums.map((currentValue) => {\n    return currentValue / _numRows\n  })\n\n  return mean\n}\n\nfunction multiply (a, b) {\n  let result\n  try {\n    result = nj.multiply(a, b)\n  } catch (error) {\n    result = nj.multiply(b, a)\n  }\n\n  return result.tolist()\n}\n\nfunction normalize (a) {\n  return new Vector(a).normalize().toArray()\n}\n\nfunction nullMatrix (numRows, numCols) {\n  return nj.zeros([numRows, numCols]).tolist()\n}\n\nfunction numCols (a) {\n  return nj.array(a).shape[1] || 1\n}\n\nfunction numRows (a) {\n  return nj.array(a).shape[0]\n}\n\nfunction pinv (M, rcond = 1e-15) {\n  let [U,, V, s] = svd(M)\n  const ε = numeric.epsilon\n  const m = numRows(U)\n  const n = numCols(transpose(V))\n  const diagDim = Math.max(m, n)\n  const tolerance = ε * diagDim * max(s)\n  const pinvΣ = transpose(numeric.diag(s.map((sNum, index) => {\n    return index < diagDim && sNum > tolerance ? 1 / sNum : 0\n  })))\n  const transposeU = transpose(U)\n  const pinvM = dot(transpose(V), dot(pinvΣ, transposeU))\n\n  return pinvM\n}\n\nfunction project (a, b) {\n  return new Vector(a).project(new Vector(b)).toArray()\n}\n\nfunction projectAndReject (a, b) {\n  return {\n    projection: project(a, b),\n    rejection: reject(a, b)\n  }\n}\n\nfunction reject (a, b) {\n  return subtract(a, project(a, b))\n}\n\n// singular value decomposition\nfunction svd (a) {\n  const res = numeric.svd(a)\n  const U = res.U\n  const s = res.S // singular values, or s-numbers\n  const Σ = numeric.diag(s)\n  const transposeV = res.V\n  const V = transpose(transposeV)\n\n  return [U, Σ, V, s]\n}\n\nfunction splitXy (data, addOnes = true) {\n  const dataAsMatrix = nj.array(data)\n  const [numRows, numCols] = dataAsMatrix.shape\n  const y = dataAsMatrix.slice(0, -1).tolist()\n  let X = dataAsMatrix.slice(0, [numCols - 1])\n  if (addOnes) X = nj.concatenate(nj.ones([numRows, 1]), X)\n  X = X.tolist()\n\n  return { X, y }\n}\n\nfunction square (a) {\n  a = nj.array(a)\n\n  return a.T.dot(a).tolist()[0][0]\n}\n\nfunction std (a) {\n  const t = nj.array(a).T\n  const options = { 'ddof': 1 }\n  const stdDevs = t.tolist().map((row) => {\n    return nj.array(row).std(options)\n  })\n\n  return stdDevs\n}\n\nfunction subtract (a, b) {\n  return _arithmetic('subtract', a, b)\n}\n\nfunction transpose (a) {\n  return nj.array(a).T.tolist()\n}\n\nfunction unit (a) {\n  return multiply(a, 1 / magnitude(a))\n}\n",
+    "content": "import { asyncify } from './common'\nimport nj from 'numjs'\nimport numeric from 'numericjs'\nimport { Matrix, Vector } from 'vectorious'\nconst parseFloat = Number.parseFloat\n\nexport {\n  add,\n  addSync,\n  angle,\n  angleSync,\n  crossproduct,\n  crossproductSync,\n  divide,\n  divideSync,\n  dot,\n  dotSync,\n  isParallel,\n  isParallelSync,\n  isOrthogonal,\n  isOrthogonalSync,\n  magnitude,\n  magnitudeSync,\n  max,\n  maxSync,\n  mean,\n  meanSync,\n  multiply,\n  multiplySync,\n  normalize,\n  normalizeSync,\n  nullMatrix,\n  nullMatrixSync,\n  numCols,\n  numColsSync,\n  numRows,\n  numRowsSync,\n  pinv,\n  pinvSync,\n  project,\n  projectSync,\n  projectAndReject,\n  projectAndRejectSync,\n  reject,\n  rejectSync,\n  splitXy,\n  splitXySync,\n  square,\n  squareSync,\n  std,\n  stdSync,\n  subtract,\n  subtractSync,\n  svd,\n  svdSync,\n  transpose,\n  transposeSync,\n  unit,\n  unitSync\n}\n\nfunction _arithmetic (operation, a, b) {\n  operation = nj[operation]\n  a = nj.array(a)\n  b = nj.array(b)\n\n  if (a.size !== b.size) {\n    let results = b.tolist().map((currentValue, index) => {\n      let col = a.slice(0, [index, index + 1]).tolist()\n      let result = operation(col, currentValue).tolist()\n      return result\n    })\n    return transposeSync(results)[0]\n  }\n\n  return operation(a, b).tolist()\n}\n\nfunction add (a, b, callback = () => {}) {\n  return asyncify(addSync, callback)(...arguments)\n}\n\nfunction addSync (a, b) {\n  return new Vector(a).add(new Vector(b)).toArray()\n}\n\nfunction angle (a, b, convertToDegrees = false, callback = () => {}) {\n  return asyncify(angleSync, callback)(...arguments)\n}\n\nfunction angleSync (a, b, convertToDegrees = false) {\n  const degreesPerRadian = 180 / Math.PI\n  const radians = new Vector(a).angle(new Vector(b))\n\n  if (convertToDegrees) return radians * degreesPerRadian\n  return radians\n}\n\nfunction crossproduct (a, b, callback = () => {}) {\n  return asyncify(crossproductSync, callback)(...arguments)\n}\n\nfunction crossproductSync (a, b) {\n  const i = new Matrix([a.slice(1), b.slice(1)]).determinant()\n  const j = -new Matrix([a.slice(0, 1).concat(a.slice(2)), b.slice(0, 1).concat(b.slice(2))]).determinant()\n  const k = new Matrix([a.slice(0, 2), b.slice(0, 2)]).determinant()\n  return [i, j, k]\n}\n\nfunction divide (a, b, callback = () => {}) {\n  return asyncify(divideSync, callback)(...arguments)\n}\n\nfunction divideSync (a, b) {\n  return _arithmetic('divide', a, b)\n}\n\nfunction dot (a, b, callback = () => {}) {\n  return asyncify(dotSync, callback)(...arguments)\n}\n\nfunction dotSync (a, b) {\n  return nj.dot(a, b).tolist()\n}\n\nfunction isParallel (a, b, precision = 21, callback = () => {}) {\n  return asyncify(isParallelSync, callback)(...arguments)\n}\n\nfunction isParallelSync (a, b, precision = 21) {\n  let radians = parseFloat(angleSync(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === 0 || radians === parseFloat(Math.PI.toPrecision(precision))\n}\n\nfunction isOrthogonal (a, b, precision = 21, callback = () => {}) {\n  return asyncify(isOrthogonalSync, callback)(...arguments)\n}\n\nfunction isOrthogonalSync (a, b, precision = 21) {\n  let radians = parseFloat(angleSync(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))\n}\n\nfunction magnitude (a, callback = () => {}) {\n  return asyncify(magnitudeSync, callback)(...arguments)\n}\n\nfunction magnitudeSync (a) {\n  return new Vector(a).magnitude()\n}\n\nfunction max (a, callback = () => {}) {\n  return asyncify(maxSync, callback)(...arguments)\n}\n\nfunction maxSync (a) {\n  // TODO: accomodate any dimension\n  return nj.max(a)\n}\n\nfunction mean (a, callback = () => {}) {\n  return asyncify(meanSync, callback)(...arguments)\n}\n\nfunction meanSync (a) {\n  const _numRows = numRowsSync(a)\n  const sums = a.reduce((accumulator, currentValue) => {\n    currentValue.forEach((currentValue, index) => {\n      accumulator[index] += currentValue\n    })\n    return accumulator\n  }, new Array(numColsSync(a)).fill(0))\n  const mean = sums.map((currentValue) => {\n    return currentValue / _numRows\n  })\n\n  return mean\n}\n\nfunction multiply (a, b, callback = () => {}) {\n  return asyncify(multiplySync, callback)(...arguments)\n}\n\nfunction multiplySync (a, b) {\n  let result\n  try {\n    result = nj.multiply(a, b)\n  } catch (error) {\n    result = nj.multiply(b, a)\n  }\n\n  return result.tolist()\n}\n\nfunction normalize (a, callback = () => {}) {\n  return asyncify(normalizeSync, callback)(...arguments)\n}\n\nfunction normalizeSync (a) {\n  return new Vector(a).normalize().toArray()\n}\n\nfunction nullMatrix (numRows, numCols, callback = () => {}) {\n  return asyncify(nullMatrixSync, callback)(...arguments)\n}\n\nfunction nullMatrixSync (numRows, numCols) {\n  return nj.zeros([numRows, numCols]).tolist()\n}\n\nfunction numCols (a, callback = () => {}) {\n  return asyncify(numColsSync, callback)(...arguments)\n}\n\nfunction numColsSync (a) {\n  return nj.array(a).shape[1] || 1\n}\n\nfunction numRows (a, callback = () => {}) {\n  return asyncify(numRowsSync, callback)(...arguments)\n}\n\nfunction numRowsSync (a) {\n  return nj.array(a).shape[0]\n}\n\nfunction pinv (M, rcond = 1e-15, callback = () => {}) {\n  return asyncify(pinvSync, callback)(...arguments)\n}\n\nfunction pinvSync (M, rcond = 1e-15) {\n  let [U,, V, s] = svdSync(M)\n  const ε = numeric.epsilon\n  const m = numRowsSync(U)\n  const n = numColsSync(transposeSync(V))\n  const diagDim = Math.max(m, n)\n  const tolerance = ε * diagDim * maxSync(s)\n  const pinvΣ = transposeSync(numeric.diag(s.map((sNum, index) => {\n    return index < diagDim && sNum > tolerance ? 1 / sNum : 0\n  })))\n  const transposeU = transposeSync(U)\n  const pinvM = dotSync(transposeSync(V), dotSync(pinvΣ, transposeU))\n\n  return pinvM\n}\n\nfunction project (a, b, callback = () => {}) {\n  return asyncify(projectSync, callback)(...arguments)\n}\n\nfunction projectSync (a, b) {\n  return new Vector(a).project(new Vector(b)).toArray()\n}\n\nfunction projectAndReject (a, b, callback = () => {}) {\n  return asyncify(projectAndRejectSync, callback)(...arguments)\n}\n\nfunction projectAndRejectSync (a, b) {\n  return {\n    projection: projectSync(a, b),\n    rejection: rejectSync(a, b)\n  }\n}\n\nfunction reject (a, b, callback = () => {}) {\n  return asyncify(rejectSync, callback)(...arguments)\n}\n\nfunction rejectSync (a, b) {\n  return subtractSync(a, projectSync(a, b))\n}\n\nfunction svd (a, callback = () => {}) {\n  return asyncify(svdSync, callback)(...arguments)\n}\n\n// singular value decomposition\nfunction svdSync (a) {\n  const res = numeric.svd(a)\n  const U = res.U\n  const s = res.S // singular values, or s-numbers\n  const Σ = numeric.diag(s)\n  const transposeV = res.V\n  const V = transposeSync(transposeV)\n\n  return [U, Σ, V, s]\n}\n\nfunction splitXy (data, addOnes = true, callback = () => {}) {\n  return asyncify(splitXySync, callback)(...arguments)\n}\n\nfunction splitXySync (data, addOnes = true) {\n  const dataAsMatrix = nj.array(data)\n  const [numRows, numCols] = dataAsMatrix.shape\n  const y = dataAsMatrix.slice(0, -1).tolist()\n  let X = dataAsMatrix.slice(0, [numCols - 1])\n  if (addOnes) X = nj.concatenate(nj.ones([numRows, 1]), X)\n  X = X.tolist()\n\n  return { X, y }\n}\n\nfunction square (a, callback = () => {}) {\n  return asyncify(squareSync, callback)(...arguments)\n}\n\nfunction squareSync (a) {\n  a = nj.array(a)\n\n  return a.T.dot(a).tolist()[0][0]\n}\n\nfunction std (a, callback = () => {}) {\n  return asyncify(stdSync, callback)(...arguments)\n}\n\nfunction stdSync (a) {\n  const t = nj.array(a).T\n  const options = { 'ddof': 1 }\n  const stdDevs = t.tolist().map((row) => {\n    return nj.array(row).std(options)\n  })\n\n  return stdDevs\n}\n\nfunction subtract (a, b, callback = () => {}) {\n  return asyncify(subtractSync, callback)(...arguments)\n}\n\nfunction subtractSync (a, b) {\n  return _arithmetic('subtract', a, b)\n}\n\nfunction transpose (a, callback = () => {}) {\n  return asyncify(transposeSync, callback)(...arguments)\n}\n\nfunction transposeSync (a) {\n  return nj.array(a).T.tolist()\n}\n\nfunction unit (a, callback = () => {}) {\n  return asyncify(unitSync, callback)(...arguments)\n}\n\nfunction unitSync (a) {\n  return multiplySync(a, 1 / magnitude(a))\n}\n",
     "static": true,
     "longname": "src/utils/linearAlgebra.js",
     "access": null,
@@ -439,7 +897,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 18,
+    "__docId__": 31,
     "kind": "variable",
     "name": "parseFloat",
     "memberof": "src/utils/linearAlgebra.js",
@@ -450,7 +908,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 4,
+    "lineNumber": 5,
     "undocument": true,
     "unknown": [
       {
@@ -465,7 +923,7 @@
     }
   },
   {
-    "__docId__": 19,
+    "__docId__": 32,
     "kind": "function",
     "name": "_arithmetic",
     "memberof": "src/utils/linearAlgebra.js",
@@ -478,7 +936,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 35,
+    "lineNumber": 62,
     "undocument": true,
     "unknown": [
       {
@@ -513,7 +971,7 @@
     }
   },
   {
-    "__docId__": 20,
+    "__docId__": 33,
     "kind": "function",
     "name": "add",
     "memberof": "src/utils/linearAlgebra.js",
@@ -526,7 +984,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{add}",
     "description": null,
-    "lineNumber": 52,
+    "lineNumber": 79,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 34,
+    "kind": "function",
+    "name": "addSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~addSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{addSync}",
+    "description": null,
+    "lineNumber": 83,
     "undocument": true,
     "unknown": [
       {
@@ -555,7 +1062,7 @@
     }
   },
   {
-    "__docId__": 21,
+    "__docId__": 35,
     "kind": "function",
     "name": "angle",
     "memberof": "src/utils/linearAlgebra.js",
@@ -568,7 +1075,65 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{angle}",
     "description": null,
-    "lineNumber": 56,
+    "lineNumber": 87,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "convertToDegrees",
+        "optional": true,
+        "types": [
+          "boolean"
+        ],
+        "defaultRaw": false,
+        "defaultValue": "false"
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 36,
+    "kind": "function",
+    "name": "angleSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~angleSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{angleSync}",
+    "description": null,
+    "lineNumber": 91,
     "undocument": true,
     "unknown": [
       {
@@ -606,7 +1171,7 @@
     }
   },
   {
-    "__docId__": 22,
+    "__docId__": 37,
     "kind": "function",
     "name": "crossproduct",
     "memberof": "src/utils/linearAlgebra.js",
@@ -619,7 +1184,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{crossproduct}",
     "description": null,
-    "lineNumber": 64,
+    "lineNumber": 99,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 38,
+    "kind": "function",
+    "name": "crossproductSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~crossproductSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{crossproductSync}",
+    "description": null,
+    "lineNumber": 103,
     "undocument": true,
     "unknown": [
       {
@@ -648,7 +1262,7 @@
     }
   },
   {
-    "__docId__": 23,
+    "__docId__": 39,
     "kind": "function",
     "name": "divide",
     "memberof": "src/utils/linearAlgebra.js",
@@ -661,7 +1275,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{divide}",
     "description": null,
-    "lineNumber": 71,
+    "lineNumber": 110,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 40,
+    "kind": "function",
+    "name": "divideSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~divideSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{divideSync}",
+    "description": null,
+    "lineNumber": 114,
     "undocument": true,
     "unknown": [
       {
@@ -690,7 +1353,7 @@
     }
   },
   {
-    "__docId__": 24,
+    "__docId__": 41,
     "kind": "function",
     "name": "dot",
     "memberof": "src/utils/linearAlgebra.js",
@@ -703,7 +1366,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{dot}",
     "description": null,
-    "lineNumber": 75,
+    "lineNumber": 118,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 42,
+    "kind": "function",
+    "name": "dotSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~dotSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{dotSync}",
+    "description": null,
+    "lineNumber": 122,
     "undocument": true,
     "unknown": [
       {
@@ -732,7 +1444,7 @@
     }
   },
   {
-    "__docId__": 25,
+    "__docId__": 43,
     "kind": "function",
     "name": "isParallel",
     "memberof": "src/utils/linearAlgebra.js",
@@ -745,7 +1457,65 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{isParallel}",
     "description": null,
-    "lineNumber": 79,
+    "lineNumber": 126,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "precision",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 21,
+        "defaultValue": "21"
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 44,
+    "kind": "function",
+    "name": "isParallelSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~isParallelSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{isParallelSync}",
+    "description": null,
+    "lineNumber": 130,
     "undocument": true,
     "unknown": [
       {
@@ -783,7 +1553,7 @@
     }
   },
   {
-    "__docId__": 26,
+    "__docId__": 45,
     "kind": "function",
     "name": "isOrthogonal",
     "memberof": "src/utils/linearAlgebra.js",
@@ -796,7 +1566,65 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{isOrthogonal}",
     "description": null,
-    "lineNumber": 84,
+    "lineNumber": 135,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "precision",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 21,
+        "defaultValue": "21"
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 46,
+    "kind": "function",
+    "name": "isOrthogonalSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~isOrthogonalSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{isOrthogonalSync}",
+    "description": null,
+    "lineNumber": 139,
     "undocument": true,
     "unknown": [
       {
@@ -834,7 +1662,7 @@
     }
   },
   {
-    "__docId__": 27,
+    "__docId__": 47,
     "kind": "function",
     "name": "magnitude",
     "memberof": "src/utils/linearAlgebra.js",
@@ -847,7 +1675,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{magnitude}",
     "description": null,
-    "lineNumber": 89,
+    "lineNumber": 144,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 48,
+    "kind": "function",
+    "name": "magnitudeSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~magnitudeSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{magnitudeSync}",
+    "description": null,
+    "lineNumber": 148,
     "undocument": true,
     "unknown": [
       {
@@ -870,7 +1741,7 @@
     }
   },
   {
-    "__docId__": 28,
+    "__docId__": 49,
     "kind": "function",
     "name": "max",
     "memberof": "src/utils/linearAlgebra.js",
@@ -883,7 +1754,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{max}",
     "description": null,
-    "lineNumber": 93,
+    "lineNumber": 152,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 50,
+    "kind": "function",
+    "name": "maxSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~maxSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{maxSync}",
+    "description": null,
+    "lineNumber": 156,
     "undocument": true,
     "unknown": [
       {
@@ -906,7 +1820,7 @@
     }
   },
   {
-    "__docId__": 29,
+    "__docId__": 51,
     "kind": "function",
     "name": "mean",
     "memberof": "src/utils/linearAlgebra.js",
@@ -919,7 +1833,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{mean}",
     "description": null,
-    "lineNumber": 98,
+    "lineNumber": 161,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "function",
+    "name": "meanSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~meanSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{meanSync}",
+    "description": null,
+    "lineNumber": 165,
     "undocument": true,
     "unknown": [
       {
@@ -942,7 +1899,7 @@
     }
   },
   {
-    "__docId__": 30,
+    "__docId__": 53,
     "kind": "function",
     "name": "multiply",
     "memberof": "src/utils/linearAlgebra.js",
@@ -955,7 +1912,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{multiply}",
     "description": null,
-    "lineNumber": 113,
+    "lineNumber": 180,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 54,
+    "kind": "function",
+    "name": "multiplySync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~multiplySync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{multiplySync}",
+    "description": null,
+    "lineNumber": 184,
     "undocument": true,
     "unknown": [
       {
@@ -984,7 +1990,7 @@
     }
   },
   {
-    "__docId__": 31,
+    "__docId__": 55,
     "kind": "function",
     "name": "normalize",
     "memberof": "src/utils/linearAlgebra.js",
@@ -997,7 +2003,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{normalize}",
     "description": null,
-    "lineNumber": 124,
+    "lineNumber": 195,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "function",
+    "name": "normalizeSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~normalizeSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{normalizeSync}",
+    "description": null,
+    "lineNumber": 199,
     "undocument": true,
     "unknown": [
       {
@@ -1020,7 +2069,7 @@
     }
   },
   {
-    "__docId__": 32,
+    "__docId__": 57,
     "kind": "function",
     "name": "nullMatrix",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1033,7 +2082,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{nullMatrix}",
     "description": null,
-    "lineNumber": 128,
+    "lineNumber": 203,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "numRows",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "numCols",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "function",
+    "name": "nullMatrixSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~nullMatrixSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{nullMatrixSync}",
+    "description": null,
+    "lineNumber": 207,
     "undocument": true,
     "unknown": [
       {
@@ -1062,7 +2160,7 @@
     }
   },
   {
-    "__docId__": 33,
+    "__docId__": 59,
     "kind": "function",
     "name": "numCols",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1075,7 +2173,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{numCols}",
     "description": null,
-    "lineNumber": 132,
+    "lineNumber": 211,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 60,
+    "kind": "function",
+    "name": "numColsSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~numColsSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{numColsSync}",
+    "description": null,
+    "lineNumber": 215,
     "undocument": true,
     "unknown": [
       {
@@ -1098,7 +2239,7 @@
     }
   },
   {
-    "__docId__": 34,
+    "__docId__": 61,
     "kind": "function",
     "name": "numRows",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1111,7 +2252,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{numRows}",
     "description": null,
-    "lineNumber": 136,
+    "lineNumber": 219,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 62,
+    "kind": "function",
+    "name": "numRowsSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~numRowsSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{numRowsSync}",
+    "description": null,
+    "lineNumber": 223,
     "undocument": true,
     "unknown": [
       {
@@ -1134,7 +2318,7 @@
     }
   },
   {
-    "__docId__": 35,
+    "__docId__": 63,
     "kind": "function",
     "name": "pinv",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1147,7 +2331,59 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{pinv}",
     "description": null,
-    "lineNumber": 140,
+    "lineNumber": 227,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "M",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "rcond",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 1e-15,
+        "defaultValue": "1e-15"
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 64,
+    "kind": "function",
+    "name": "pinvSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~pinvSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{pinvSync}",
+    "description": null,
+    "lineNumber": 231,
     "undocument": true,
     "unknown": [
       {
@@ -1179,7 +2415,7 @@
     }
   },
   {
-    "__docId__": 36,
+    "__docId__": 65,
     "kind": "function",
     "name": "project",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1192,7 +2428,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{project}",
     "description": null,
-    "lineNumber": 156,
+    "lineNumber": 247,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 66,
+    "kind": "function",
+    "name": "projectSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~projectSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{projectSync}",
+    "description": null,
+    "lineNumber": 251,
     "undocument": true,
     "unknown": [
       {
@@ -1221,7 +2506,7 @@
     }
   },
   {
-    "__docId__": 37,
+    "__docId__": 67,
     "kind": "function",
     "name": "projectAndReject",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1234,7 +2519,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{projectAndReject}",
     "description": null,
-    "lineNumber": 160,
+    "lineNumber": 255,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 68,
+    "kind": "function",
+    "name": "projectAndRejectSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~projectAndRejectSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{projectAndRejectSync}",
+    "description": null,
+    "lineNumber": 259,
     "undocument": true,
     "unknown": [
       {
@@ -1263,7 +2597,7 @@
     }
   },
   {
-    "__docId__": 38,
+    "__docId__": 69,
     "kind": "function",
     "name": "reject",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1276,7 +2610,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{reject}",
     "description": null,
-    "lineNumber": 167,
+    "lineNumber": 266,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 70,
+    "kind": "function",
+    "name": "rejectSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~rejectSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{rejectSync}",
+    "description": null,
+    "lineNumber": 270,
     "undocument": true,
     "unknown": [
       {
@@ -1305,7 +2688,7 @@
     }
   },
   {
-    "__docId__": 39,
+    "__docId__": 71,
     "kind": "function",
     "name": "splitXy",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1318,7 +2701,59 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{splitXy}",
     "description": null,
-    "lineNumber": 183,
+    "lineNumber": 290,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "addOnes",
+        "optional": true,
+        "types": [
+          "boolean"
+        ],
+        "defaultRaw": true,
+        "defaultValue": "true"
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 72,
+    "kind": "function",
+    "name": "splitXySync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~splitXySync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{splitXySync}",
+    "description": null,
+    "lineNumber": 294,
     "undocument": true,
     "unknown": [
       {
@@ -1350,7 +2785,7 @@
     }
   },
   {
-    "__docId__": 40,
+    "__docId__": 73,
     "kind": "function",
     "name": "square",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1363,7 +2798,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{square}",
     "description": null,
-    "lineNumber": 194,
+    "lineNumber": 305,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 74,
+    "kind": "function",
+    "name": "squareSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~squareSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{squareSync}",
+    "description": null,
+    "lineNumber": 309,
     "undocument": true,
     "unknown": [
       {
@@ -1386,7 +2864,7 @@
     }
   },
   {
-    "__docId__": 41,
+    "__docId__": 75,
     "kind": "function",
     "name": "std",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1399,7 +2877,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{std}",
     "description": null,
-    "lineNumber": 200,
+    "lineNumber": 315,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 76,
+    "kind": "function",
+    "name": "stdSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~stdSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{stdSync}",
+    "description": null,
+    "lineNumber": 319,
     "undocument": true,
     "unknown": [
       {
@@ -1422,7 +2943,7 @@
     }
   },
   {
-    "__docId__": 42,
+    "__docId__": 77,
     "kind": "function",
     "name": "subtract",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1435,7 +2956,56 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{subtract}",
     "description": null,
-    "lineNumber": 210,
+    "lineNumber": 329,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 78,
+    "kind": "function",
+    "name": "subtractSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~subtractSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{subtractSync}",
+    "description": null,
+    "lineNumber": 333,
     "undocument": true,
     "unknown": [
       {
@@ -1464,7 +3034,7 @@
     }
   },
   {
-    "__docId__": 43,
+    "__docId__": 79,
     "kind": "function",
     "name": "svd",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1477,7 +3047,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{svd}",
     "description": null,
-    "lineNumber": 172,
+    "lineNumber": 274,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 80,
+    "kind": "function",
+    "name": "svdSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~svdSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{svdSync}",
+    "description": null,
+    "lineNumber": 279,
     "undocument": true,
     "unknown": [
       {
@@ -1500,7 +3113,7 @@
     }
   },
   {
-    "__docId__": 44,
+    "__docId__": 81,
     "kind": "function",
     "name": "transpose",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1513,7 +3126,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{transpose}",
     "description": null,
-    "lineNumber": 214,
+    "lineNumber": 337,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 82,
+    "kind": "function",
+    "name": "transposeSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~transposeSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{transposeSync}",
+    "description": null,
+    "lineNumber": 341,
     "undocument": true,
     "unknown": [
       {
@@ -1536,7 +3192,7 @@
     }
   },
   {
-    "__docId__": 45,
+    "__docId__": 83,
     "kind": "function",
     "name": "unit",
     "memberof": "src/utils/linearAlgebra.js",
@@ -1549,7 +3205,50 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{unit}",
     "description": null,
-    "lineNumber": 218,
+    "lineNumber": 345,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 84,
+    "kind": "function",
+    "name": "unitSync",
+    "memberof": "src/utils/linearAlgebra.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/linearAlgebra.js~unitSync",
+    "access": null,
+    "export": true,
+    "importPath": "datagrep/src/utils/linearAlgebra.js",
+    "importStyle": "{unitSync}",
+    "description": null,
+    "lineNumber": 349,
     "undocument": true,
     "unknown": [
       {
@@ -1572,7 +3271,7 @@
     }
   },
   {
-    "__docId__": 47,
+    "__docId__": 86,
     "kind": "external",
     "name": "Infinity",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
@@ -1584,7 +3283,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 48,
+    "__docId__": 87,
     "kind": "external",
     "name": "NaN",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
@@ -1596,7 +3295,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 49,
+    "__docId__": 88,
     "kind": "external",
     "name": "undefined",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
@@ -1608,7 +3307,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 50,
+    "__docId__": 89,
     "kind": "external",
     "name": "null",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
@@ -1620,7 +3319,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 51,
+    "__docId__": 90,
     "kind": "external",
     "name": "Object",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
@@ -1632,7 +3331,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 52,
+    "__docId__": 91,
     "kind": "external",
     "name": "object",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
@@ -1644,7 +3343,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 53,
+    "__docId__": 92,
     "kind": "external",
     "name": "Function",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
@@ -1656,7 +3355,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 54,
+    "__docId__": 93,
     "kind": "external",
     "name": "function",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
@@ -1668,7 +3367,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 55,
+    "__docId__": 94,
     "kind": "external",
     "name": "Boolean",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
@@ -1680,7 +3379,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 56,
+    "__docId__": 95,
     "kind": "external",
     "name": "boolean",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
@@ -1692,7 +3391,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 57,
+    "__docId__": 96,
     "kind": "external",
     "name": "Symbol",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
@@ -1704,7 +3403,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 58,
+    "__docId__": 97,
     "kind": "external",
     "name": "Error",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
@@ -1716,7 +3415,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 59,
+    "__docId__": 98,
     "kind": "external",
     "name": "EvalError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
@@ -1728,7 +3427,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 60,
+    "__docId__": 99,
     "kind": "external",
     "name": "InternalError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
@@ -1740,7 +3439,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 61,
+    "__docId__": 100,
     "kind": "external",
     "name": "RangeError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
@@ -1752,7 +3451,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 62,
+    "__docId__": 101,
     "kind": "external",
     "name": "ReferenceError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
@@ -1764,7 +3463,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 63,
+    "__docId__": 102,
     "kind": "external",
     "name": "SyntaxError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
@@ -1776,7 +3475,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 64,
+    "__docId__": 103,
     "kind": "external",
     "name": "TypeError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
@@ -1788,7 +3487,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 65,
+    "__docId__": 104,
     "kind": "external",
     "name": "URIError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
@@ -1800,7 +3499,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 66,
+    "__docId__": 105,
     "kind": "external",
     "name": "Number",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
@@ -1812,7 +3511,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 67,
+    "__docId__": 106,
     "kind": "external",
     "name": "number",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
@@ -1824,7 +3523,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 107,
     "kind": "external",
     "name": "Date",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
@@ -1836,7 +3535,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 69,
+    "__docId__": 108,
     "kind": "external",
     "name": "String",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
@@ -1848,7 +3547,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 70,
+    "__docId__": 109,
     "kind": "external",
     "name": "string",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
@@ -1860,7 +3559,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 71,
+    "__docId__": 110,
     "kind": "external",
     "name": "RegExp",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
@@ -1872,7 +3571,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 72,
+    "__docId__": 111,
     "kind": "external",
     "name": "Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
@@ -1884,7 +3583,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 73,
+    "__docId__": 112,
     "kind": "external",
     "name": "Int8Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
@@ -1896,7 +3595,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 74,
+    "__docId__": 113,
     "kind": "external",
     "name": "Uint8Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
@@ -1908,7 +3607,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 75,
+    "__docId__": 114,
     "kind": "external",
     "name": "Uint8ClampedArray",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
@@ -1920,7 +3619,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 76,
+    "__docId__": 115,
     "kind": "external",
     "name": "Int16Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
@@ -1932,7 +3631,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 77,
+    "__docId__": 116,
     "kind": "external",
     "name": "Uint16Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
@@ -1944,7 +3643,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 78,
+    "__docId__": 117,
     "kind": "external",
     "name": "Int32Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
@@ -1956,7 +3655,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 79,
+    "__docId__": 118,
     "kind": "external",
     "name": "Uint32Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
@@ -1968,7 +3667,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 80,
+    "__docId__": 119,
     "kind": "external",
     "name": "Float32Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
@@ -1980,7 +3679,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 81,
+    "__docId__": 120,
     "kind": "external",
     "name": "Float64Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
@@ -1992,7 +3691,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 82,
+    "__docId__": 121,
     "kind": "external",
     "name": "Map",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
@@ -2004,7 +3703,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 83,
+    "__docId__": 122,
     "kind": "external",
     "name": "Set",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
@@ -2016,7 +3715,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 84,
+    "__docId__": 123,
     "kind": "external",
     "name": "WeakMap",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
@@ -2028,7 +3727,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 85,
+    "__docId__": 124,
     "kind": "external",
     "name": "WeakSet",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
@@ -2040,7 +3739,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 86,
+    "__docId__": 125,
     "kind": "external",
     "name": "ArrayBuffer",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
@@ -2052,7 +3751,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 87,
+    "__docId__": 126,
     "kind": "external",
     "name": "DataView",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
@@ -2064,7 +3763,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 88,
+    "__docId__": 127,
     "kind": "external",
     "name": "JSON",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
@@ -2076,7 +3775,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 89,
+    "__docId__": 128,
     "kind": "external",
     "name": "Promise",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
@@ -2088,7 +3787,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 90,
+    "__docId__": 129,
     "kind": "external",
     "name": "Generator",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
@@ -2100,7 +3799,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 91,
+    "__docId__": 130,
     "kind": "external",
     "name": "GeneratorFunction",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
@@ -2112,7 +3811,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 92,
+    "__docId__": 131,
     "kind": "external",
     "name": "Reflect",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
@@ -2124,7 +3823,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 93,
+    "__docId__": 132,
     "kind": "external",
     "name": "Proxy",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
@@ -2137,7 +3836,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 95,
+    "__docId__": 134,
     "kind": "external",
     "name": "CanvasRenderingContext2D",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
@@ -2149,7 +3848,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 96,
+    "__docId__": 135,
     "kind": "external",
     "name": "DocumentFragment",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
@@ -2161,7 +3860,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 97,
+    "__docId__": 136,
     "kind": "external",
     "name": "Element",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
@@ -2173,7 +3872,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 98,
+    "__docId__": 137,
     "kind": "external",
     "name": "Event",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
@@ -2185,7 +3884,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 99,
+    "__docId__": 138,
     "kind": "external",
     "name": "Node",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
@@ -2197,7 +3896,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 100,
+    "__docId__": 139,
     "kind": "external",
     "name": "NodeList",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
@@ -2209,7 +3908,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 101,
+    "__docId__": 140,
     "kind": "external",
     "name": "XMLHttpRequest",
     "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
@@ -2221,7 +3920,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 102,
+    "__docId__": 141,
     "kind": "external",
     "name": "AudioContext",
     "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",
@@ -2234,7 +3933,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 103,
+    "__docId__": 142,
     "kind": "testFile",
     "name": "spec/api.spec.js",
     "content": "/* eslint-env jest */\nimport datagrep, { default as dgrep, gradientDescent, computeCost, utils } from '../src/index'\n\ndescribe('datagrep API', () => {\n  it('has a default and named export which are equal', () => {\n    expect(dgrep).toBe(datagrep)\n  })\n\n  it('has named exports', () => {\n    expect(computeCost).toBe(datagrep.computeCost)\n    expect(gradientDescent).toBe(datagrep.gradientDescent)\n    expect(utils).toBe(datagrep.utils)\n  })\n})\n",
@@ -2245,7 +3944,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 104,
+    "__docId__": 143,
     "kind": "testDescribe",
     "name": "describe0",
     "testId": 0,
@@ -2258,7 +3957,7 @@
     "lineNumber": 4
   },
   {
-    "__docId__": 105,
+    "__docId__": 144,
     "kind": "testIt",
     "name": "it1",
     "testId": 1,
@@ -2271,7 +3970,7 @@
     "lineNumber": 5
   },
   {
-    "__docId__": 106,
+    "__docId__": 145,
     "kind": "testIt",
     "name": "it2",
     "testId": 2,
@@ -2284,10 +3983,10 @@
     "lineNumber": 9
   },
   {
-    "__docId__": 107,
+    "__docId__": 146,
     "kind": "testFile",
     "name": "spec/computeCost.spec.js",
-    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\ndescribe('datagrep.computeCost', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes the cost', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXy(data)\n    const theta = linearAlgebra.nullMatrix(linearAlgebra.numCols(X), 1)\n    const cost = datagrep.computeCost(X, y, theta)\n\n    expect(Number.parseFloat(cost)).toBe(32.072733877455676)\n  })\n})\n",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.computeCost', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes the cost', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = await linearAlgebra.splitXy(data)\n    const theta = await linearAlgebra.nullMatrix(await linearAlgebra.numCols(X), 1)\n    const cost = await datagrep.computeCost(X, y, theta)\n\n    expect(Number.parseFloat(cost)).toBe(32.072733877455676)\n  })\n})\n",
     "static": true,
     "longname": "spec/computeCost.spec.js",
     "access": null,
@@ -2295,7 +3994,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 108,
+    "__docId__": 147,
     "kind": "testDescribe",
     "name": "describe3",
     "testId": 3,
@@ -2305,10 +4004,10 @@
     "longname": "spec/computeCost.spec.js~describe3",
     "access": null,
     "description": "datagrep.computeCost",
-    "lineNumber": 4
+    "lineNumber": 5
   },
   {
-    "__docId__": 109,
+    "__docId__": 148,
     "kind": "testIt",
     "name": "it4",
     "testId": 4,
@@ -2318,13 +4017,50 @@
     "longname": "spec/computeCost.spec.js~describe3.it4",
     "access": null,
     "description": "computes the cost",
-    "lineNumber": 7
+    "lineNumber": 8
   },
   {
-    "__docId__": 110,
+    "__docId__": 149,
+    "kind": "testFile",
+    "name": "spec/computeCostSync.spec.js",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.computeCost', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes the cost', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const theta = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)\n    const cost = datagrep.computeCostSync(X, y, theta)\n\n    expect(Number.parseFloat(cost)).toBe(32.072733877455676)\n  })\n})\n",
+    "static": true,
+    "longname": "spec/computeCostSync.spec.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 150,
+    "kind": "testDescribe",
+    "name": "describe5",
+    "testId": 5,
+    "memberof": "spec/computeCostSync.spec.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "spec/computeCostSync.spec.js~describe5",
+    "access": null,
+    "description": "datagrep.computeCost",
+    "lineNumber": 5
+  },
+  {
+    "__docId__": 151,
+    "kind": "testIt",
+    "name": "it6",
+    "testId": 6,
+    "memberof": "spec/computeCostSync.spec.js~describe5",
+    "testDepth": 1,
+    "static": true,
+    "longname": "spec/computeCostSync.spec.js~describe5.it6",
+    "access": null,
+    "description": "computes the cost",
+    "lineNumber": 8
+  },
+  {
+    "__docId__": 152,
     "kind": "testFile",
     "name": "spec/featureNormalize.spec.js",
-    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.featureNormalize', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('normalizes the feature matrix', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample1.csv'))\n    const { X } = linearAlgebra.splitXy(data, false)\n    const [normX, mu, sigma] = datagrep.featureNormalize(X)\n\n    expect(normX.length).toBe(X.length)\n    expect(Number.parseFloat(mu[0])).toBe(2000.6808510638298)\n    expect(Number.parseFloat(mu[1])).toBe(3.1702127659574466)\n    expect(Number.parseFloat(sigma[0])).toBe(794.7023535338894)\n    expect(Number.parseFloat(sigma[1])).toBe(0.7609818867801011)\n  })\n})\n",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.featureNormalize', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('normalizes the feature matrix', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample1.csv'))\n    const { X } = await linearAlgebra.splitXy(data, false)\n    const [normX, mu, sigma] = await datagrep.featureNormalize(X)\n\n    expect(normX.length).toBe(X.length)\n    expect(Number.parseFloat(mu[0])).toBe(2000.6808510638298)\n    expect(Number.parseFloat(mu[1])).toBe(3.1702127659574466)\n    expect(Number.parseFloat(sigma[0])).toBe(794.7023535338894)\n    expect(Number.parseFloat(sigma[1])).toBe(0.7609818867801011)\n  })\n})\n",
     "static": true,
     "longname": "spec/featureNormalize.spec.js",
     "access": null,
@@ -2332,36 +4068,73 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 111,
+    "__docId__": 153,
     "kind": "testDescribe",
-    "name": "describe5",
-    "testId": 5,
+    "name": "describe7",
+    "testId": 7,
     "memberof": "spec/featureNormalize.spec.js",
     "testDepth": 0,
     "static": true,
-    "longname": "spec/featureNormalize.spec.js~describe5",
+    "longname": "spec/featureNormalize.spec.js~describe7",
     "access": null,
     "description": "datagrep.featureNormalize",
     "lineNumber": 5
   },
   {
-    "__docId__": 112,
+    "__docId__": 154,
     "kind": "testIt",
-    "name": "it6",
-    "testId": 6,
-    "memberof": "spec/featureNormalize.spec.js~describe5",
+    "name": "it8",
+    "testId": 8,
+    "memberof": "spec/featureNormalize.spec.js~describe7",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/featureNormalize.spec.js~describe5.it6",
+    "longname": "spec/featureNormalize.spec.js~describe7.it8",
     "access": null,
     "description": "normalizes the feature matrix",
     "lineNumber": 8
   },
   {
-    "__docId__": 113,
+    "__docId__": 155,
+    "kind": "testFile",
+    "name": "spec/featureNormalizeSync.spec.js",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.featureNormalize', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('normalizes the feature matrix', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample1.csv'))\n    const { X } = linearAlgebra.splitXySync(data, false)\n    const [normX, mu, sigma] = datagrep.featureNormalizeSync(X)\n\n    expect(normX.length).toBe(X.length)\n    expect(Number.parseFloat(mu[0])).toBe(2000.6808510638298)\n    expect(Number.parseFloat(mu[1])).toBe(3.1702127659574466)\n    expect(Number.parseFloat(sigma[0])).toBe(794.7023535338894)\n    expect(Number.parseFloat(sigma[1])).toBe(0.7609818867801011)\n  })\n})\n",
+    "static": true,
+    "longname": "spec/featureNormalizeSync.spec.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 156,
+    "kind": "testDescribe",
+    "name": "describe9",
+    "testId": 9,
+    "memberof": "spec/featureNormalizeSync.spec.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "spec/featureNormalizeSync.spec.js~describe9",
+    "access": null,
+    "description": "datagrep.featureNormalize",
+    "lineNumber": 5
+  },
+  {
+    "__docId__": 157,
+    "kind": "testIt",
+    "name": "it10",
+    "testId": 10,
+    "memberof": "spec/featureNormalizeSync.spec.js~describe9",
+    "testDepth": 1,
+    "static": true,
+    "longname": "spec/featureNormalizeSync.spec.js~describe9.it10",
+    "access": null,
+    "description": "normalizes the feature matrix",
+    "lineNumber": 8
+  },
+  {
+    "__docId__": 158,
     "kind": "testFile",
     "name": "spec/gradientDescent.spec.js",
-    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.gradientDescent', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('performs gradient descent', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXy(data)\n    const theta = linearAlgebra.nullMatrix(linearAlgebra.numCols(X), 1)\n    const alpha = 0.01\n    const iterations = 1500\n    const [theta0, theta1] = datagrep.gradientDescent(X, y, theta, alpha, iterations)\n\n    expect(Number.parseFloat(theta0[0])).toBe(-3.63029143940436)\n    expect(Number.parseFloat(theta1[0])).toBe(1.166362350335582)\n  })\n})\n",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\nconst parseFloat = Number.parseFloat\n\ndescribe('datagrep.gradientDescent', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('performs gradient descent', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = await linearAlgebra.splitXy(data)\n    const theta = await linearAlgebra.nullMatrix(await linearAlgebra.numCols(X), 1)\n    const alpha = 0.01\n    const iterations = 1500\n    const [theta0, theta1] = await datagrep.gradientDescent(X, y, theta, alpha, iterations)\n\n    expect(parseFloat(theta0[0])).toBe(-3.63029143940436)\n    expect(parseFloat(theta1[0])).toBe(1.166362350335582)\n  })\n\n  it('invokes the callback with the results if provided', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = await linearAlgebra.splitXy(data)\n    const theta = await linearAlgebra.nullMatrix(await linearAlgebra.numCols(X), 1)\n    const alpha = 0.01\n    const iterations = 1500\n    const callback = jest.fn()\n    await datagrep.gradientDescent(X, y, theta, alpha, iterations, callback)\n\n    expect(callback.mock.calls.length).toBe(1)\n    expect(parseFloat(callback.mock.calls[0][0][0])).toBe(-3.63029143940436)\n    expect(parseFloat(callback.mock.calls[0][0][1])).toBe(1.166362350335582)\n  })\n})\n",
     "static": true,
     "longname": "spec/gradientDescent.spec.js",
     "access": null,
@@ -2369,36 +4142,86 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 114,
+    "__docId__": 159,
     "kind": "testDescribe",
-    "name": "describe7",
-    "testId": 7,
+    "name": "describe11",
+    "testId": 11,
     "memberof": "spec/gradientDescent.spec.js",
     "testDepth": 0,
     "static": true,
-    "longname": "spec/gradientDescent.spec.js~describe7",
+    "longname": "spec/gradientDescent.spec.js~describe11",
     "access": null,
     "description": "datagrep.gradientDescent",
+    "lineNumber": 7
+  },
+  {
+    "__docId__": 160,
+    "kind": "testIt",
+    "name": "it12",
+    "testId": 12,
+    "memberof": "spec/gradientDescent.spec.js~describe11",
+    "testDepth": 1,
+    "static": true,
+    "longname": "spec/gradientDescent.spec.js~describe11.it12",
+    "access": null,
+    "description": "performs gradient descent",
+    "lineNumber": 10
+  },
+  {
+    "__docId__": 161,
+    "kind": "testIt",
+    "name": "it13",
+    "testId": 13,
+    "memberof": "spec/gradientDescent.spec.js~describe11",
+    "testDepth": 1,
+    "static": true,
+    "longname": "spec/gradientDescent.spec.js~describe11.it13",
+    "access": null,
+    "description": "invokes the callback with the results if provided",
+    "lineNumber": 22
+  },
+  {
+    "__docId__": 162,
+    "kind": "testFile",
+    "name": "spec/gradientDescentSync.spec.js",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.gradientDescentSync', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('performs gradient descent', async () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const theta = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)\n    const alpha = 0.01\n    const iterations = 1500\n    const [theta0, theta1] = datagrep.gradientDescentSync(X, y, theta, alpha, iterations)\n\n    expect(Number.parseFloat(theta0[0])).toBe(-3.63029143940436)\n    expect(Number.parseFloat(theta1[0])).toBe(1.166362350335582)\n  })\n})\n",
+    "static": true,
+    "longname": "spec/gradientDescentSync.spec.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 163,
+    "kind": "testDescribe",
+    "name": "describe14",
+    "testId": 14,
+    "memberof": "spec/gradientDescentSync.spec.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "spec/gradientDescentSync.spec.js~describe14",
+    "access": null,
+    "description": "datagrep.gradientDescentSync",
     "lineNumber": 5
   },
   {
-    "__docId__": 115,
+    "__docId__": 164,
     "kind": "testIt",
-    "name": "it8",
-    "testId": 8,
-    "memberof": "spec/gradientDescent.spec.js~describe7",
+    "name": "it15",
+    "testId": 15,
+    "memberof": "spec/gradientDescentSync.spec.js~describe14",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/gradientDescent.spec.js~describe7.it8",
+    "longname": "spec/gradientDescentSync.spec.js~describe14.it15",
     "access": null,
     "description": "performs gradient descent",
     "lineNumber": 8
   },
   {
-    "__docId__": 116,
+    "__docId__": 165,
     "kind": "testFile",
     "name": "spec/linearAlgebra.spec.js",
-    "content": "/* eslint-env jest */\nimport { utils } from '../src/index'\nimport path from 'path'\nconst parseFloat = Number.parseFloat\nconst precision = 12\n\ndescribe('datagrep.linearAlgebra', () => {\n  const { csv, linearAlgebra } = utils\n  const {\n    add,\n    angle,\n    crossproduct,\n    dot,\n    isParallel,\n    isOrthogonal,\n    magnitude,\n    multiply,\n    normalize,\n    project,\n    projectAndReject,\n    reject,\n    splitXy,\n    subtract,\n    svd,\n    transpose\n  } = linearAlgebra\n\n  describe('svd', () => {\n    it('returns the singular value decomposition', async () => {\n      const data = await csv.parseCsv(path.resolve('spec/data/sample1.csv'))\n      const { X } = splitXy(data)\n      const transposeX = transpose(X)\n      const M = dot(transposeX, X)\n      const [U, Σ, V, s] = svd(M)\n      const transposeV = transpose(V)\n\n      const _M = dot(U, dot(Σ, V))\n\n      expect(parseFloat(U[0][0])).toBe(-0.0004329688371766067)\n      expect(parseFloat(U[0][1])).toBe(0.2892450879376866)\n      expect(parseFloat(U[0][2])).toBe(-0.9572549773398447)\n      expect(parseFloat(U[1][0])).toBe(-0.9999988632238788)\n      expect(parseFloat(U[1][1])).toBe(-0.001507826260650405)\n      expect(parseFloat(U[1][2])).toBe(-0.0000033042339224693554)\n      expect(parseFloat(U[2][0])).toBe(-0.0014443299264028464)\n      expect(parseFloat(U[2][1])).toBe(0.9572538877246142)\n      expect(parseFloat(U[2][2])).toBe(0.2892454119725601)\n\n      expect(parseFloat(Σ[0][0])).toBe(217179899.76945397)\n      expect(parseFloat(Σ[1][1])).toBe(49.92800246161647) // matlab says 0\n      expect(parseFloat(Σ[2][2])).toBe(2.3025435515414254) // matlab says 0\n      expect(Σ[0][0]).toBe(s[0])\n      expect(Σ[1][1]).toBe(s[1])\n      expect(Σ[2][2]).toBe(s[2])\n\n      expect(parseFloat(transposeV[0][0])).toBe(-0.00043296883717683533)\n      expect(parseFloat(transposeV[0][1])).toBe(0.28924508793749687)\n      expect(parseFloat(transposeV[0][2])).toBe(-0.957254977339902)\n      expect(parseFloat(transposeV[1][0])).toBe(-0.9999988632238789)\n      expect(parseFloat(transposeV[1][1])).toBe(-0.0015078262606505112)\n      expect(parseFloat(transposeV[1][2])).toBe(-0.000003304233921993771)\n      expect(parseFloat(transposeV[2][0])).toBe(-0.0014443299264028462)\n      expect(parseFloat(transposeV[2][1])).toBe(0.9572538877246716)\n      expect(parseFloat(transposeV[2][2])).toBe(0.28924541197237047)\n\n      expect(parseFloat(_M[0][0].toPrecision(precision))).toBe(M[0][0])\n      expect(parseFloat(_M[0][1].toPrecision(precision))).toBe(M[0][1])\n      expect(parseFloat(_M[0][2].toPrecision(precision))).toBe(M[0][2])\n      expect(parseFloat(_M[1][0].toPrecision(precision))).toBe(M[1][0])\n      expect(parseFloat(_M[1][1].toPrecision(precision))).toBe(M[1][1])\n      expect(parseFloat(_M[1][2].toPrecision(precision))).toBe(M[1][2])\n      expect(parseFloat(_M[2][0].toPrecision(precision))).toBe(M[2][0])\n      expect(parseFloat(_M[2][1].toPrecision(precision))).toBe(M[2][1])\n      expect(parseFloat(_M[2][2].toPrecision(precision))).toBe(M[2][2])\n    })\n  })\n\n  describe('add', () => {\n    it('adds vectors', () => {\n      const a = [8.218, -9.341]\n      const b = [-1.129, 2.111]\n      const sum = add(a, b)\n\n      expect(sum[0]).toBe(7.089)\n      expect(parseFloat(sum[1].toPrecision(precision))).toBe(-7.230)\n    })\n  })\n\n  describe('subtract', () => {\n    it('subtracts vectors', () => {\n      const a = [7.119, 8.215]\n      const b = [-8.223, 0.878]\n      const diff = subtract(a, b)\n\n      expect(diff[0]).toBe(15.342)\n      expect(diff[1]).toBe(7.337)\n    })\n  })\n\n  describe('multiply', () => {\n    it('multiplies a scalar and a vector', () => {\n      const a = 7.41\n      const b = [1.671, -1.012, -0.318]\n      const product = multiply(a, b)\n\n      expect(product[0]).toBe(12.38211)\n      expect(product[1]).toBe(-7.49892)\n      expect(product[2]).toBe(-2.35638)\n    })\n  })\n\n  describe('magnitude', () => {\n    it('returns the magnitude of a vector', () => {\n      const a = [-0.221, 7.437]\n      const b = [8.813, -1.331, -6.247]\n\n      expect(magnitude(a)).toBe(7.440282924728065)\n      expect(parseFloat(magnitude(b).toPrecision(16))).toBe(10.88418756729229)\n    })\n  })\n\n  describe('normalize', () => {\n    it('returns the normalized vector', () => {\n      const a = [5.581, -2.136]\n      const b = [1.996, 3.108, -4.554]\n      const normA = normalize(a)\n      const normB = normalize(b)\n\n      expect(normA[0]).toBe(0.9339352140866403)\n      expect(normA[1]).toBe(-0.35744232526233)\n      expect(parseFloat(normB[0].toPrecision(15))).toBe(0.340401295943301)\n      expect(parseFloat(normB[1].toPrecision(15))).toBe(0.530043701298487)\n      expect(parseFloat(normB[2].toPrecision(15))).toBe(-0.776647044952803)\n    })\n  })\n\n  describe('dot product', () => {\n    it('returns the dot product of two vectors', () => {\n      const a = [7.887, 4.138]\n      const b = [-8.802, 6.776]\n      const c = [-5.955, -4.904, -1.874]\n      const d = [-4.496, -8.755, 7.103]\n\n      expect(dot(a, b)[0]).toBe(-41.382286)\n      expect(dot(c, d)[0]).toBe(56.397178000000004)\n    })\n  })\n\n  describe('angle', () => {\n    it('returns the angle in radians between two vectors', () => {\n      const a = [3.183, -7.627]\n      const b = [-2.668, 5.319]\n\n      expect(parseFloat(angle(a, b).toPrecision(15))).toBe(3.07202630983725)\n    })\n\n    it('optionally returns the angle in degrees between two vectors', () => {\n      const c = [7.35, 0.221, 5.188]\n      const d = [2.751, 8.259, 3.985]\n\n      expect(angle(c, d, true)).toBe(60.27581120523091)\n    })\n  })\n\n  describe('isParallel and isOrthogonal', () => {\n    const precision = 7\n    const a = [-7.579, -7.88]\n    const b = [22.737, 23.64]\n    const c = [-2.029, 9.97, 4.172]\n    const d = [-9.231, -6.639, -7.245]\n    const e = [-2.328, -7.284, -1.214]\n    const f = [-1.821, 1.072, -2.94]\n    const g = [2.118, 4.827]\n    const h = [0, 0]\n\n    it('returns a boolean indicating whether the vectors are parallel', () => {\n      expect(isParallel(a, b, precision)).toBe(true)\n      expect(isParallel(c, d, precision)).toBe(false)\n      expect(isParallel(e, f, precision)).toBe(false)\n      expect(isParallel(g, h, precision)).toBe(true)\n    })\n\n    it('returns a boolean indicating whether the vectors are orthogonal', () => {\n      expect(isOrthogonal(a, b, precision)).toBe(false)\n      expect(isOrthogonal(c, d, precision)).toBe(false)\n      expect(isOrthogonal(e, f, precision)).toBe(true)\n      expect(isOrthogonal(g, h, precision)).toBe(true)\n    })\n  })\n\n  describe('project', () => {\n    it('returns the projection of a vector onto another', () => {\n      const a = [3.039, 1.879]\n      const b = [0.825, 2.036]\n      const projection = project(a, b)\n\n      expect(projection[0]).toBe(1.0826069624844668)\n      expect(projection[1]).toBe(2.671742758325302)\n    })\n  })\n\n  describe('reject', () => {\n    it('returns the rejection of a vector onto another', () => {\n      const a = [-9.88, -3.264, -8.159]\n      const b = [-2.155, -9.353, -9.473]\n      const rejection = reject(a, b)\n\n      expect(rejection[0]).toBe(-8.350081043195763)\n      expect(rejection[1]).toBe(3.37606125428772)\n      expect(rejection[2]).toBe(-1.433746042781186)\n    })\n  })\n\n  describe('projectAndReject', () => {\n    it('returns the projection and rejection of a vector onto another', () => {\n      const a = [3.009, -6.172, 3.692, -2.51]\n      const b = [6.404, -9.144, 2.759, 8.718]\n      const { projection, rejection } = projectAndReject(a, b)\n      const sum = add(projection, rejection)\n\n      expect(projection[0]).toBe(1.9685161672140896)\n      expect(projection[1]).toBe(-2.810760748439356)\n      expect(projection[2]).toBe(0.8480849633578502)\n      expect(projection[3]).toBe(2.6798132332561577)\n      expect(rejection[0]).toBe(1.0404838327859103)\n      expect(rejection[1]).toBe(-3.3612392515606437)\n      expect(rejection[2]).toBe(2.8439150366421497)\n      expect(rejection[3]).toBe(-5.1898132332561575)\n      expect(sum[0]).toBe(a[0])\n      expect(sum[1]).toBe(a[1])\n      expect(sum[2]).toBe(a[2])\n      expect(sum[3]).toBe(a[3])\n    })\n  })\n\n  describe('crossproduct', () => {\n    it('returns the cross product of two 3D vectors', () => {\n      const a = [8.462, 7.893, -8.187]\n      const b = [6.984, -5.975, 4.778]\n      const c = [-8.987, -9.838, 5.031]\n      const d = [-4.268, -1.861, -8.866]\n      const e = [1.5, 9.547, 3.691]\n      const f = [-6.007, 0.124, 5.772]\n      const vectorproduct = crossproduct(a, b)\n\n      expect(vectorproduct[0]).toBe(-11.204570999999994)\n      expect(vectorproduct[1]).toBe(-97.609444)\n      expect(vectorproduct[2]).toBe(-105.68516199999999)\n      expect(magnitude(crossproduct(c, d))).toBe(142.12222140184633)\n      expect(magnitude(crossproduct(e, f)) / 2).toBe(42.56493739941894)\n    })\n  })\n})\n",
+    "content": "/* eslint-env jest */\nimport { utils } from '../src/index'\nimport path from 'path'\nconst parseFloat = Number.parseFloat\nconst precision = 12\n\ndescribe('datagrep.linearAlgebra', () => {\n  const { csv, linearAlgebra } = utils\n  const {\n    add,\n    angle,\n    crossproduct,\n    dot,\n    isParallel,\n    isOrthogonal,\n    magnitude,\n    multiply,\n    normalize,\n    project,\n    projectAndReject,\n    reject,\n    splitXy,\n    subtract,\n    svd,\n    transpose\n  } = linearAlgebra\n\n  describe('svd', () => {\n    it('returns the singular value decomposition', async () => {\n      const data = await csv.parseCsv(path.resolve('spec/data/sample1.csv'))\n      const { X } = await splitXy(data)\n      const transposeX = await transpose(X)\n      const M = await dot(transposeX, X)\n      const [U, Σ, V, s] = await svd(M)\n      const transposeV = await transpose(V)\n\n      const _M = await dot(U, await dot(Σ, V))\n\n      expect(parseFloat(U[0][0])).toBe(-0.0004329688371766067)\n      expect(parseFloat(U[0][1])).toBe(0.2892450879376866)\n      expect(parseFloat(U[0][2])).toBe(-0.9572549773398447)\n      expect(parseFloat(U[1][0])).toBe(-0.9999988632238788)\n      expect(parseFloat(U[1][1])).toBe(-0.001507826260650405)\n      expect(parseFloat(U[1][2])).toBe(-0.0000033042339224693554)\n      expect(parseFloat(U[2][0])).toBe(-0.0014443299264028464)\n      expect(parseFloat(U[2][1])).toBe(0.9572538877246142)\n      expect(parseFloat(U[2][2])).toBe(0.2892454119725601)\n\n      expect(parseFloat(Σ[0][0])).toBe(217179899.76945397)\n      expect(parseFloat(Σ[1][1])).toBe(49.92800246161647) // matlab says 0\n      expect(parseFloat(Σ[2][2])).toBe(2.3025435515414254) // matlab says 0\n      expect(Σ[0][0]).toBe(s[0])\n      expect(Σ[1][1]).toBe(s[1])\n      expect(Σ[2][2]).toBe(s[2])\n\n      expect(parseFloat(transposeV[0][0])).toBe(-0.00043296883717683533)\n      expect(parseFloat(transposeV[0][1])).toBe(0.28924508793749687)\n      expect(parseFloat(transposeV[0][2])).toBe(-0.957254977339902)\n      expect(parseFloat(transposeV[1][0])).toBe(-0.9999988632238789)\n      expect(parseFloat(transposeV[1][1])).toBe(-0.0015078262606505112)\n      expect(parseFloat(transposeV[1][2])).toBe(-0.000003304233921993771)\n      expect(parseFloat(transposeV[2][0])).toBe(-0.0014443299264028462)\n      expect(parseFloat(transposeV[2][1])).toBe(0.9572538877246716)\n      expect(parseFloat(transposeV[2][2])).toBe(0.28924541197237047)\n\n      expect(parseFloat(_M[0][0].toPrecision(precision))).toBe(M[0][0])\n      expect(parseFloat(_M[0][1].toPrecision(precision))).toBe(M[0][1])\n      expect(parseFloat(_M[0][2].toPrecision(precision))).toBe(M[0][2])\n      expect(parseFloat(_M[1][0].toPrecision(precision))).toBe(M[1][0])\n      expect(parseFloat(_M[1][1].toPrecision(precision))).toBe(M[1][1])\n      expect(parseFloat(_M[1][2].toPrecision(precision))).toBe(M[1][2])\n      expect(parseFloat(_M[2][0].toPrecision(precision))).toBe(M[2][0])\n      expect(parseFloat(_M[2][1].toPrecision(precision))).toBe(M[2][1])\n      expect(parseFloat(_M[2][2].toPrecision(precision))).toBe(M[2][2])\n    })\n  })\n\n  describe('add', () => {\n    it('adds vectors', async () => {\n      const a = [8.218, -9.341]\n      const b = [-1.129, 2.111]\n      const sum = await add(a, b)\n\n      expect(sum[0]).toBe(7.089)\n      expect(parseFloat(sum[1].toPrecision(precision))).toBe(-7.230)\n    })\n  })\n\n  describe('subtract', () => {\n    it('subtracts vectors', async () => {\n      const a = [7.119, 8.215]\n      const b = [-8.223, 0.878]\n      const diff = await subtract(a, b)\n\n      expect(diff[0]).toBe(15.342)\n      expect(diff[1]).toBe(7.337)\n    })\n  })\n\n  describe('multiply', () => {\n    it('multiplies a scalar and a vector', async () => {\n      const a = 7.41\n      const b = [1.671, -1.012, -0.318]\n      const product = await multiply(a, b)\n\n      expect(product[0]).toBe(12.38211)\n      expect(product[1]).toBe(-7.49892)\n      expect(product[2]).toBe(-2.35638)\n    })\n  })\n\n  describe('magnitude', () => {\n    it('returns the magnitude of a vector', async () => {\n      const a = [-0.221, 7.437]\n      const b = [8.813, -1.331, -6.247]\n\n      expect(await magnitude(a)).toBe(7.440282924728065)\n      expect(parseFloat((await magnitude(b)).toPrecision(16))).toBe(10.88418756729229)\n    })\n  })\n\n  describe('normalize', () => {\n    it('returns the normalized vector', async () => {\n      const a = [5.581, -2.136]\n      const b = [1.996, 3.108, -4.554]\n      const normA = await normalize(a)\n      const normB = await normalize(b)\n\n      expect(normA[0]).toBe(0.9339352140866403)\n      expect(normA[1]).toBe(-0.35744232526233)\n      expect(parseFloat(normB[0].toPrecision(15))).toBe(0.340401295943301)\n      expect(parseFloat(normB[1].toPrecision(15))).toBe(0.530043701298487)\n      expect(parseFloat(normB[2].toPrecision(15))).toBe(-0.776647044952803)\n    })\n  })\n\n  describe('dot product', () => {\n    it('returns the dot product of two vectors', async () => {\n      const a = [7.887, 4.138]\n      const b = [-8.802, 6.776]\n      const c = [-5.955, -4.904, -1.874]\n      const d = [-4.496, -8.755, 7.103]\n\n      expect((await dot(a, b))[0]).toBe(-41.382286)\n      expect((await dot(c, d))[0]).toBe(56.397178000000004)\n    })\n  })\n\n  describe('angle', () => {\n    it('returns the angle in radians between two vectors', async () => {\n      const a = [3.183, -7.627]\n      const b = [-2.668, 5.319]\n\n      expect(parseFloat((await angle(a, b)).toPrecision(15))).toBe(3.07202630983725)\n    })\n\n    it('optionally returns the angle in degrees between two vectors', async () => {\n      const c = [7.35, 0.221, 5.188]\n      const d = [2.751, 8.259, 3.985]\n\n      expect(await angle(c, d, true)).toBe(60.27581120523091)\n    })\n  })\n\n  describe('isParallel and isOrthogonal', () => {\n    const precision = 7\n    const a = [-7.579, -7.88]\n    const b = [22.737, 23.64]\n    const c = [-2.029, 9.97, 4.172]\n    const d = [-9.231, -6.639, -7.245]\n    const e = [-2.328, -7.284, -1.214]\n    const f = [-1.821, 1.072, -2.94]\n    const g = [2.118, 4.827]\n    const h = [0, 0]\n\n    it('returns a boolean indicating whether the vectors are parallel', async () => {\n      expect(await isParallel(a, b, precision)).toBe(true)\n      expect(await isParallel(c, d, precision)).toBe(false)\n      expect(await isParallel(e, f, precision)).toBe(false)\n      expect(await isParallel(g, h, precision)).toBe(true)\n    })\n\n    it('returns a boolean indicating whether the vectors are orthogonal', async () => {\n      expect(await isOrthogonal(a, b, precision)).toBe(false)\n      expect(await isOrthogonal(c, d, precision)).toBe(false)\n      expect(await isOrthogonal(e, f, precision)).toBe(true)\n      expect(await isOrthogonal(g, h, precision)).toBe(true)\n    })\n  })\n\n  describe('project', () => {\n    it('returns the projection of a vector onto another', async () => {\n      const a = [3.039, 1.879]\n      const b = [0.825, 2.036]\n      const projection = await project(a, b)\n\n      expect(projection[0]).toBe(1.0826069624844668)\n      expect(projection[1]).toBe(2.671742758325302)\n    })\n  })\n\n  describe('reject', () => {\n    it('returns the rejection of a vector onto another', async () => {\n      const a = [-9.88, -3.264, -8.159]\n      const b = [-2.155, -9.353, -9.473]\n      const rejection = await reject(a, b)\n\n      expect(rejection[0]).toBe(-8.350081043195763)\n      expect(rejection[1]).toBe(3.37606125428772)\n      expect(rejection[2]).toBe(-1.433746042781186)\n    })\n  })\n\n  describe('projectAndReject', () => {\n    it('returns the projection and rejection of a vector onto another', async () => {\n      const a = [3.009, -6.172, 3.692, -2.51]\n      const b = [6.404, -9.144, 2.759, 8.718]\n      const { projection, rejection } = await projectAndReject(a, b)\n      const sum = await add(projection, rejection)\n\n      expect(projection[0]).toBe(1.9685161672140896)\n      expect(projection[1]).toBe(-2.810760748439356)\n      expect(projection[2]).toBe(0.8480849633578502)\n      expect(projection[3]).toBe(2.6798132332561577)\n      expect(rejection[0]).toBe(1.0404838327859103)\n      expect(rejection[1]).toBe(-3.3612392515606437)\n      expect(rejection[2]).toBe(2.8439150366421497)\n      expect(rejection[3]).toBe(-5.1898132332561575)\n      expect(sum[0]).toBe(a[0])\n      expect(sum[1]).toBe(a[1])\n      expect(sum[2]).toBe(a[2])\n      expect(sum[3]).toBe(a[3])\n    })\n  })\n\n  describe('crossproduct', () => {\n    it('returns the cross product of two 3D vectors', async () => {\n      const a = [8.462, 7.893, -8.187]\n      const b = [6.984, -5.975, 4.778]\n      const c = [-8.987, -9.838, 5.031]\n      const d = [-4.268, -1.861, -8.866]\n      const e = [1.5, 9.547, 3.691]\n      const f = [-6.007, 0.124, 5.772]\n      const vectorproduct = await crossproduct(a, b)\n\n      expect(vectorproduct[0]).toBe(-11.204570999999994)\n      expect(vectorproduct[1]).toBe(-97.609444)\n      expect(vectorproduct[2]).toBe(-105.68516199999999)\n      expect(await magnitude(await crossproduct(c, d))).toBe(142.12222140184633)\n      expect(await magnitude(await crossproduct(e, f)) / 2).toBe(42.56493739941894)\n    })\n  })\n})\n",
     "static": true,
     "longname": "spec/linearAlgebra.spec.js",
     "access": null,
@@ -2406,387 +4229,387 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 117,
+    "__docId__": 166,
     "kind": "testDescribe",
-    "name": "describe9",
-    "testId": 9,
+    "name": "describe16",
+    "testId": 16,
     "memberof": "spec/linearAlgebra.spec.js",
     "testDepth": 0,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9",
+    "longname": "spec/linearAlgebra.spec.js~describe16",
     "access": null,
     "description": "datagrep.linearAlgebra",
     "lineNumber": 7
   },
   {
-    "__docId__": 118,
+    "__docId__": 167,
     "kind": "testDescribe",
-    "name": "describe10",
-    "testId": 10,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe17",
+    "testId": 17,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe10",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe17",
     "access": null,
     "description": "svd",
     "lineNumber": 28
   },
   {
-    "__docId__": 119,
+    "__docId__": 168,
     "kind": "testIt",
-    "name": "it11",
-    "testId": 11,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe10",
+    "name": "it18",
+    "testId": 18,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe17",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe10.it11",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe17.it18",
     "access": null,
     "description": "returns the singular value decomposition",
     "lineNumber": 29
   },
   {
-    "__docId__": 120,
+    "__docId__": 169,
     "kind": "testDescribe",
-    "name": "describe12",
-    "testId": 12,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe19",
+    "testId": 19,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe12",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe19",
     "access": null,
     "description": "add",
     "lineNumber": 78
   },
   {
-    "__docId__": 121,
+    "__docId__": 170,
     "kind": "testIt",
-    "name": "it13",
-    "testId": 13,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe12",
+    "name": "it20",
+    "testId": 20,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe19",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe12.it13",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe19.it20",
     "access": null,
     "description": "adds vectors",
     "lineNumber": 79
   },
   {
-    "__docId__": 122,
+    "__docId__": 171,
     "kind": "testDescribe",
-    "name": "describe14",
-    "testId": 14,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe21",
+    "testId": 21,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe14",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe21",
     "access": null,
     "description": "subtract",
     "lineNumber": 89
   },
   {
-    "__docId__": 123,
+    "__docId__": 172,
     "kind": "testIt",
-    "name": "it15",
-    "testId": 15,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe14",
+    "name": "it22",
+    "testId": 22,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe21",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe14.it15",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe21.it22",
     "access": null,
     "description": "subtracts vectors",
     "lineNumber": 90
   },
   {
-    "__docId__": 124,
+    "__docId__": 173,
     "kind": "testDescribe",
-    "name": "describe16",
-    "testId": 16,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe23",
+    "testId": 23,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe16",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe23",
     "access": null,
     "description": "multiply",
     "lineNumber": 100
   },
   {
-    "__docId__": 125,
+    "__docId__": 174,
     "kind": "testIt",
-    "name": "it17",
-    "testId": 17,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe16",
+    "name": "it24",
+    "testId": 24,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe23",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe16.it17",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe23.it24",
     "access": null,
     "description": "multiplies a scalar and a vector",
     "lineNumber": 101
   },
   {
-    "__docId__": 126,
+    "__docId__": 175,
     "kind": "testDescribe",
-    "name": "describe18",
-    "testId": 18,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe25",
+    "testId": 25,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe18",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe25",
     "access": null,
     "description": "magnitude",
     "lineNumber": 112
   },
   {
-    "__docId__": 127,
+    "__docId__": 176,
     "kind": "testIt",
-    "name": "it19",
-    "testId": 19,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe18",
+    "name": "it26",
+    "testId": 26,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe25",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe18.it19",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe25.it26",
     "access": null,
     "description": "returns the magnitude of a vector",
     "lineNumber": 113
   },
   {
-    "__docId__": 128,
+    "__docId__": 177,
     "kind": "testDescribe",
-    "name": "describe20",
-    "testId": 20,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe27",
+    "testId": 27,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe20",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe27",
     "access": null,
     "description": "normalize",
     "lineNumber": 122
   },
   {
-    "__docId__": 129,
+    "__docId__": 178,
     "kind": "testIt",
-    "name": "it21",
-    "testId": 21,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe20",
+    "name": "it28",
+    "testId": 28,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe27",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe20.it21",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe27.it28",
     "access": null,
     "description": "returns the normalized vector",
     "lineNumber": 123
   },
   {
-    "__docId__": 130,
+    "__docId__": 179,
     "kind": "testDescribe",
-    "name": "describe22",
-    "testId": 22,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe29",
+    "testId": 29,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe22",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe29",
     "access": null,
     "description": "dot product",
     "lineNumber": 137
   },
   {
-    "__docId__": 131,
+    "__docId__": 180,
     "kind": "testIt",
-    "name": "it23",
-    "testId": 23,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe22",
+    "name": "it30",
+    "testId": 30,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe29",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe22.it23",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe29.it30",
     "access": null,
     "description": "returns the dot product of two vectors",
     "lineNumber": 138
   },
   {
-    "__docId__": 132,
+    "__docId__": 181,
     "kind": "testDescribe",
-    "name": "describe24",
-    "testId": 24,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe31",
+    "testId": 31,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe24",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe31",
     "access": null,
     "description": "angle",
     "lineNumber": 149
   },
   {
-    "__docId__": 133,
+    "__docId__": 182,
     "kind": "testIt",
-    "name": "it25",
-    "testId": 25,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe24",
+    "name": "it32",
+    "testId": 32,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe31",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe24.it25",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe31.it32",
     "access": null,
     "description": "returns the angle in radians between two vectors",
     "lineNumber": 150
   },
   {
-    "__docId__": 134,
+    "__docId__": 183,
     "kind": "testIt",
-    "name": "it26",
-    "testId": 26,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe24",
+    "name": "it33",
+    "testId": 33,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe31",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe24.it26",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe31.it33",
     "access": null,
     "description": "optionally returns the angle in degrees between two vectors",
     "lineNumber": 157
   },
   {
-    "__docId__": 135,
+    "__docId__": 184,
     "kind": "testDescribe",
-    "name": "describe27",
-    "testId": 27,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe34",
+    "testId": 34,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe27",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe34",
     "access": null,
     "description": "isParallel and isOrthogonal",
     "lineNumber": 165
   },
   {
-    "__docId__": 136,
+    "__docId__": 185,
     "kind": "testIt",
-    "name": "it28",
-    "testId": 28,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe27",
+    "name": "it35",
+    "testId": 35,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe34",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe27.it28",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe34.it35",
     "access": null,
     "description": "returns a boolean indicating whether the vectors are parallel",
     "lineNumber": 176
   },
   {
-    "__docId__": 137,
+    "__docId__": 186,
     "kind": "testIt",
-    "name": "it29",
-    "testId": 29,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe27",
+    "name": "it36",
+    "testId": 36,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe34",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe27.it29",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe34.it36",
     "access": null,
     "description": "returns a boolean indicating whether the vectors are orthogonal",
     "lineNumber": 183
   },
   {
-    "__docId__": 138,
+    "__docId__": 187,
     "kind": "testDescribe",
-    "name": "describe30",
-    "testId": 30,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe37",
+    "testId": 37,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe30",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe37",
     "access": null,
     "description": "project",
     "lineNumber": 191
   },
   {
-    "__docId__": 139,
+    "__docId__": 188,
     "kind": "testIt",
-    "name": "it31",
-    "testId": 31,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe30",
+    "name": "it38",
+    "testId": 38,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe37",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe30.it31",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe37.it38",
     "access": null,
     "description": "returns the projection of a vector onto another",
     "lineNumber": 192
   },
   {
-    "__docId__": 140,
+    "__docId__": 189,
     "kind": "testDescribe",
-    "name": "describe32",
-    "testId": 32,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe39",
+    "testId": 39,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe32",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe39",
     "access": null,
     "description": "reject",
     "lineNumber": 202
   },
   {
-    "__docId__": 141,
+    "__docId__": 190,
     "kind": "testIt",
-    "name": "it33",
-    "testId": 33,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe32",
+    "name": "it40",
+    "testId": 40,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe39",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe32.it33",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe39.it40",
     "access": null,
     "description": "returns the rejection of a vector onto another",
     "lineNumber": 203
   },
   {
-    "__docId__": 142,
+    "__docId__": 191,
     "kind": "testDescribe",
-    "name": "describe34",
-    "testId": 34,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe41",
+    "testId": 41,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe34",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe41",
     "access": null,
     "description": "projectAndReject",
     "lineNumber": 214
   },
   {
-    "__docId__": 143,
+    "__docId__": 192,
     "kind": "testIt",
-    "name": "it35",
-    "testId": 35,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe34",
+    "name": "it42",
+    "testId": 42,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe41",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe34.it35",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe41.it42",
     "access": null,
     "description": "returns the projection and rejection of a vector onto another",
     "lineNumber": 215
   },
   {
-    "__docId__": 144,
+    "__docId__": 193,
     "kind": "testDescribe",
-    "name": "describe36",
-    "testId": 36,
-    "memberof": "spec/linearAlgebra.spec.js~describe9",
+    "name": "describe43",
+    "testId": 43,
+    "memberof": "spec/linearAlgebra.spec.js~describe16",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe36",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe43",
     "access": null,
     "description": "crossproduct",
     "lineNumber": 236
   },
   {
-    "__docId__": 145,
+    "__docId__": 194,
     "kind": "testIt",
-    "name": "it37",
-    "testId": 37,
-    "memberof": "spec/linearAlgebra.spec.js~describe9.describe36",
+    "name": "it44",
+    "testId": 44,
+    "memberof": "spec/linearAlgebra.spec.js~describe16.describe43",
     "testDepth": 2,
     "static": true,
-    "longname": "spec/linearAlgebra.spec.js~describe9.describe36.it37",
+    "longname": "spec/linearAlgebra.spec.js~describe16.describe43.it44",
     "access": null,
     "description": "returns the cross product of two 3D vectors",
     "lineNumber": 237
   },
   {
-    "__docId__": 146,
+    "__docId__": 195,
     "kind": "testFile",
     "name": "spec/normalEqn.spec.js",
-    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\ndescribe('datagrep.normalEqn', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes theta for sample #0', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXy(data)\n    const [theta0, theta1] = datagrep.normalEqn(X, y)\n\n    expect(Number.parseFloat(theta0[0])).toBe(-3.8957808783117756)\n    expect(Number.parseFloat(theta1[0])).toBe(1.1930336441895864)\n  })\n\n  it('computes theta for sample #1', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample1.csv'))\n    const { X, y } = linearAlgebra.splitXy(data)\n    const [theta0, theta1, theta2] = datagrep.normalEqn(X, y)\n\n    expect(Number.parseFloat(theta0[0])).toBe(89597.90954502113)\n    expect(Number.parseFloat(theta1[0])).toBe(139.2106740175284)\n    expect(Number.parseFloat(theta2[0])).toBe(-8738.019112926442)\n  })\n})\n",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\nconst parseFloat = Number.parseFloat\n\ndescribe('datagrep.normalEqn', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes theta for sample #0', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = await linearAlgebra.splitXy(data)\n    const [theta0, theta1] = await datagrep.normalEqn(X, y)\n\n    expect(parseFloat(theta0[0])).toBe(-3.8957808783117756)\n    expect(parseFloat(theta1[0])).toBe(1.1930336441895864)\n  })\n\n  it('computes theta for sample #1', async () => {\n    const data = await csv.parseCsv(path.resolve('spec/data/sample1.csv'))\n    const { X, y } = await linearAlgebra.splitXy(data)\n    const [theta0, theta1, theta2] = await datagrep.normalEqn(X, y)\n\n    expect(parseFloat(theta0[0])).toBe(89597.90954502113)\n    expect(parseFloat(theta1[0])).toBe(139.2106740175284)\n    expect(parseFloat(theta2[0])).toBe(-8738.019112926442)\n  })\n})\n",
     "static": true,
     "longname": "spec/normalEqn.spec.js",
     "access": null,
@@ -2794,42 +4617,92 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 147,
+    "__docId__": 196,
     "kind": "testDescribe",
-    "name": "describe38",
-    "testId": 38,
+    "name": "describe45",
+    "testId": 45,
     "memberof": "spec/normalEqn.spec.js",
     "testDepth": 0,
     "static": true,
-    "longname": "spec/normalEqn.spec.js~describe38",
+    "longname": "spec/normalEqn.spec.js~describe45",
     "access": null,
     "description": "datagrep.normalEqn",
-    "lineNumber": 5
+    "lineNumber": 7
   },
   {
-    "__docId__": 148,
+    "__docId__": 197,
     "kind": "testIt",
-    "name": "it39",
-    "testId": 39,
-    "memberof": "spec/normalEqn.spec.js~describe38",
+    "name": "it46",
+    "testId": 46,
+    "memberof": "spec/normalEqn.spec.js~describe45",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/normalEqn.spec.js~describe38.it39",
+    "longname": "spec/normalEqn.spec.js~describe45.it46",
     "access": null,
     "description": "computes theta for sample #0",
-    "lineNumber": 8
+    "lineNumber": 10
   },
   {
-    "__docId__": 149,
+    "__docId__": 198,
     "kind": "testIt",
-    "name": "it40",
-    "testId": 40,
-    "memberof": "spec/normalEqn.spec.js~describe38",
+    "name": "it47",
+    "testId": 47,
+    "memberof": "spec/normalEqn.spec.js~describe45",
     "testDepth": 1,
     "static": true,
-    "longname": "spec/normalEqn.spec.js~describe38.it40",
+    "longname": "spec/normalEqn.spec.js~describe45.it47",
     "access": null,
     "description": "computes theta for sample #1",
-    "lineNumber": 17
+    "lineNumber": 19
+  },
+  {
+    "__docId__": 199,
+    "kind": "testFile",
+    "name": "spec/normalEqnSync.spec.js",
+    "content": "/* eslint-env jest */\nimport datagrep, { utils } from '../src/index'\nimport path from 'path'\n\nconst parseFloat = Number.parseFloat\n\ndescribe('datagrep.normalEqn', () => {\n  const { csv, linearAlgebra } = utils\n\n  it('computes theta for sample #0', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample0.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const [theta0, theta1] = datagrep.normalEqnSync(X, y)\n\n    expect(parseFloat(theta0[0])).toBe(-3.8957808783117756)\n    expect(parseFloat(theta1[0])).toBe(1.1930336441895864)\n  })\n\n  it('computes theta for sample #1', () => {\n    const data = csv.parseCsvSync(path.resolve('spec/data/sample1.csv'))\n    const { X, y } = linearAlgebra.splitXySync(data)\n    const [theta0, theta1, theta2] = datagrep.normalEqnSync(X, y)\n\n    expect(parseFloat(theta0[0])).toBe(89597.90954502113)\n    expect(parseFloat(theta1[0])).toBe(139.2106740175284)\n    expect(parseFloat(theta2[0])).toBe(-8738.019112926442)\n  })\n})\n",
+    "static": true,
+    "longname": "spec/normalEqnSync.spec.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 200,
+    "kind": "testDescribe",
+    "name": "describe48",
+    "testId": 48,
+    "memberof": "spec/normalEqnSync.spec.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "spec/normalEqnSync.spec.js~describe48",
+    "access": null,
+    "description": "datagrep.normalEqn",
+    "lineNumber": 7
+  },
+  {
+    "__docId__": 201,
+    "kind": "testIt",
+    "name": "it49",
+    "testId": 49,
+    "memberof": "spec/normalEqnSync.spec.js~describe48",
+    "testDepth": 1,
+    "static": true,
+    "longname": "spec/normalEqnSync.spec.js~describe48.it49",
+    "access": null,
+    "description": "computes theta for sample #0",
+    "lineNumber": 10
+  },
+  {
+    "__docId__": 202,
+    "kind": "testIt",
+    "name": "it50",
+    "testId": 50,
+    "memberof": "spec/normalEqnSync.spec.js~describe48",
+    "testDepth": 1,
+    "static": true,
+    "longname": "spec/normalEqnSync.spec.js~describe48.it50",
+    "access": null,
+    "description": "computes theta for sample #1",
+    "lineNumber": 19
   }
 ]

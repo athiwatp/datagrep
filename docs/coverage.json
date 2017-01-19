@@ -1,38 +1,73 @@
 {
   "coverage": "0%",
-  "expectCount": 33,
+  "expectCount": 67,
   "actualCount": 0,
   "files": {
     "src/utils/linearAlgebra.js": {
-      "expectCount": 26,
+      "expectCount": 52,
       "actualCount": 0,
       "undocumentLines": [
-        52,
-        56,
-        64,
-        71,
-        75,
-        84,
         79,
-        89,
-        93,
-        98,
-        113,
-        124,
-        128,
-        132,
-        136,
-        140,
+        83,
+        87,
+        91,
+        99,
+        103,
+        110,
+        114,
+        118,
+        122,
+        135,
+        139,
+        126,
+        130,
+        144,
+        148,
+        152,
         156,
-        160,
-        167,
-        183,
-        194,
-        200,
-        210,
-        172,
-        214,
-        218
+        161,
+        165,
+        180,
+        184,
+        195,
+        199,
+        203,
+        207,
+        211,
+        215,
+        219,
+        223,
+        227,
+        231,
+        247,
+        255,
+        259,
+        251,
+        266,
+        270,
+        290,
+        294,
+        305,
+        309,
+        315,
+        319,
+        329,
+        333,
+        274,
+        279,
+        337,
+        341,
+        345,
+        349
+      ]
+    },
+    "src/utils/common.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        9,
+        26,
+        30
       ]
     },
     "src/app/computeCost.js": {
@@ -42,14 +77,21 @@
         4
       ]
     },
-    "src/utils/common.js": {
+    "src/app/computeCostSync.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        7
+        4
       ]
     },
     "src/app/featureNormalize.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        8
+      ]
+    },
+    "src/app/featureNormalizeSync.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -63,6 +105,13 @@
         10
       ]
     },
+    "src/app/gradientDescentSync.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        10
+      ]
+    },
     "src/app/normalEqn.js": {
       "expectCount": 1,
       "actualCount": 0,
@@ -70,18 +119,27 @@
         7
       ]
     },
-    "src/utils/csv.js": {
+    "src/app/normalEqnSync.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        6
+        7
+      ]
+    },
+    "src/utils/csv.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        7,
+        17
       ]
     },
     "src/utils/file.js": {
-      "expectCount": 1,
+      "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
-        5
+        7,
+        16
       ]
     }
   }

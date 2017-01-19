@@ -6,9 +6,27 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~addsync",
+    "function/index.html#static-function-addSync",
+    "<span>addSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~angle",
     "function/index.html#static-function-angle",
     "<span>angle</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~anglesync",
+    "function/index.html#static-function-angleSync",
+    "<span>angleSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/common.js~asyncify",
+    "function/index.html#static-function-asyncify",
+    "<span>asyncify</span> <span class=\"search-result-import-path\">datagrep/src/utils/common.js</span>",
     "function"
   ],
   [
@@ -18,9 +36,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/app/computecostsync.js~computecostsync",
+    "function/index.html#static-function-computeCostSync",
+    "<span>computeCostSync</span> <span class=\"search-result-import-path\">datagrep/src/app/computeCostSync.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~crossproduct",
     "function/index.html#static-function-crossproduct",
     "<span>crossproduct</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~crossproductsync",
+    "function/index.html#static-function-crossproductSync",
+    "<span>crossproductSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -30,9 +60,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~dividesync",
+    "function/index.html#static-function-divideSync",
+    "<span>divideSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~dot",
     "function/index.html#static-function-dot",
     "<span>dot</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~dotsync",
+    "function/index.html#static-function-dotSync",
+    "<span>dotSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -42,9 +84,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/common.js~errorssync",
+    "function/index.html#static-function-errorsSync",
+    "<span>errorsSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/common.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/app/featurenormalize.js~featurenormalize",
     "function/index.html#static-function-featureNormalize",
     "<span>featureNormalize</span> <span class=\"search-result-import-path\">datagrep/src/app/featureNormalize.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/app/featurenormalizesync.js~featurenormalizesync",
+    "function/index.html#static-function-featureNormalizeSync",
+    "<span>featureNormalizeSync</span> <span class=\"search-result-import-path\">datagrep/src/app/featureNormalizeSync.js</span>",
     "function"
   ],
   [
@@ -54,9 +108,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/app/gradientdescentsync.js~gradientdescentsync",
+    "function/index.html#static-function-gradientDescentSync",
+    "<span>gradientDescentSync</span> <span class=\"search-result-import-path\">datagrep/src/app/gradientDescentSync.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~isorthogonal",
     "function/index.html#static-function-isOrthogonal",
     "<span>isOrthogonal</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~isorthogonalsync",
+    "function/index.html#static-function-isOrthogonalSync",
+    "<span>isOrthogonalSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -66,9 +132,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~isparallelsync",
+    "function/index.html#static-function-isParallelSync",
+    "<span>isParallelSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~magnitude",
     "function/index.html#static-function-magnitude",
     "<span>magnitude</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~magnitudesync",
+    "function/index.html#static-function-magnitudeSync",
+    "<span>magnitudeSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -78,9 +156,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~maxsync",
+    "function/index.html#static-function-maxSync",
+    "<span>maxSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~mean",
     "function/index.html#static-function-mean",
     "<span>mean</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~meansync",
+    "function/index.html#static-function-meanSync",
+    "<span>meanSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -90,9 +180,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~multiplysync",
+    "function/index.html#static-function-multiplySync",
+    "<span>multiplySync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/app/normaleqn.js~normaleqn",
     "function/index.html#static-function-normalEqn",
     "<span>normalEqn</span> <span class=\"search-result-import-path\">datagrep/src/app/normalEqn.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/app/normaleqnsync.js~normaleqnsync",
+    "function/index.html#static-function-normalEqnSync",
+    "<span>normalEqnSync</span> <span class=\"search-result-import-path\">datagrep/src/app/normalEqnSync.js</span>",
     "function"
   ],
   [
@@ -102,9 +204,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~normalizesync",
+    "function/index.html#static-function-normalizeSync",
+    "<span>normalizeSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~nullmatrix",
     "function/index.html#static-function-nullMatrix",
     "<span>nullMatrix</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~nullmatrixsync",
+    "function/index.html#static-function-nullMatrixSync",
+    "<span>nullMatrixSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -114,9 +228,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~numcolssync",
+    "function/index.html#static-function-numColsSync",
+    "<span>numColsSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~numrows",
     "function/index.html#static-function-numRows",
     "<span>numRows</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~numrowssync",
+    "function/index.html#static-function-numRowsSync",
+    "<span>numRowsSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -126,9 +252,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/csv.js~parsecsvsync",
+    "function/index.html#static-function-parseCsvSync",
+    "<span>parseCsvSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/csv.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~pinv",
     "function/index.html#static-function-pinv",
     "<span>pinv</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~pinvsync",
+    "function/index.html#static-function-pinvSync",
+    "<span>pinvSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -144,9 +282,27 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~projectandrejectsync",
+    "function/index.html#static-function-projectAndRejectSync",
+    "<span>projectAndRejectSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~projectsync",
+    "function/index.html#static-function-projectSync",
+    "<span>projectSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/file.js~readfile",
     "function/index.html#static-function-readFile",
     "<span>readFile</span> <span class=\"search-result-import-path\">datagrep/src/utils/file.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/file.js~readfilesync",
+    "function/index.html#static-function-readFileSync",
+    "<span>readFileSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/file.js</span>",
     "function"
   ],
   [
@@ -156,9 +312,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~rejectsync",
+    "function/index.html#static-function-rejectSync",
+    "<span>rejectSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~splitxy",
     "function/index.html#static-function-splitXy",
     "<span>splitXy</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~splitxysync",
+    "function/index.html#static-function-splitXySync",
+    "<span>splitXySync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -168,9 +336,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~squaresync",
+    "function/index.html#static-function-squareSync",
+    "<span>squareSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~std",
     "function/index.html#static-function-std",
     "<span>std</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~stdsync",
+    "function/index.html#static-function-stdSync",
+    "<span>stdSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -180,9 +360,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~subtractsync",
+    "function/index.html#static-function-subtractSync",
+    "<span>subtractSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~svd",
     "function/index.html#static-function-svd",
     "<span>svd</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~svdsync",
+    "function/index.html#static-function-svdSync",
+    "<span>svdSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -192,9 +384,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "datagrep/src/utils/linearalgebra.js~transposesync",
+    "function/index.html#static-function-transposeSync",
+    "<span>transposeSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
     "datagrep/src/utils/linearalgebra.js~unit",
     "function/index.html#static-function-unit",
     "<span>unit</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
+    "function"
+  ],
+  [
+    "datagrep/src/utils/linearalgebra.js~unitsync",
+    "function/index.html#static-function-unitSync",
+    "<span>unitSync</span> <span class=\"search-result-import-path\">datagrep/src/utils/linearAlgebra.js</span>",
     "function"
   ],
   [
@@ -547,13 +751,25 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/spec/computeCost.spec.js.html#lineNumber4",
+    "test-file/spec/computeCostSync.spec.js.html#lineNumber5",
     "datagrep.computeCost",
     "test"
   ],
   [
     "",
-    "test-file/spec/computeCost.spec.js.html#lineNumber7",
+    "test-file/spec/computeCost.spec.js.html#lineNumber5",
+    "datagrep.computeCost",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/computeCostSync.spec.js.html#lineNumber8",
+    "datagrep.computeCost computes the cost",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/computeCost.spec.js.html#lineNumber8",
     "datagrep.computeCost computes the cost",
     "test"
   ],
@@ -565,20 +781,50 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/spec/featureNormalizeSync.spec.js.html#lineNumber5",
+    "datagrep.featureNormalize",
+    "test"
+  ],
+  [
+    "",
     "test-file/spec/featureNormalize.spec.js.html#lineNumber8",
     "datagrep.featureNormalize normalizes the feature matrix",
     "test"
   ],
   [
     "",
-    "test-file/spec/gradientDescent.spec.js.html#lineNumber5",
+    "test-file/spec/featureNormalizeSync.spec.js.html#lineNumber8",
+    "datagrep.featureNormalize normalizes the feature matrix",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/gradientDescent.spec.js.html#lineNumber7",
     "datagrep.gradientDescent",
     "test"
   ],
   [
     "",
-    "test-file/spec/gradientDescent.spec.js.html#lineNumber8",
+    "test-file/spec/gradientDescent.spec.js.html#lineNumber22",
+    "datagrep.gradientDescent invokes the callback with the results if provided",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/gradientDescent.spec.js.html#lineNumber10",
     "datagrep.gradientDescent performs gradient descent",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/gradientDescentSync.spec.js.html#lineNumber5",
+    "datagrep.gradientDescentSync",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/gradientDescentSync.spec.js.html#lineNumber8",
+    "datagrep.gradientDescentSync performs gradient descent",
     "test"
   ],
   [
@@ -757,19 +1003,37 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/spec/normalEqn.spec.js.html#lineNumber5",
+    "test-file/spec/normalEqn.spec.js.html#lineNumber7",
     "datagrep.normalEqn",
     "test"
   ],
   [
     "",
-    "test-file/spec/normalEqn.spec.js.html#lineNumber8",
+    "test-file/spec/normalEqnSync.spec.js.html#lineNumber7",
+    "datagrep.normalEqn",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/normalEqnSync.spec.js.html#lineNumber10",
     "datagrep.normalEqn computes theta for sample #0",
     "test"
   ],
   [
     "",
-    "test-file/spec/normalEqn.spec.js.html#lineNumber17",
+    "test-file/spec/normalEqn.spec.js.html#lineNumber10",
+    "datagrep.normalEqn computes theta for sample #0",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/normalEqn.spec.js.html#lineNumber19",
+    "datagrep.normalEqn computes theta for sample #1",
+    "test"
+  ],
+  [
+    "",
+    "test-file/spec/normalEqnSync.spec.js.html#lineNumber19",
     "datagrep.normalEqn computes theta for sample #1",
     "test"
   ],
@@ -786,15 +1050,33 @@ window.esdocSearchIndex = [
     "testFile"
   ],
   [
+    "spec/computecostsync.spec.js",
+    "test-file/spec/computeCostSync.spec.js.html",
+    "spec/computeCostSync.spec.js",
+    "testFile"
+  ],
+  [
     "spec/featurenormalize.spec.js",
     "test-file/spec/featureNormalize.spec.js.html",
     "spec/featureNormalize.spec.js",
     "testFile"
   ],
   [
+    "spec/featurenormalizesync.spec.js",
+    "test-file/spec/featureNormalizeSync.spec.js.html",
+    "spec/featureNormalizeSync.spec.js",
+    "testFile"
+  ],
+  [
     "spec/gradientdescent.spec.js",
     "test-file/spec/gradientDescent.spec.js.html",
     "spec/gradientDescent.spec.js",
+    "testFile"
+  ],
+  [
+    "spec/gradientdescentsync.spec.js",
+    "test-file/spec/gradientDescentSync.spec.js.html",
+    "spec/gradientDescentSync.spec.js",
     "testFile"
   ],
   [
@@ -810,9 +1092,21 @@ window.esdocSearchIndex = [
     "testFile"
   ],
   [
+    "spec/normaleqnsync.spec.js",
+    "test-file/spec/normalEqnSync.spec.js.html",
+    "spec/normalEqnSync.spec.js",
+    "testFile"
+  ],
+  [
     "src/app/computecost.js",
     "file/src/app/computeCost.js.html",
     "src/app/computeCost.js",
+    "file"
+  ],
+  [
+    "src/app/computecostsync.js",
+    "file/src/app/computeCostSync.js.html",
+    "src/app/computeCostSync.js",
     "file"
   ],
   [
@@ -822,9 +1116,21 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/app/featurenormalizesync.js",
+    "file/src/app/featureNormalizeSync.js.html",
+    "src/app/featureNormalizeSync.js",
+    "file"
+  ],
+  [
     "src/app/gradientdescent.js",
     "file/src/app/gradientDescent.js.html",
     "src/app/gradientDescent.js",
+    "file"
+  ],
+  [
+    "src/app/gradientdescentsync.js",
+    "file/src/app/gradientDescentSync.js.html",
+    "src/app/gradientDescentSync.js",
     "file"
   ],
   [
@@ -837,6 +1143,12 @@ window.esdocSearchIndex = [
     "src/app/normaleqn.js",
     "file/src/app/normalEqn.js.html",
     "src/app/normalEqn.js",
+    "file"
+  ],
+  [
+    "src/app/normaleqnsync.js",
+    "file/src/app/normalEqnSync.js.html",
+    "src/app/normalEqnSync.js",
     "file"
   ],
   [
