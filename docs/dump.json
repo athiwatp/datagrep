@@ -222,7 +222,7 @@
     "__docId__": 8,
     "kind": "file",
     "name": "src/app/gradientDescent.js",
-    "content": "import { errors } from '../utils/common'\nimport {\n    dot,\n    multiply,\n    numRows,\n    subtract,\n    transpose\n} from '../utils/linearAlgebra'\n\nexport default (X, y, theta, alpha, numIters, callback = () => {}) => {\n  return new Promise(async (resolve, reject) => {\n    const k = alpha / await numRows(y)\n    const transposeX = await transpose(X)\n\n    for (let iter = 0; iter < numIters; iter++) {\n      const delta = await multiply(k, await dot(transposeX, await errors(X, theta, y)))\n\n      theta = await subtract(theta, delta)\n    }\n\n    callback(theta)\n    resolve(theta)\n  })\n}\n",
+    "content": "import { errors } from '../utils/common'\nimport {\n    dot,\n    multiply,\n    numRows,\n    subtract,\n    transpose\n} from '../utils/linearAlgebra'\n\n/**\n * Performs Gradient Descent asynchronously.\n * @param {Array[]} X - the training set of independent data\n * @param {Array[]} y - the training set of dependent data\n * @param {Array[]} theta - the initial value of the coefficients\n * @param {Number} alpha - the step size (aka learning rate)\n * @param {Number} numIters - the number of iterations to perform\n * @param {Function} [param=function() {}] callback - the callback to invoke upon completion\n * @returns {Promise<Array[], Error>} resolves to theta - the calculated coefficients\n */\nexport default (X, y, theta, alpha, numIters, callback = () => {}) => {\n  return new Promise(async (resolve, reject) => {\n    try {\n      const k = alpha / await numRows(y)\n      const transposeX = await transpose(X)\n\n      for (let iter = 0; iter < numIters; iter++) {\n        const delta = await multiply(k, await dot(transposeX, await errors(X, theta, y)))\n\n        theta = await subtract(theta, delta)\n      }\n    } catch (error) {\n      const _error = new Error(error)\n      callback(_error)\n      return reject(_error)\n    }\n\n    callback(theta)\n    resolve(theta)\n  })\n}\n",
     "static": true,
     "longname": "src/app/gradientDescent.js",
     "access": null,
@@ -242,65 +242,92 @@
     "export": true,
     "importPath": "datagrep/src/app/gradientDescent.js",
     "importStyle": "gradientDescent",
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true,
+    "description": "Performs Gradient Descent asynchronously.",
+    "lineNumber": 20,
     "unknown": [
       {
-        "tagName": "@_undocument",
-        "tagValue": ""
+        "tagName": "@returns",
+        "tagValue": "{Promise<Array[], Error>} resolves to theta - the calculated coefficients"
       }
     ],
     "params": [
       {
+        "nullable": null,
+        "types": [
+          "Array[]"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "X",
-        "types": [
-          "*"
-        ]
+        "description": "the training set of independent data"
       },
       {
+        "nullable": null,
+        "types": [
+          "Array[]"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "y",
-        "types": [
-          "*"
-        ]
+        "description": "the training set of dependent data"
       },
       {
+        "nullable": null,
+        "types": [
+          "Array[]"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "theta",
-        "types": [
-          "*"
-        ]
+        "description": "the initial value of the coefficients"
       },
       {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "alpha",
-        "types": [
-          "*"
-        ]
+        "description": "the step size (aka learning rate)"
       },
       {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "numIters",
-        "types": [
-          "*"
-        ]
+        "description": "the number of iterations to perform"
       },
       {
-        "name": "callback",
-        "optional": true,
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Function"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "function() {}",
+        "defaultRaw": "function() {}",
+        "name": "param",
+        "description": "callback - the callback to invoke upon completion"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Promise<Array[], Error>"
+      ],
+      "spread": false,
+      "description": "resolves to theta - the calculated coefficients"
     }
   },
   {
     "__docId__": 10,
     "kind": "file",
     "name": "src/app/gradientDescentSync.js",
-    "content": "import { errorsSync } from '../utils/common'\nimport {\n    dotSync,\n    multiplySync,\n    numRowsSync,\n    subtractSync,\n    transposeSync\n} from '../utils/linearAlgebra'\n\nexport default (X, y, theta, alpha, numIters) => {\n  const k = alpha / numRowsSync(y)\n  const transposeX = transposeSync(X)\n\n  for (let iter = 0; iter < numIters; iter++) {\n    const delta = multiplySync(k, dotSync(transposeX, errorsSync(X, theta, y)))\n\n    theta = subtractSync(theta, delta)\n  }\n\n  return theta\n}\n",
+    "content": "import { errorsSync } from '../utils/common'\nimport {\n    dotSync,\n    multiplySync,\n    numRowsSync,\n    subtractSync,\n    transposeSync\n} from '../utils/linearAlgebra'\n\n/**\n * Performs Gradient Descent synchronously.\n * @param {Array[]} X - the training set of independent data\n * @param {Array[]} y - the training set of dependent data\n * @param {Array[]} theta - the initial value of the coefficients\n * @param {Number} alpha - the step size (aka learning rate)\n * @param {Number} numIters - the number of iterations to perform\n * @returns {Array[]} theta - the calculated coefficients\n */\nexport default (X, y, theta, alpha, numIters) => {\n  const k = alpha / numRowsSync(y)\n  const transposeX = transposeSync(X)\n\n  for (let iter = 0; iter < numIters; iter++) {\n    const delta = multiplySync(k, dotSync(transposeX, errorsSync(X, theta, y)))\n\n    theta = subtractSync(theta, delta)\n  }\n\n  return theta\n}\n",
     "static": true,
     "longname": "src/app/gradientDescentSync.js",
     "access": null,
@@ -320,51 +347,73 @@
     "export": true,
     "importPath": "datagrep/src/app/gradientDescentSync.js",
     "importStyle": "gradientDescentSync",
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true,
+    "description": "Performs Gradient Descent synchronously.",
+    "lineNumber": 19,
     "unknown": [
       {
-        "tagName": "@_undocument",
-        "tagValue": ""
+        "tagName": "@returns",
+        "tagValue": "{Array[]} theta - the calculated coefficients"
       }
     ],
     "params": [
       {
+        "nullable": null,
+        "types": [
+          "Array[]"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "X",
-        "types": [
-          "*"
-        ]
+        "description": "the training set of independent data"
       },
       {
+        "nullable": null,
+        "types": [
+          "Array[]"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "y",
-        "types": [
-          "*"
-        ]
+        "description": "the training set of dependent data"
       },
       {
+        "nullable": null,
+        "types": [
+          "Array[]"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "theta",
-        "types": [
-          "*"
-        ]
+        "description": "the initial value of the coefficients"
       },
       {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "alpha",
-        "types": [
-          "*"
-        ]
+        "description": "the step size (aka learning rate)"
       },
       {
-        "name": "numIters",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "numIters",
+        "description": "the number of iterations to perform"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Array[]"
+      ],
+      "spread": false,
+      "description": "theta - the calculated coefficients"
     }
   },
   {

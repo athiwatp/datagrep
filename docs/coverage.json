@@ -1,7 +1,7 @@
 {
-  "coverage": "0%",
+  "coverage": "2.98%",
   "expectCount": 67,
-  "actualCount": 0,
+  "actualCount": 2,
   "files": {
     "src/utils/linearAlgebra.js": {
       "expectCount": 52,
@@ -100,17 +100,13 @@
     },
     "src/app/gradientDescent.js": {
       "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        10
-      ]
+      "actualCount": 1,
+      "undocumentLines": []
     },
     "src/app/gradientDescentSync.js": {
       "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        10
-      ]
+      "actualCount": 1,
+      "undocumentLines": []
     },
     "src/app/normalEqn.js": {
       "expectCount": 1,
