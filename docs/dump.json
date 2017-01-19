@@ -938,7 +938,7 @@
     "__docId__": 30,
     "kind": "file",
     "name": "src/utils/linearAlgebra.js",
-    "content": "import { asyncify } from './common'\nimport nj from 'numjs'\nimport numeric from 'numericjs'\nimport { Matrix, Vector } from 'vectorious'\nconst parseFloat = Number.parseFloat\n\nexport {\n  add,\n  addSync,\n  angle,\n  angleSync,\n  crossproduct,\n  crossproductSync,\n  divide,\n  divideSync,\n  dot,\n  dotSync,\n  isParallel,\n  isParallelSync,\n  isOrthogonal,\n  isOrthogonalSync,\n  magnitude,\n  magnitudeSync,\n  max,\n  maxSync,\n  mean,\n  meanSync,\n  multiply,\n  multiplySync,\n  normalize,\n  normalizeSync,\n  nullMatrix,\n  nullMatrixSync,\n  numCols,\n  numColsSync,\n  numRows,\n  numRowsSync,\n  pinv,\n  pinvSync,\n  project,\n  projectSync,\n  projectAndReject,\n  projectAndRejectSync,\n  reject,\n  rejectSync,\n  splitXy,\n  splitXySync,\n  square,\n  squareSync,\n  std,\n  stdSync,\n  subtract,\n  subtractSync,\n  svd,\n  svdSync,\n  transpose,\n  transposeSync,\n  unit,\n  unitSync\n}\n\nfunction _arithmetic (operation, a, b) {\n  operation = nj[operation]\n  a = nj.array(a)\n  b = nj.array(b)\n\n  if (a.size !== b.size) {\n    let results = b.tolist().map((currentValue, index) => {\n      let col = a.slice(0, [index, index + 1]).tolist()\n      let result = operation(col, currentValue).tolist()\n      return result\n    })\n    return transposeSync(results)[0]\n  }\n\n  return operation(a, b).tolist()\n}\n\nfunction add (a, b, callback = () => {}) {\n  return asyncify(addSync, callback)(...arguments)\n}\n\nfunction addSync (a, b) {\n  return new Vector(a).add(new Vector(b)).toArray()\n}\n\nfunction angle (a, b, convertToDegrees = false, callback = () => {}) {\n  return asyncify(angleSync, callback)(...arguments)\n}\n\nfunction angleSync (a, b, convertToDegrees = false) {\n  const degreesPerRadian = 180 / Math.PI\n  const radians = new Vector(a).angle(new Vector(b))\n\n  if (convertToDegrees) return radians * degreesPerRadian\n  return radians\n}\n\nfunction crossproduct (a, b, callback = () => {}) {\n  return asyncify(crossproductSync, callback)(...arguments)\n}\n\nfunction crossproductSync (a, b) {\n  const i = new Matrix([a.slice(1), b.slice(1)]).determinant()\n  const j = -new Matrix([a.slice(0, 1).concat(a.slice(2)), b.slice(0, 1).concat(b.slice(2))]).determinant()\n  const k = new Matrix([a.slice(0, 2), b.slice(0, 2)]).determinant()\n  return [i, j, k]\n}\n\nfunction divide (a, b, callback = () => {}) {\n  return asyncify(divideSync, callback)(...arguments)\n}\n\nfunction divideSync (a, b) {\n  return _arithmetic('divide', a, b)\n}\n\nfunction dot (a, b, callback = () => {}) {\n  return asyncify(dotSync, callback)(...arguments)\n}\n\nfunction dotSync (a, b) {\n  return nj.dot(a, b).tolist()\n}\n\nfunction isParallel (a, b, precision = 21, callback = () => {}) {\n  return asyncify(isParallelSync, callback)(...arguments)\n}\n\nfunction isParallelSync (a, b, precision = 21) {\n  let radians = parseFloat(angleSync(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === 0 || radians === parseFloat(Math.PI.toPrecision(precision))\n}\n\nfunction isOrthogonal (a, b, precision = 21, callback = () => {}) {\n  return asyncify(isOrthogonalSync, callback)(...arguments)\n}\n\nfunction isOrthogonalSync (a, b, precision = 21) {\n  let radians = parseFloat(angleSync(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))\n}\n\nfunction magnitude (a, callback = () => {}) {\n  return asyncify(magnitudeSync, callback)(...arguments)\n}\n\nfunction magnitudeSync (a) {\n  return new Vector(a).magnitude()\n}\n\nfunction max (a, callback = () => {}) {\n  return asyncify(maxSync, callback)(...arguments)\n}\n\nfunction maxSync (a) {\n  // TODO: accomodate any dimension\n  return nj.max(a)\n}\n\nfunction mean (a, callback = () => {}) {\n  return asyncify(meanSync, callback)(...arguments)\n}\n\nfunction meanSync (a) {\n  const _numRows = numRowsSync(a)\n  const sums = a.reduce((accumulator, currentValue) => {\n    currentValue.forEach((currentValue, index) => {\n      accumulator[index] += currentValue\n    })\n    return accumulator\n  }, new Array(numColsSync(a)).fill(0))\n  const mean = sums.map((currentValue) => {\n    return currentValue / _numRows\n  })\n\n  return mean\n}\n\nfunction multiply (a, b, callback = () => {}) {\n  return asyncify(multiplySync, callback)(...arguments)\n}\n\nfunction multiplySync (a, b) {\n  let result\n  try {\n    result = nj.multiply(a, b)\n  } catch (error) {\n    result = nj.multiply(b, a)\n  }\n\n  return result.tolist()\n}\n\nfunction normalize (a, callback = () => {}) {\n  return asyncify(normalizeSync, callback)(...arguments)\n}\n\nfunction normalizeSync (a) {\n  return new Vector(a).normalize().toArray()\n}\n\nfunction nullMatrix (numRows, numCols, callback = () => {}) {\n  return asyncify(nullMatrixSync, callback)(...arguments)\n}\n\nfunction nullMatrixSync (numRows, numCols) {\n  return nj.zeros([numRows, numCols]).tolist()\n}\n\nfunction numCols (a, callback = () => {}) {\n  return asyncify(numColsSync, callback)(...arguments)\n}\n\nfunction numColsSync (a) {\n  return nj.array(a).shape[1] || 1\n}\n\nfunction numRows (a, callback = () => {}) {\n  return asyncify(numRowsSync, callback)(...arguments)\n}\n\nfunction numRowsSync (a) {\n  return nj.array(a).shape[0]\n}\n\nfunction pinv (M, rcond = 1e-15, callback = () => {}) {\n  return asyncify(pinvSync, callback)(...arguments)\n}\n\nfunction pinvSync (M, rcond = 1e-15) {\n  let [U,, V, s] = svdSync(M)\n  const ε = numeric.epsilon\n  const m = numRowsSync(U)\n  const n = numColsSync(transposeSync(V))\n  const diagDim = Math.max(m, n)\n  const tolerance = ε * diagDim * maxSync(s)\n  const pinvΣ = transposeSync(numeric.diag(s.map((sNum, index) => {\n    return index < diagDim && sNum > tolerance ? 1 / sNum : 0\n  })))\n  const transposeU = transposeSync(U)\n  const pinvM = dotSync(transposeSync(V), dotSync(pinvΣ, transposeU))\n\n  return pinvM\n}\n\nfunction project (a, b, callback = () => {}) {\n  return asyncify(projectSync, callback)(...arguments)\n}\n\nfunction projectSync (a, b) {\n  return new Vector(a).project(new Vector(b)).toArray()\n}\n\nfunction projectAndReject (a, b, callback = () => {}) {\n  return asyncify(projectAndRejectSync, callback)(...arguments)\n}\n\nfunction projectAndRejectSync (a, b) {\n  return {\n    projection: projectSync(a, b),\n    rejection: rejectSync(a, b)\n  }\n}\n\nfunction reject (a, b, callback = () => {}) {\n  return asyncify(rejectSync, callback)(...arguments)\n}\n\nfunction rejectSync (a, b) {\n  return subtractSync(a, projectSync(a, b))\n}\n\nfunction svd (a, callback = () => {}) {\n  return asyncify(svdSync, callback)(...arguments)\n}\n\n// singular value decomposition\nfunction svdSync (a) {\n  const res = numeric.svd(a)\n  const U = res.U\n  const s = res.S // singular values, or s-numbers\n  const Σ = numeric.diag(s)\n  const transposeV = res.V\n  const V = transposeSync(transposeV)\n\n  return [U, Σ, V, s]\n}\n\nfunction splitXy (data, addOnes = true, callback = () => {}) {\n  return asyncify(splitXySync, callback)(...arguments)\n}\n\nfunction splitXySync (data, addOnes = true) {\n  const dataAsMatrix = nj.array(data)\n  const [numRows, numCols] = dataAsMatrix.shape\n  const y = dataAsMatrix.slice(0, -1).tolist()\n  let X = dataAsMatrix.slice(0, [numCols - 1])\n  if (addOnes) X = nj.concatenate(nj.ones([numRows, 1]), X)\n  X = X.tolist()\n\n  return { X, y }\n}\n\nfunction square (a, callback = () => {}) {\n  return asyncify(squareSync, callback)(...arguments)\n}\n\nfunction squareSync (a) {\n  a = nj.array(a)\n\n  return a.T.dot(a).tolist()[0][0]\n}\n\nfunction std (a, callback = () => {}) {\n  return asyncify(stdSync, callback)(...arguments)\n}\n\nfunction stdSync (a) {\n  const t = nj.array(a).T\n  const options = { 'ddof': 1 }\n  const stdDevs = t.tolist().map((row) => {\n    return nj.array(row).std(options)\n  })\n\n  return stdDevs\n}\n\nfunction subtract (a, b, callback = () => {}) {\n  return asyncify(subtractSync, callback)(...arguments)\n}\n\nfunction subtractSync (a, b) {\n  return _arithmetic('subtract', a, b)\n}\n\nfunction transpose (a, callback = () => {}) {\n  return asyncify(transposeSync, callback)(...arguments)\n}\n\nfunction transposeSync (a) {\n  return nj.array(a).T.tolist()\n}\n\nfunction unit (a, callback = () => {}) {\n  return asyncify(unitSync, callback)(...arguments)\n}\n\nfunction unitSync (a) {\n  return multiplySync(a, 1 / magnitude(a))\n}\n",
+    "content": "import { asyncify } from './common'\nimport nj from 'numjs'\nimport numeric from 'numericjs'\nimport { Matrix, Vector } from 'vectorious'\nconst parseFloat = Number.parseFloat\n\nexport {\n  add,\n  addSync,\n  angle,\n  angleSync,\n  crossproduct,\n  crossproductSync,\n  divide,\n  divideSync,\n  dot,\n  dotSync,\n  isParallel,\n  isParallelSync,\n  isOrthogonal,\n  isOrthogonalSync,\n  magnitude,\n  magnitudeSync,\n  max,\n  maxSync,\n  mean,\n  meanSync,\n  multiply,\n  multiplySync,\n  normalize,\n  normalizeSync,\n  nullMatrix,\n  nullMatrixSync,\n  numCols,\n  numColsSync,\n  numRows,\n  numRowsSync,\n  pinv,\n  pinvSync,\n  project,\n  projectSync,\n  projectAndReject,\n  projectAndRejectSync,\n  reject,\n  rejectSync,\n  splitXy,\n  splitXySync,\n  square,\n  squareSync,\n  std,\n  stdSync,\n  subtract,\n  subtractSync,\n  svd,\n  svdSync,\n  transpose,\n  transposeSync,\n  unit,\n  unitSync\n}\n\nfunction _arithmetic (operation, a, b) {\n  operation = nj[operation]\n  a = nj.array(a)\n  b = nj.array(b)\n\n  if (a.size !== b.size) {\n    let results = b.tolist().map((currentValue, index) => {\n      let col = a.slice(0, [index, index + 1]).tolist()\n      let result = operation(col, currentValue).tolist()\n      return result\n    })\n    return transposeSync(results)[0]\n  }\n\n  return operation(a, b).tolist()\n}\n\nfunction add (a, b, callback = () => {}) {\n  return asyncify(addSync, callback)(...arguments)\n}\n\nfunction addSync (a, b) {\n  return new Vector(a).add(new Vector(b)).toArray()\n}\n\nfunction angle (a, b, convertToDegrees = false, callback = () => {}) {\n  return asyncify(angleSync, callback)(...arguments)\n}\n\nfunction angleSync (a, b, convertToDegrees = false) {\n  const degreesPerRadian = 180 / Math.PI\n  const radians = new Vector(a).angle(new Vector(b))\n\n  if (convertToDegrees) return radians * degreesPerRadian\n  return radians\n}\n\nfunction crossproduct (a, b, callback = () => {}) {\n  return asyncify(crossproductSync, callback)(...arguments)\n}\n\nfunction crossproductSync (a, b) {\n  const i = new Matrix([a.slice(1), b.slice(1)]).determinant()\n  const j = -new Matrix([a.slice(0, 1).concat(a.slice(2)), b.slice(0, 1).concat(b.slice(2))]).determinant()\n  const k = new Matrix([a.slice(0, 2), b.slice(0, 2)]).determinant()\n  return [i, j, k]\n}\n\nfunction divide (a, b, callback = () => {}) {\n  return asyncify(divideSync, callback)(...arguments)\n}\n\nfunction divideSync (a, b) {\n  return _arithmetic('divide', a, b)\n}\n\nfunction dot (a, b, callback = () => {}) {\n  return asyncify(dotSync, callback)(...arguments)\n}\n\nfunction dotSync (a, b) {\n  return nj.dot(a, b).tolist()\n}\n\nfunction isParallel (a, b, precision = 21, callback = () => {}) {\n  return asyncify(isParallelSync, callback)(...arguments)\n}\n\nfunction isParallelSync (a, b, precision = 21) {\n  let radians = parseFloat(angleSync(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === 0 || radians === parseFloat(Math.PI.toPrecision(precision))\n}\n\nfunction isOrthogonal (a, b, precision = 21, callback = () => {}) {\n  return asyncify(isOrthogonalSync, callback)(...arguments)\n}\n\nfunction isOrthogonalSync (a, b, precision = 21) {\n  let radians = parseFloat(angleSync(a, b).toPrecision(precision))\n  return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))\n}\n\nfunction magnitude (a, callback = () => {}) {\n  return asyncify(magnitudeSync, callback)(...arguments)\n}\n\nfunction magnitudeSync (a) {\n  return new Vector(a).magnitude()\n}\n\nfunction max (a, callback = () => {}) {\n  return asyncify(maxSync, callback)(...arguments)\n}\n\nfunction maxSync (a) {\n  // TODO: accomodate any dimension\n  return nj.max(a)\n}\n\nfunction mean (a, callback = () => {}) {\n  return asyncify(meanSync, callback)(...arguments)\n}\n\nfunction meanSync (a) {\n  const _numRows = numRowsSync(a)\n  const sums = a.reduce((accumulator, currentValue) => {\n    currentValue.forEach((currentValue, index) => {\n      accumulator[index] += currentValue\n    })\n    return accumulator\n  }, new Array(numColsSync(a)).fill(0))\n  const mean = sums.map((currentValue) => {\n    return currentValue / _numRows\n  })\n\n  return mean\n}\n\nfunction multiply (a, b, callback = () => {}) {\n  return asyncify(multiplySync, callback)(...arguments)\n}\n\nfunction multiplySync (a, b) {\n  let result\n  try {\n    result = nj.multiply(a, b)\n  } catch (error) {\n    result = nj.multiply(b, a)\n  }\n\n  return result.tolist()\n}\n\nfunction normalize (a, callback = () => {}) {\n  return asyncify(normalizeSync, callback)(...arguments)\n}\n\nfunction normalizeSync (a) {\n  return new Vector(a).normalize().toArray()\n}\n\nfunction nullMatrix (numRows, numCols, callback = () => {}) {\n  return asyncify(nullMatrixSync, callback)(...arguments)\n}\n\nfunction nullMatrixSync (numRows, numCols) {\n  return nj.zeros([numRows, numCols]).tolist()\n}\n\nfunction numCols (a, callback = () => {}) {\n  return asyncify(numColsSync, callback)(...arguments)\n}\n\nfunction numColsSync (a) {\n  return nj.array(a).shape[1] || 1\n}\n\nfunction numRows (a, callback = () => {}) {\n  return asyncify(numRowsSync, callback)(...arguments)\n}\n\nfunction numRowsSync (a) {\n  return nj.array(a).shape[0]\n}\n\n/**\n * Compute the (Moore-Penrose) pseudo-inverse (pinv) of a matrix asynchronously.\n * @param {Array[]} M - the matrix\n * @returns {Promise<Array[], Error>} resolves to pinvM - the calculated pseudo-inverse\n */\nfunction pinv (M, callback = () => {}) {\n  return asyncify(pinvSync, callback)(...arguments)\n}\n\n/**\n * Compute the (Moore-Penrose) pseudo-inverse (pinv) of a matrix synchronously.\n * @param {Array[]} M - the matrix\n * @returns {Array[]} pinvM - the calculated pseudo-inverse\n */\nfunction pinvSync (M) {\n  let [U,, V, s] = svdSync(M)\n  const ε = numeric.epsilon\n  const m = numRowsSync(U)\n  const n = numColsSync(transposeSync(V))\n  const diagDim = Math.max(m, n)\n  const tolerance = ε * diagDim * maxSync(s)\n  const pinvΣ = transposeSync(numeric.diag(s.map((sNum, index) => {\n    return index < diagDim && sNum > tolerance ? 1 / sNum : 0\n  })))\n  const transposeU = transposeSync(U)\n  const pinvM = dotSync(transposeSync(V), dotSync(pinvΣ, transposeU))\n\n  return pinvM\n}\n\nfunction project (a, b, callback = () => {}) {\n  return asyncify(projectSync, callback)(...arguments)\n}\n\nfunction projectSync (a, b) {\n  return new Vector(a).project(new Vector(b)).toArray()\n}\n\nfunction projectAndReject (a, b, callback = () => {}) {\n  return asyncify(projectAndRejectSync, callback)(...arguments)\n}\n\nfunction projectAndRejectSync (a, b) {\n  return {\n    projection: projectSync(a, b),\n    rejection: rejectSync(a, b)\n  }\n}\n\nfunction reject (a, b, callback = () => {}) {\n  return asyncify(rejectSync, callback)(...arguments)\n}\n\nfunction rejectSync (a, b) {\n  return subtractSync(a, projectSync(a, b))\n}\n\n/**\n * Compute the singular value decomposition (SVD) of a matrix asynchronously.\n * @param {Array[]} M - the matrix\n * @returns {Promise<Array[], Error>} resolves to [U, Σ, V, s] - the calculated singular value decomposition\n */\nfunction svd (a, callback = () => {}) {\n  return asyncify(svdSync, callback)(...arguments)\n}\n\n/**\n * Compute the singular value decomposition (SVD) of a matrix synchronously.\n * @param {Array[]} M - the matrix\n * @returns {Array[]} [U, Σ, V, s] - the calculated singular value decomposition\n */\nfunction svdSync (M) {\n  const res = numeric.svd(M)\n  const U = res.U\n  const s = res.S // singular values, or s-numbers\n  const Σ = numeric.diag(s)\n  const transposeV = res.V\n  const V = transposeSync(transposeV)\n\n  return [U, Σ, V, s]\n}\n\nfunction splitXy (data, addOnes = true, callback = () => {}) {\n  return asyncify(splitXySync, callback)(...arguments)\n}\n\nfunction splitXySync (data, addOnes = true) {\n  const dataAsMatrix = nj.array(data)\n  const [numRows, numCols] = dataAsMatrix.shape\n  const y = dataAsMatrix.slice(0, -1).tolist()\n  let X = dataAsMatrix.slice(0, [numCols - 1])\n  if (addOnes) X = nj.concatenate(nj.ones([numRows, 1]), X)\n  X = X.tolist()\n\n  return { X, y }\n}\n\nfunction square (a, callback = () => {}) {\n  return asyncify(squareSync, callback)(...arguments)\n}\n\nfunction squareSync (a) {\n  a = nj.array(a)\n\n  return a.T.dot(a).tolist()[0][0]\n}\n\nfunction std (a, callback = () => {}) {\n  return asyncify(stdSync, callback)(...arguments)\n}\n\nfunction stdSync (a) {\n  const t = nj.array(a).T\n  const options = { 'ddof': 1 }\n  const stdDevs = t.tolist().map((row) => {\n    return nj.array(row).std(options)\n  })\n\n  return stdDevs\n}\n\nfunction subtract (a, b, callback = () => {}) {\n  return asyncify(subtractSync, callback)(...arguments)\n}\n\nfunction subtractSync (a, b) {\n  return _arithmetic('subtract', a, b)\n}\n\nfunction transpose (a, callback = () => {}) {\n  return asyncify(transposeSync, callback)(...arguments)\n}\n\nfunction transposeSync (a) {\n  return nj.array(a).T.tolist()\n}\n\nfunction unit (a, callback = () => {}) {\n  return asyncify(unitSync, callback)(...arguments)\n}\n\nfunction unitSync (a) {\n  return multiplySync(a, 1 / magnitude(a))\n}\n",
     "static": true,
     "longname": "src/utils/linearAlgebra.js",
     "access": null,
@@ -2379,43 +2379,33 @@
     "export": true,
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{pinv}",
-    "description": null,
-    "lineNumber": 227,
-    "undocument": true,
+    "description": "Compute the (Moore-Penrose) pseudo-inverse (pinv) of a matrix asynchronously.",
+    "lineNumber": 232,
     "unknown": [
       {
-        "tagName": "@_undocument",
-        "tagValue": ""
+        "tagName": "@returns",
+        "tagValue": "{Promise<Array[], Error>} resolves to pinvM - the calculated pseudo-inverse"
       }
     ],
     "params": [
       {
-        "name": "M",
+        "nullable": null,
         "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "rcond",
-        "optional": true,
-        "types": [
-          "number"
+          "Array[]"
         ],
-        "defaultRaw": 1e-15,
-        "defaultValue": "1e-15"
-      },
-      {
-        "name": "callback",
-        "optional": true,
-        "types": [
-          "*"
-        ]
+        "spread": false,
+        "optional": false,
+        "name": "M",
+        "description": "the matrix"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Promise<Array[], Error>"
+      ],
+      "spread": false,
+      "description": "resolves to pinvM - the calculated pseudo-inverse"
     }
   },
   {
@@ -2431,36 +2421,33 @@
     "export": true,
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{pinvSync}",
-    "description": null,
-    "lineNumber": 231,
-    "undocument": true,
+    "description": "Compute the (Moore-Penrose) pseudo-inverse (pinv) of a matrix synchronously.",
+    "lineNumber": 241,
     "unknown": [
       {
-        "tagName": "@_undocument",
-        "tagValue": ""
+        "tagName": "@returns",
+        "tagValue": "{Array[]} pinvM - the calculated pseudo-inverse"
       }
     ],
     "params": [
       {
-        "name": "M",
+        "nullable": null,
         "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "rcond",
-        "optional": true,
-        "types": [
-          "number"
+          "Array[]"
         ],
-        "defaultRaw": 1e-15,
-        "defaultValue": "1e-15"
+        "spread": false,
+        "optional": false,
+        "name": "M",
+        "description": "the matrix"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Array[]"
+      ],
+      "spread": false,
+      "description": "pinvM - the calculated pseudo-inverse"
     }
   },
   {
@@ -2477,7 +2464,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{project}",
     "description": null,
-    "lineNumber": 247,
+    "lineNumber": 257,
     "undocument": true,
     "unknown": [
       {
@@ -2526,7 +2513,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{projectSync}",
     "description": null,
-    "lineNumber": 251,
+    "lineNumber": 261,
     "undocument": true,
     "unknown": [
       {
@@ -2568,7 +2555,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{projectAndReject}",
     "description": null,
-    "lineNumber": 255,
+    "lineNumber": 265,
     "undocument": true,
     "unknown": [
       {
@@ -2617,7 +2604,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{projectAndRejectSync}",
     "description": null,
-    "lineNumber": 259,
+    "lineNumber": 269,
     "undocument": true,
     "unknown": [
       {
@@ -2659,7 +2646,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{reject}",
     "description": null,
-    "lineNumber": 266,
+    "lineNumber": 276,
     "undocument": true,
     "unknown": [
       {
@@ -2708,7 +2695,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{rejectSync}",
     "description": null,
-    "lineNumber": 270,
+    "lineNumber": 280,
     "undocument": true,
     "unknown": [
       {
@@ -2750,7 +2737,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{splitXy}",
     "description": null,
-    "lineNumber": 290,
+    "lineNumber": 309,
     "undocument": true,
     "unknown": [
       {
@@ -2802,7 +2789,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{splitXySync}",
     "description": null,
-    "lineNumber": 294,
+    "lineNumber": 313,
     "undocument": true,
     "unknown": [
       {
@@ -2847,7 +2834,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{square}",
     "description": null,
-    "lineNumber": 305,
+    "lineNumber": 324,
     "undocument": true,
     "unknown": [
       {
@@ -2890,7 +2877,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{squareSync}",
     "description": null,
-    "lineNumber": 309,
+    "lineNumber": 328,
     "undocument": true,
     "unknown": [
       {
@@ -2926,7 +2913,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{std}",
     "description": null,
-    "lineNumber": 315,
+    "lineNumber": 334,
     "undocument": true,
     "unknown": [
       {
@@ -2969,7 +2956,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{stdSync}",
     "description": null,
-    "lineNumber": 319,
+    "lineNumber": 338,
     "undocument": true,
     "unknown": [
       {
@@ -3005,7 +2992,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{subtract}",
     "description": null,
-    "lineNumber": 329,
+    "lineNumber": 348,
     "undocument": true,
     "unknown": [
       {
@@ -3054,7 +3041,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{subtractSync}",
     "description": null,
-    "lineNumber": 333,
+    "lineNumber": 352,
     "undocument": true,
     "unknown": [
       {
@@ -3095,34 +3082,33 @@
     "export": true,
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{svd}",
-    "description": null,
-    "lineNumber": 274,
-    "undocument": true,
+    "description": "Compute the singular value decomposition (SVD) of a matrix asynchronously.",
+    "lineNumber": 289,
     "unknown": [
       {
-        "tagName": "@_undocument",
-        "tagValue": ""
+        "tagName": "@returns",
+        "tagValue": "{Promise<Array[], Error>} resolves to [U, Σ, V, s] - the calculated singular value decomposition"
       }
     ],
     "params": [
       {
-        "name": "a",
+        "nullable": null,
         "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "callback",
-        "optional": true,
-        "types": [
-          "*"
-        ]
+          "Array[]"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "M",
+        "description": "the matrix"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Promise<Array[], Error>"
+      ],
+      "spread": false,
+      "description": "resolves to [U, Σ, V, s] - the calculated singular value decomposition"
     }
   },
   {
@@ -3138,27 +3124,33 @@
     "export": true,
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{svdSync}",
-    "description": null,
-    "lineNumber": 279,
-    "undocument": true,
+    "description": "Compute the singular value decomposition (SVD) of a matrix synchronously.",
+    "lineNumber": 298,
     "unknown": [
       {
-        "tagName": "@_undocument",
-        "tagValue": ""
+        "tagName": "@returns",
+        "tagValue": "{Array[]} [U, Σ, V, s] - the calculated singular value decomposition"
       }
     ],
     "params": [
       {
-        "name": "a",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Array[]"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "M",
+        "description": "the matrix"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "undefined[]"
-      ]
+        "Array[]"
+      ],
+      "spread": false,
+      "description": "[U, Σ, V, s] - the calculated singular value decomposition"
     }
   },
   {
@@ -3175,7 +3167,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{transpose}",
     "description": null,
-    "lineNumber": 337,
+    "lineNumber": 356,
     "undocument": true,
     "unknown": [
       {
@@ -3218,7 +3210,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{transposeSync}",
     "description": null,
-    "lineNumber": 341,
+    "lineNumber": 360,
     "undocument": true,
     "unknown": [
       {
@@ -3254,7 +3246,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{unit}",
     "description": null,
-    "lineNumber": 345,
+    "lineNumber": 364,
     "undocument": true,
     "unknown": [
       {
@@ -3297,7 +3289,7 @@
     "importPath": "datagrep/src/utils/linearAlgebra.js",
     "importStyle": "{unitSync}",
     "description": null,
-    "lineNumber": 349,
+    "lineNumber": 368,
     "undocument": true,
     "unknown": [
       {
