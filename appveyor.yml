@@ -9,7 +9,7 @@ install:
   - ps: Install-Product node $env:nodejs_version
 
   # install OpenBLAS
-  - ps: wget https://downloads.sourceforge.net/project/openblas/v0.2.19/OpenBLAS-v0.2.19-Win64-int32.zip?r="&"ts=1484881696&use_mirror=pilotfiber -OutFile OpenBLAS-v0.2.19-Win64-int32.zip
+  - ps: wget https://downloads.sourceforge.net/project/openblas/v0.2.19/OpenBLAS-v0.2.19-Win64-int32.zip -OutFile OpenBLAS-v0.2.19-Win64-int32.zip
   - ps: Expand-Archive OpenBLAS-v0.2.19-Win64-int32.zip
   - ps: make install
 
