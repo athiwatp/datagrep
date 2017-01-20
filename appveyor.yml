@@ -11,7 +11,7 @@ install:
   # install OpenBLAS
   - ps: wget https://downloads.sourceforge.net/project/openblas/v0.2.19/OpenBLAS-v0.2.19-Win64-int32.zip -OutFile OpenBLAS-v0.2.19-Win64-int32.zip
   - ps: Get-Location
-  - ps: Expand-Archive -Path OpenBLAS-v0.2.19-Win64-int32.zip -DestinationPath C:\OpenBLAS
+  - ps: Expand-Archive -Path OpenBLAS-v0.2.19-Win64-int32.zip -DestinationPath C:\projects\datagrep
   - ps: make install
 
   # install modules
