@@ -44,7 +44,7 @@
     "csv-parse": "1.1.10",
     "numericjs": "1.2.6",
     "numjs": "0.12.4",
-    "vectorious": "4.7.0"
+    "vectorious": "4.8.0"
   },
   "devDependencies": {
     "babel-core": "6.21.0",
