@@ -12,6 +12,7 @@ install:
   - ps: wget http://github.com/xianyi/OpenBLAS/archive/v0.2.19.zip -OutFile OpenBLAS-v0.2.19-Win64-int32.zip
   - ps: Expand-Archive C:\projects\datagrep\OpenBLAS-v0.2.19-Win64-int32.zip -DestinationPath C:\projects\datagrep
   - cinst msys2
+  - ps: refreshenv
   - ps: pacman -S make gcc gcc-fortran
   - ps: Get-Location
   - ps: Get-ChildItem
