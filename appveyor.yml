@@ -13,6 +13,7 @@ install:
   - ps: Get-Location
   - ps: Get-ChildItem
   - ps: Expand-Archive C:\projects\datagrep\OpenBLAS-v0.2.19-Win64-int32.zip -DestinationPath C:\projects\datagrep
+  - cinst msys2
   - ps: make install
 
   # install modules
