@@ -13,6 +13,7 @@ install:
   - ps: Expand-Archive C:\projects\datagrep\OpenBLAS-v0.2.19-Win64-int32.zip -DestinationPath C:\projects\datagrep
   - cinst msys2
   - ps: refreshenv
+  - ps: C:\tools\msys64\msys2_shell.bat
   - ps: pacman -S make gcc gcc-fortran
   - ps: Get-Location
   - ps: Get-ChildItem
