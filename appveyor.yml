@@ -9,7 +9,7 @@ install:
   - ps: Install-Product node $env:nodejs_version
 
   # install OpenBLAS
-  - ps: wget https://downloads.sourceforge.net/project/openblas/v0.2.19/OpenBLAS-v0.2.19-Win64-int32.zip -OutFile OpenBLAS-v0.2.19-Win64-int32.zip
+  - ps: wget http://github.com/xianyi/OpenBLAS/archive/v0.2.19.zip -OutFile OpenBLAS-v0.2.19-Win64-int32.zip
   - ps: Get-Location
   - ps: Get-ChildItem
   - ps: Expand-Archive C:\projects\datagrep\OpenBLAS-v0.2.19-Win64-int32.zip -DestinationPath C:\projects\datagrep
