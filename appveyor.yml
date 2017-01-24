@@ -3,6 +3,9 @@ environment:
   CC: gcc-4.8
   CXX: g++-4.8
 
+platform: 
+  - x64
+
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js
