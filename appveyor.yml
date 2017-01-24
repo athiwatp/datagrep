@@ -21,7 +21,7 @@ install:
   # - ps: Get-Location
   # - ps: Get-ChildItem
   # - cmd: make
-  - ps: wget https://downloads.sourceforge.net/project/openblas/v0.2.19/OpenBLAS-v0.2.19-Win64-int32.zip
+  - ps: wget -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::FireFox https://downloads.sourceforge.net/project/openblas/v0.2.19/OpenBLAS-v0.2.19-Win64-int32.zip
   - ps: Get-Location
   - ps: Get-ChildItem
   - ps: Expand-Archive C:\projects\datagrep\OpenBLAS-v0.2.19-Win64-int32.zip -DestinationPath C:\projects\datagrep
