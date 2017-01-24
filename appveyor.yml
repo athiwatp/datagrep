@@ -34,7 +34,7 @@ install:
   # - ps: make install
 
   # install modules
-  - npm install blas
+  - npm install https://github.com/mjschock/vectorious
 
 # Post-install test scripts.
 test_script:
