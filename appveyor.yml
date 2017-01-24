@@ -16,7 +16,8 @@ install:
   - ps: $env:Path += ";C:\tools\msys64"
   - ps: $env:path.split(";")
   - ps: Get-ChildItem -Path C:\tools\msys64
-  - cmd: msys2 pacman -S make gcc gcc-fortran
+  - ps: msys2 pacman -S make gcc gcc-fortran
+  - cmd: cd OpenBLAS-0.2.19
   - ps: Get-Location
   - ps: Get-ChildItem
   - ps: make install
