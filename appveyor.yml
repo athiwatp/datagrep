@@ -19,7 +19,7 @@ install:
   - ps: Get-ChildItem
   - ps: Get-ChildItem -Path C:\tools\msys64
   - ps: Get-ChildItem -Path C:\tools\msys64\usr\bin
-  - ps: make install
+  - ps: make
 
   # install modules
   - npm install
