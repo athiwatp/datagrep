@@ -27,8 +27,11 @@ install:
   - cinst msys2
   - ps: $env:Path += ";C:\tools\msys64;C:\tools\msys64\usr\bin"
   - ps: pacman -Sv --noconfirm make gcc gcc-fortran
+  - ps: Get-Location
+  - ps: Get-ChildItem
+  - ps: make
   - ps: make install
-  
+
   # install modules
   - npm install
 
