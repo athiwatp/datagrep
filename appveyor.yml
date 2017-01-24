@@ -17,6 +17,7 @@ install:
   - cmd: cd OpenBLAS-0.2.19
   - ps: Get-Location
   - ps: Get-ChildItem
+  - ps: cat Makefile
   - ps: make
 
   # install modules
