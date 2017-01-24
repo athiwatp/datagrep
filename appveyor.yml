@@ -13,7 +13,7 @@ install:
   - ps: Expand-Archive C:\projects\datagrep\OpenBLAS-v0.2.19-Win64-int32.zip -DestinationPath C:\projects\datagrep
   - cinst msys2
   # - ps: refreshenv
-  - ps: $env:Path += ";C:\tools\msys64"
+  - ps: $env:Path += ";C:\tools\msys64;C:\tools\msys64\usr\bin"
   - ps: $env:path.split(";")
   - ps: Get-ChildItem -Path C:\tools\msys64
   - ps: bash -l -c "pacman -S make gcc gcc-fortran"
