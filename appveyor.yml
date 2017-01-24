@@ -22,7 +22,7 @@ install:
   - ps: Get-ChildItem
   # - ps: cat Makefile
   # - ps: make
-  - cmd: make
+  - cmd: make TARGET=NEHALEM
   # - ps: quickbuild.win64
 
   # install modules
