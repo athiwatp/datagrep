@@ -24,7 +24,11 @@ install:
   - ps: Invoke-WebRequest -OutFile OpenBLAS-v0.2.19-Win64-int32.zip -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::FireFox https://downloads.sourceforge.net/project/openblas/v0.2.19/OpenBLAS-v0.2.19-Win64-int32.zip
   - ps: Expand-Archive C:\projects\datagrep\OpenBLAS-v0.2.19-Win64-int32.zip -DestinationPath C:\projects\datagrep
   - ps: cd OpenBLAS-v0.2.19-Win64-int32
+  - cinst msys2
+  - ps: $env:Path += ";C:\tools\msys64;C:\tools\msys64\usr\bin"
+  - ps: pacman -Sv --noconfirm make gcc gcc-fortran
   - ps: make install
+  
   # install modules
   - npm install
 
