@@ -22,7 +22,7 @@ install:
   - ps: Get-ChildItem
   # - ps: cat Makefile
   # - ps: make
-  - cmd: make TARGET=HASWELL
+  - cmd: make TARGET=ATOM
   # - ps: quickbuild.win64
 
   # install modules
