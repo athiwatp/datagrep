@@ -17,8 +17,6 @@ install:
   - cmd: cd OpenBLAS-0.2.19
   - ps: Get-Location
   - ps: Get-ChildItem
-  - ps: Get-ChildItem -Path C:\tools\msys64
-  - ps: Get-ChildItem -Path C:\tools\msys64\usr\bin
   - ps: make
 
   # install modules
