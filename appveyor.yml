@@ -34,7 +34,7 @@ install:
   # - ps: make install
 
   # install modules
-  - npm install nblas
+  - npm install blas
 
 # Post-install test scripts.
 test_script:
