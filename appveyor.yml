@@ -12,7 +12,8 @@ install:
   - ps: Install-Product node $env:nodejs_version
 
   # install modules
-  - npm install
+  - npm install https://github.com/mjschock/vectorious
+  # - npm install # sharp fails in numjs deps
 
 # Post-install test scripts.
 test_script:
