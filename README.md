@@ -8,6 +8,7 @@ A JavaScript Machine Learning Library
 
 [![bitHound Overall Score](https://www.bithound.io/github/mjschock/datagrep/badges/score.svg)](https://www.bithound.io/github/mjschock/datagrep)
 [![Travis](https://travis-ci.org/mjschock/datagrep.svg)](https://travis-ci.org/mjschock/datagrep)
+[![Build status](https://ci.appveyor.com/api/projects/status/s7eesvsgxlkj8wvx?svg=true)](https://ci.appveyor.com/project/mjschock/datagrep)
 [![Code Climate](https://codeclimate.com/github/mjschock/datagrep/badges/gpa.svg)](https://codeclimate.com/github/mjschock/datagrep)
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![Coverage Status](https://coveralls.io/repos/github/mjschock/datagrep/badge.svg)](https://coveralls.io/github/mjschock/datagrep)
