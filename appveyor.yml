@@ -22,7 +22,7 @@ install:
   - ps: Get-ChildItem
   # - ps: cat Makefile
   # - ps: make
-  - cmd: make C:\projects\datagrep\OpenBLAS-0.2.19\Makefile
+  - cmd: make
   # - ps: quickbuild.win64
 
   # install modules
