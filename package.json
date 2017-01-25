@@ -41,7 +41,7 @@
   "homepage": "https://github.com/mjschock/datagrep#readme",
   "dependencies": {
     "babel-runtime": "6.20.0",
-    "csv-parse": "1.1.10",
+    "csv-parse": "1.1.12",
     "numericjs": "1.2.6",
     "numjs": "0.12.4",
     "vectorious": "git+https://github.com/mjschock/vectorious.git"
