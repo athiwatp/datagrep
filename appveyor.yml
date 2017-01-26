@@ -12,7 +12,7 @@ install:
   - ps: Install-Product node $env:nodejs_version
 
   # install modules
-  - npm install # sharp fails in numjs deps
+  - npm install # vectorious fails; sharp fails in numjs deps
 
 # Post-install test scripts.
 test_script:
