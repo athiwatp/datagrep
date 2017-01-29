@@ -2,7 +2,7 @@ import {
     dotSync,
     pinvSync,
     transposeSync
-} from '../utils/linearAlgebra'
+} from '../../../utils/linearAlgebra'
 
 export default (X, y) => {
   const transposeX = transposeSync(X)

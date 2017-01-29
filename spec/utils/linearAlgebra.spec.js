@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { utils } from '../src/index'
+import { utils } from '../../src/index'
 import path from 'path'
 const parseFloat = Number.parseFloat
 const precision = 12

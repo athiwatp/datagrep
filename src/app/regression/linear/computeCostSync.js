@@ -1,5 +1,5 @@
-import { errorsSync } from '../utils/common'
-import { numRowsSync, squareSync } from '../utils/linearAlgebra'
+import { errorsSync } from '../../../utils/common'
+import { numRowsSync, squareSync } from '../../../utils/linearAlgebra'
 
 export default (X, y, theta) => {
   const m = numRowsSync(X)

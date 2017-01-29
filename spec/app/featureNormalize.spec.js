@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import datagrep, { utils } from '../src/index'
+import datagrep, { utils } from '../../src/index'
 import path from 'path'
 
 describe('datagrep.featureNormalize', () => {

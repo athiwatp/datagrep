@@ -1,11 +1,11 @@
-import { errorsSync } from '../utils/common'
+import { errorsSync } from '../../../utils/common'
 import {
     dotSync,
     multiplySync,
     numRowsSync,
     subtractSync,
     transposeSync
-} from '../utils/linearAlgebra'
+} from '../../../utils/linearAlgebra'
 
 /**
  * Performs Gradient Descent synchronously.

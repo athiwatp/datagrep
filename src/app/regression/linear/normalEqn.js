@@ -2,7 +2,7 @@ import {
     dot,
     pinv,
     transpose
-} from '../utils/linearAlgebra'
+} from '../../../utils/linearAlgebra'
 
 export default (X, y, callback = () => {}) => {
   return new Promise(async (resolve, reject) => {

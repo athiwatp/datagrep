@@ -1,15 +1,15 @@
 /* eslint-env jest */
-import datagrep, { utils } from '../src/index'
+import datagrep, { utils } from '../../../../src/index'
 import path from 'path'
 
-describe('datagrep.costFunctionSync', () => {
+describe('datagrep.regression.logistic.computeCostSync', () => {
   const { csv, linearAlgebra } = utils
 
   it('computes the cost for logistic regression', () => {
     const data = csv.parseCsvSync(path.resolve('spec/data/sample2.csv'))
     const { X, y } = linearAlgebra.splitXySync(data)
     const theta = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)
-    const { cost, gradient } = datagrep.costFunctionSync(X, y, theta)
+    const { cost, gradient } = datagrep.regression.logistic.computeCostSync(X, y, theta)
 
     expect(Number.parseFloat(cost)).toBe(0.6931471805599458)
     expect(Number.parseFloat(gradient[0][0])).toBe(-0.1)
@@ -21,7 +21,7 @@ describe('datagrep.costFunctionSync', () => {
     const data = csv.parseCsvSync(path.resolve('spec/data/sample2.csv'))
     const { X, y } = linearAlgebra.splitXySync(data)
     const theta = [[-24], [0.2], [0.2]]
-    const { cost, gradient } = datagrep.costFunctionSync(X, y, theta)
+    const { cost, gradient } = datagrep.regression.logistic.computeCostSync(X, y, theta)
 
     expect(Number.parseFloat(cost)).toBe(0.21833019382659782)
     expect(Number.parseFloat(gradient[0][0])).toBe(0.04290299489953449)
@@ -33,7 +33,7 @@ describe('datagrep.costFunctionSync', () => {
     const data = csv.parseCsvSync(path.resolve('spec/data/sample2.csv'))
     const { X, y } = linearAlgebra.splitXySync(data)
     const thetaInitial = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)
-    const f = datagrep.costFunctionSync.bind(datagrep, X, y)
+    const f = datagrep.regression.logistic.computeCostSync.bind(null, X, y)
     const { cost, theta } = linearAlgebra.fminuncSync(f, thetaInitial, {
       maxit: 400
     })

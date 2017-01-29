@@ -1,5 +1,5 @@
-import { errors } from '../utils/common'
-import { numRows, square } from '../utils/linearAlgebra'
+import { errors } from '../../../utils/common'
+import { numRows, square } from '../../../utils/linearAlgebra'
 
 export default (X, y, theta, callback = () => {}) => {
   return new Promise(async (resolve, reject) => {

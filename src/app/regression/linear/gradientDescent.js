@@ -1,11 +1,11 @@
-import { errors } from '../utils/common'
+import { errors } from '../../../utils/common'
 import {
     dot,
     multiply,
     numRows,
     subtract,
     transpose
-} from '../utils/linearAlgebra'
+} from '../../../utils/linearAlgebra'
 
 /**
  * Performs Gradient Descent asynchronously.

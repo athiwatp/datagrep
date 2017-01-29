@@ -1,4 +1,13 @@
-import { dotSync, logSync, meanSync, multiplySync, numRowsSync, sigmoidSync, subtractSync, transposeSync } from '../utils/linearAlgebra'
+import {
+  dotSync,
+  logSync,
+  meanSync,
+  multiplySync,
+  numRowsSync,
+  sigmoidSync,
+  subtractSync,
+  transposeSync
+} from '../../../utils/linearAlgebra'
 
 export default (X, y, theta) => {
   const m = numRowsSync(X)
