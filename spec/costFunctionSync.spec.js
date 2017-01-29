@@ -28,4 +28,19 @@ describe('datagrep.costFunctionSync', () => {
     expect(Number.parseFloat(gradient[0][1])).toBe(2.566234115510758)
     expect(Number.parseFloat(gradient[0][2])).toBe(2.6467973710824326)
   })
+
+  describe('fminuncSync', () => {
+    it('minimizes the provided function with respect to theta', () => {
+      const data = csv.parseCsvSync(path.resolve('spec/data/sample2.csv'))
+      const { X, y } = linearAlgebra.splitXySync(data)
+      const thetaInitial = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)
+      const f = datagrep.costFunctionSync.bind(datagrep, X, y)
+      const { cost, theta } = linearAlgebra.fminuncSync(f, thetaInitial)
+
+      expect(Number.parseFloat(cost)).toBe(0.20349770158943994)
+      expect(Number.parseFloat(theta[0])).toBe(-25.16133321257665)
+      expect(Number.parseFloat(theta[1])).toBe(0.20623171115054015)
+      expect(Number.parseFloat(theta[2])).toBe(0.20147159699663497)
+    })
+  })
 })

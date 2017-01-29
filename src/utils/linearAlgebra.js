@@ -15,6 +15,8 @@ export {
   divideSync,
   dot,
   dotSync,
+  fminunc,
+  fminuncSync,
   isParallel,
   isParallelSync,
   isOrthogonal,
@@ -141,6 +143,31 @@ function dot (a, b, callback = () => {}) {
 
 function dotSync (a, b) {
   return nj.dot(a, b).tolist()
+}
+
+function fminunc (f, thetaInitial, callback = () => {}) {
+  return asyncify(fminuncSync, callback)(...arguments)
+}
+
+function fminuncSync (fn, thetaInitial) {
+  function _toX (x) {
+    return transposeSync(x)[0]
+  }
+
+  function _fromX (x) {
+    return x.map((value, index, array) => {
+      return [value]
+    })
+  }
+
+  const { f, solution } = numeric.uncmin(function (x) {
+    return fn.call(this, _fromX(x)).cost
+  }, _toX(thetaInitial))
+
+  return {
+    cost: f[0],
+    theta: solution
+  }
 }
 
 function isParallel (a, b, precision = 21, callback = () => {}) {
