@@ -1,5 +1,6 @@
 import computeCost from './computeCost'
 import computeCostSync from './computeCostSync'
+import costFunctionSync from './costFunctionSync'
 import featureNormalize from './featureNormalize'
 import featureNormalizeSync from './featureNormalizeSync'
 import gradientDescent from './gradientDescent'
@@ -11,6 +12,7 @@ import utils from '../utils'
 export default {
   computeCost,
   computeCostSync,
+  costFunctionSync,
   featureNormalize,
   featureNormalizeSync,
   gradientDescent,
@@ -22,6 +24,7 @@ export default {
 export {
     computeCost,
     computeCostSync,
+    costFunctionSync,
     featureNormalize,
     featureNormalizeSync,
     gradientDescent,

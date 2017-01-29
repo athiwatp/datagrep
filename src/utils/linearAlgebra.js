@@ -19,6 +19,8 @@ export {
   isParallelSync,
   isOrthogonal,
   isOrthogonalSync,
+  log,
+  logSync,
   magnitude,
   magnitudeSync,
   max,
@@ -43,6 +45,8 @@ export {
   projectAndRejectSync,
   reject,
   rejectSync,
+  sigmoid,
+  sigmoidSync,
   splitXy,
   splitXySync,
   square,
@@ -65,11 +69,27 @@ function _arithmetic (operation, a, b) {
   b = nj.array(b)
 
   if (a.size !== b.size) {
-    let results = b.tolist().map((currentValue, index) => {
-      let col = a.slice(0, [index, index + 1]).tolist()
-      let result = operation(col, currentValue).tolist()
-      return result
-    })
+    // broadcast
+    let results
+    if (a.size === 1) {
+      results = [b.tolist().map((currentValue, index) => {
+        let col = a.tolist()
+        let result = operation(col, currentValue).tolist()
+        return result
+      })]
+    } else if (b.size === 1) {
+      results = a.tolist().map((currentValue, index) => {
+        let col = b.tolist()
+        let result = operation(col, currentValue).tolist()
+        return result
+      })
+    } else {
+      results = b.tolist().map((currentValue, index) => {
+        let col = a.slice(0, [index, index + 1]).tolist()
+        let result = operation(col, currentValue).tolist()
+        return result
+      })
+    }
     return transposeSync(results)[0]
   }
 
@@ -139,6 +159,14 @@ function isOrthogonal (a, b, precision = 21, callback = () => {}) {
 function isOrthogonalSync (a, b, precision = 21) {
   let radians = parseFloat(angleSync(a, b).toPrecision(precision))
   return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))
+}
+
+function log (a, callback = () => {}) {
+  return asyncify(logSync, callback)(...arguments)
+}
+
+function logSync (a) {
+  return numeric.log(a)
 }
 
 function magnitude (a, callback = () => {}) {
@@ -279,6 +307,14 @@ function reject (a, b, callback = () => {}) {
 
 function rejectSync (a, b) {
   return subtractSync(a, projectSync(a, b))
+}
+
+function sigmoid (a, callback = () => {}) {
+  return asyncify(sigmoidSync, callback)(...arguments)
+}
+
+function sigmoidSync (a) {
+  return nj.sigmoid(a).tolist()
 }
 
 /**
