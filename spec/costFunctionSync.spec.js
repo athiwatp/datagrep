@@ -30,19 +30,40 @@ describe('datagrep.costFunctionSync', () => {
   })
 
   describe('fminuncSync', () => {
-    it('minimizes the provided function with respect to theta', () => {
-      const data = csv.parseCsvSync(path.resolve('spec/data/sample2.csv'))
-      const { X, y } = linearAlgebra.splitXySync(data)
-      const thetaInitial = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)
-      const f = datagrep.costFunctionSync.bind(datagrep, X, y)
-      const { cost, theta } = linearAlgebra.fminuncSync(f, thetaInitial, {
-        maxit: 400
-      })
+    const data = csv.parseCsvSync(path.resolve('spec/data/sample2.csv'))
+    const { X, y } = linearAlgebra.splitXySync(data)
+    const thetaInitial = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)
+    const f = datagrep.costFunctionSync.bind(datagrep, X, y)
+    const { cost, theta } = linearAlgebra.fminuncSync(f, thetaInitial, {
+      maxit: 400
+    })
 
+    it('minimizes the provided function with respect to theta', () => {
       expect(Number.parseFloat(cost)).toBe(0.20349770158943994)
       expect(Number.parseFloat(theta[0])).toBe(-25.16133321257665)
       expect(Number.parseFloat(theta[1])).toBe(0.20623171115054015)
       expect(Number.parseFloat(theta[2])).toBe(0.20147159699663497)
+    })
+
+    it('predicts accurately', () => {
+      const predictions = predict(theta, X)
+      const accuracy = 100 * predictions.reduce((previousValue, currentValue, index) => {
+        if (currentValue === y[index][0]) previousValue++
+        return previousValue
+      }, 0) / predictions.length
+
+      expect(probabilities(theta, [1, 45, 85])[0]).toBe(0.7762906846558513)
+      expect(accuracy).toBe(89)
+
+      function probabilities (theta, X) {
+        return linearAlgebra.sigmoidSync(linearAlgebra.dotSync(X, theta))
+      }
+
+      function predict (theta, X) {
+        return probabilities(theta, X).map((value) => {
+          return value >= 0.5 ? 1 : 0
+        })
+      }
     })
   })
 })
