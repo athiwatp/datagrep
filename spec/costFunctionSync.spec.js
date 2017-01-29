@@ -35,7 +35,9 @@ describe('datagrep.costFunctionSync', () => {
       const { X, y } = linearAlgebra.splitXySync(data)
       const thetaInitial = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)
       const f = datagrep.costFunctionSync.bind(datagrep, X, y)
-      const { cost, theta } = linearAlgebra.fminuncSync(f, thetaInitial)
+      const { cost, theta } = linearAlgebra.fminuncSync(f, thetaInitial, {
+        maxit: 400
+      })
 
       expect(Number.parseFloat(cost)).toBe(0.20349770158943994)
       expect(Number.parseFloat(theta[0])).toBe(-25.16133321257665)

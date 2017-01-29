@@ -149,7 +149,7 @@ function fminunc (f, thetaInitial, callback = () => {}) {
   return asyncify(fminuncSync, callback)(...arguments)
 }
 
-function fminuncSync (fn, thetaInitial) {
+function fminuncSync (fn, thetaInitial, options = {}) {
   function _toX (x) {
     return transposeSync(x)[0]
   }
@@ -162,7 +162,7 @@ function fminuncSync (fn, thetaInitial) {
 
   const { f, solution } = numeric.uncmin(function (x) {
     return fn.call(this, _fromX(x)).cost
-  }, _toX(thetaInitial))
+  }, _toX(thetaInitial), options.tol, options.gradient, options.maxit)
 
   return {
     cost: f[0],
