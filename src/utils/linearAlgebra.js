@@ -7,6 +7,7 @@ const parseFloat = Number.parseFloat
 export {
   add,
   addSync,
+  addColumnSync,
   angle,
   angleSync,
   crossproduct,
@@ -39,8 +40,10 @@ export {
   numColsSync,
   numRows,
   numRowsSync,
+  onesSync,
   pinv,
   pinvSync,
+  powerSync,
   project,
   projectSync,
   projectAndReject,
@@ -104,6 +107,10 @@ function add (a, b, callback = () => {}) {
 
 function addSync (a, b) {
   return new Vector(a).add(new Vector(b)).toArray()
+}
+
+function addColumnSync (a, b) { // TODO: make non-mutative
+  return nj.concatenate(a, b).tolist()
 }
 
 function angle (a, b, convertToDegrees = false, callback = () => {}) {
@@ -279,6 +286,10 @@ function numRowsSync (a) {
   return nj.array(a).shape[0]
 }
 
+function onesSync (numRows, numCols = 1) {
+  return nj.ones([numRows, numCols]).tolist()
+}
+
 /**
  * Compute the (Moore-Penrose) pseudo-inverse (pinv) of a matrix asynchronously.
  * @param {Array[]} M - the matrix
@@ -307,6 +318,10 @@ function pinvSync (M) {
   const pinvM = dotSync(transposeSync(V), dotSync(pinvΣ, transposeU))
 
   return pinvM
+}
+
+function powerSync (a, power) {
+  return nj.array(a).pow(power).tolist()
 }
 
 function project (a, b, callback = () => {}) {
