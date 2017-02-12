@@ -13,7 +13,7 @@ describe('datagrep.polynomialFeatureMapSync', () => {
     const numRows = X.length
     const numCols = linearAlgebra.numColsSync(mapping)
     const midCol = numCols / 2
-    const midRow = numRows / 2 - 1
+    const midRow = (numRows / 2) - 1
     const lastCol = numCols - 1
     const lastRow = numRows - 1
 
