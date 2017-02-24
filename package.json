@@ -57,7 +57,7 @@
     "coveralls": "2.11.16",
     "esdoc": "0.5.2",
     "jest": "18.1.0",
-    "rimraf": "2.6.0",
+    "rimraf": "2.6.1",
     "snazzy": "6.0.0",
     "standard": "9.0.0-beta.0",
     "webpack": "2.2.1"
