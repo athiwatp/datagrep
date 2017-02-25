@@ -56,7 +56,7 @@
     "codeclimate-test-reporter": "0.4.1",
     "coveralls": "2.11.16",
     "esdoc": "0.5.2",
-    "jest": "18.1.0",
+    "jest": "19.0.2",
     "rimraf": "2.6.1",
     "snazzy": "6.0.0",
     "standard": "9.0.0-beta.0",
