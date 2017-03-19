@@ -1,6 +1,6 @@
 # <a href="http://datagrep.com">datagrep</a>
 
-A JavaScript Machine Learning Library
+A JavaScript Artificial Intelligence & Machine Learning Library
 
 &#x26A1;&#x26A1; WORK IN PROGRESS &#x26A1;&#x26A1;
 
