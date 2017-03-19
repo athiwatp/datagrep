@@ -11,6 +11,6 @@ describe('datagrep.regression.linear.computeCost', () => {
     const theta = await linearAlgebra.nullMatrix(await linearAlgebra.numCols(X), 1)
     const cost = await datagrep.regression.linear.computeCost(X, y, theta)
 
-    expect(Number.parseFloat(cost)).toBe(32.072733877455676)
+    expect(Number.parseFloat(cost.toPrecision(15))).toBe(32.0727338774557)
   })
 })

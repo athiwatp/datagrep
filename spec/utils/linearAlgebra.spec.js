@@ -141,8 +141,8 @@ describe('datagrep.linearAlgebra', () => {
       const c = [-5.955, -4.904, -1.874]
       const d = [-4.496, -8.755, 7.103]
 
-      expect((await dot(a, b))[0]).toBe(-41.382286)
-      expect((await dot(c, d))[0]).toBe(56.397178000000004)
+      expect((await dot(a, b))).toBe(-41.382286)
+      expect((await dot(c, d))).toBe(56.397178000000004)
     })
   })
 

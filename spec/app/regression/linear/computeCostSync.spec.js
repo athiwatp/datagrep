@@ -11,6 +11,6 @@ describe('datagrep.regression.linear.computeCostSync', () => {
     const theta = linearAlgebra.nullMatrixSync(linearAlgebra.numColsSync(X), 1)
     const cost = datagrep.regression.linear.computeCostSync(X, y, theta)
 
-    expect(Number.parseFloat(cost)).toBe(32.072733877455676)
+    expect(Number.parseFloat(cost.toPrecision(15))).toBe(32.0727338774557)
   })
 })

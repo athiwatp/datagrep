@@ -1,8 +1,19 @@
 import { asyncify } from './common'
-import nj from 'numjs'
-import numeric from 'numericjs'
+import math from 'mathjs'
 import { Matrix, Vector } from 'vectorious'
-const parseFloat = Number.parseFloat
+import numeric from 'numericjs'
+
+function _isMatrix (m) {
+  return m instanceof Array && m[0] instanceof Array
+}
+
+function _isNumber (n) {
+  return typeof n === 'number'
+}
+
+function _isVector (v) {
+  return v instanceof Array && v[0] instanceof Array === false
+}
 
 export {
   add,
@@ -44,6 +55,8 @@ export {
   pinv,
   pinvSync,
   powerSync,
+  product,
+  productSync,
   project,
   projectSync,
   projectAndReject,
@@ -68,49 +81,34 @@ export {
   unitSync
 }
 
-function _arithmetic (operation, a, b) {
-  operation = nj[operation]
-  a = nj.array(a)
-  b = nj.array(b)
-
-  if (a.size !== b.size) {
-    // broadcast
-    let results
-    if (a.size === 1) {
-      results = [b.tolist().map((currentValue, index) => {
-        let col = a.tolist()
-        let result = operation(col, currentValue).tolist()
-        return result
-      })]
-    } else if (b.size === 1) {
-      results = a.tolist().map((currentValue, index) => {
-        let col = b.tolist()
-        let result = operation(col, currentValue).tolist()
-        return result
-      })
-    } else {
-      results = b.tolist().map((currentValue, index) => {
-        let col = a.slice(0, [index, index + 1]).tolist()
-        let result = operation(col, currentValue).tolist()
-        return result
-      })
-    }
-    return transposeSync(results)[0]
-  }
-
-  return operation(a, b).tolist()
-}
-
 function add (a, b, callback = () => {}) {
   return asyncify(addSync, callback)(...arguments)
 }
 
 function addSync (a, b) {
-  return new Vector(a).add(new Vector(b)).toArray()
+  try {
+    if (_isMatrix(a) && _isMatrix(b)) {
+      return Matrix.add(new Matrix(a), new Matrix(b)).toArray()
+    } else if (_isMatrix(a) && _isVector(b)) {
+      throw new Error('TODO: impl matrix-vector addition')
+    } else if (_isVector(a) && _isMatrix(b)) {
+      throw new Error('TODO: impl vector-matrix addition')
+    } else if (_isVector(a) && _isVector(b)) {
+      return Vector.add(new Vector(a), new Vector(b)).toArray()
+    } else {
+      throw new Error('TODO: impl')
+    }
+  } catch (error) {
+    throw error
+  }
 }
 
-function addColumnSync (a, b) { // TODO: make non-mutative
-  return nj.concatenate(a, b).tolist()
+function addColumnSync (a, b) {
+  if (_isMatrix(a) && _isMatrix(b)) {
+    return Matrix.augment(new Matrix(a), new Matrix(b)).toArray()
+  } else {
+    throw new Error('TODO: impl')
+  }
 }
 
 function angle (a, b, convertToDegrees = false, callback = () => {}) {
@@ -118,6 +116,8 @@ function angle (a, b, convertToDegrees = false, callback = () => {}) {
 }
 
 function angleSync (a, b, convertToDegrees = false) {
+  if (!_isVector(a) && !_isVector(b)) throw new Error('a and b must be vectors')
+
   const degreesPerRadian = 180 / Math.PI
   const radians = new Vector(a).angle(new Vector(b))
 
@@ -130,6 +130,8 @@ function crossproduct (a, b, callback = () => {}) {
 }
 
 function crossproductSync (a, b) {
+  if (!_isVector(a) && !_isVector(b)) throw new Error('a and b must be vectors')
+
   const i = new Matrix([a.slice(1), b.slice(1)]).determinant()
   const j = -new Matrix([a.slice(0, 1).concat(a.slice(2)), b.slice(0, 1).concat(b.slice(2))]).determinant()
   const k = new Matrix([a.slice(0, 2), b.slice(0, 2)]).determinant()
@@ -140,8 +142,16 @@ function divide (a, b, callback = () => {}) {
   return asyncify(divideSync, callback)(...arguments)
 }
 
-function divideSync (a, b) {
-  return _arithmetic('divide', a, b)
+function divideSync (a, b) { // TODO: clean this up
+  if (b instanceof Array) {
+    if (b[0] instanceof Array) {
+      throw new Error('trying to divide by matrix')
+    } else {
+      return multiplySync(a, b.map(x => 1 / x))
+    }
+  } else {
+    return multiplySync(a, 1 / b)
+  }
 }
 
 function dot (a, b, callback = () => {}) {
@@ -149,7 +159,25 @@ function dot (a, b, callback = () => {}) {
 }
 
 function dotSync (a, b) {
-  return nj.dot(a, b).tolist()
+  try {
+    if (_isMatrix(a) && _isMatrix(b)) {
+      return Matrix.multiply(new Matrix(a), new Matrix(b)).toArray()
+    } else if (_isMatrix(a) && _isVector(b)) {
+      const blah = a.map(row => {
+        return [ dotSync(row, b) ]
+        // return dotSync(row, b)
+      })
+      return blah
+    } else if (_isVector(a) && _isMatrix(b)) {
+      throw new Error('TODO: impl vector-matrix dot product')
+    } else if (_isVector(a) && _isVector(b)) {
+      return Vector.dot(new Vector(a), new Vector(b))
+    } else {
+      throw new Error('TODO: impl')
+    }
+  } catch (error) {
+    throw error
+  }
 }
 
 function fminunc (f, thetaInitial, callback = () => {}) {
@@ -172,7 +200,7 @@ function fminuncSync (fn, thetaInitial, options = {}) {
   }, _toX(thetaInitial), options.tol, options.gradient, options.maxit)
 
   return {
-    cost: f[0],
+    cost: f,
     theta: solution
   }
 }
@@ -182,6 +210,8 @@ function isParallel (a, b, precision = 21, callback = () => {}) {
 }
 
 function isParallelSync (a, b, precision = 21) {
+  if (!_isVector(a) && !_isVector(b)) throw new Error('a and b must be vectors')
+
   let radians = parseFloat(angleSync(a, b).toPrecision(precision))
   return isNaN(radians) || radians === 0 || radians === parseFloat(Math.PI.toPrecision(precision))
 }
@@ -191,6 +221,8 @@ function isOrthogonal (a, b, precision = 21, callback = () => {}) {
 }
 
 function isOrthogonalSync (a, b, precision = 21) {
+  if (!_isVector(a) && !_isVector(b)) throw new Error('a and b must be vectors')
+
   let radians = parseFloat(angleSync(a, b).toPrecision(precision))
   return isNaN(radians) || radians === parseFloat((Math.PI / 2).toPrecision(precision))
 }
@@ -200,6 +232,8 @@ function log (a, callback = () => {}) {
 }
 
 function logSync (a) {
+  if (!_isVector(a) && !_isMatrix(a)) throw new Error('a must be a vector or matrix')
+
   return numeric.log(a)
 }
 
@@ -208,7 +242,11 @@ function magnitude (a, callback = () => {}) {
 }
 
 function magnitudeSync (a) {
-  return new Vector(a).magnitude()
+  if (_isVector(a)) {
+    return new Vector(a).magnitude()
+  } else {
+    throw new Error('a must be a vector')
+  }
 }
 
 function max (a, callback = () => {}) {
@@ -216,8 +254,19 @@ function max (a, callback = () => {}) {
 }
 
 function maxSync (a) {
-  // TODO: accomodate any dimension
-  return nj.max(a)
+  let max = Number.NEGATIVE_INFINITY
+
+  if (_isMatrix(a)) {
+    return new Matrix(a).reduce(x => {
+      return x > max ? x : max
+    }, max)
+  } else if (_isVector(a)) {
+    return new Vector(a).reduce(x => {
+      return x > max ? x : max
+    }, max)
+  } else {
+    throw new Error('a must be a matrix or vector')
+  }
 }
 
 function mean (a, callback = () => {}) {
@@ -225,18 +274,15 @@ function mean (a, callback = () => {}) {
 }
 
 function meanSync (a) {
-  const _numRows = numRowsSync(a)
-  const sums = a.reduce((accumulator, currentValue) => {
-    currentValue.forEach((currentValue, index) => {
-      accumulator[index] += currentValue
+  if (_isMatrix(a)) {
+    return transposeSync(a).map(row => {
+      return math.mean(row)
     })
-    return accumulator
-  }, new Array(numColsSync(a)).fill(0))
-  const mean = sums.map((currentValue) => {
-    return currentValue / _numRows
-  })
-
-  return mean
+  } else if (_isVector(a)) {
+    return math.mean(a)
+  } else {
+    throw new Error('a must be a vector or matrix')
+  }
 }
 
 function multiply (a, b, callback = () => {}) {
@@ -244,14 +290,33 @@ function multiply (a, b, callback = () => {}) {
 }
 
 function multiplySync (a, b) {
-  let result
   try {
-    result = nj.multiply(a, b)
+    if (_isMatrix(a) && _isMatrix(b)) {
+      return Matrix.multiply(new Matrix(a), new Matrix(b)).toArray()
+    } else if (_isMatrix(a) && _isVector(b)) {
+      return a.map(row => {
+        return row.map((col, i) => {
+          return col * b[i]
+        })
+      })
+    } else if (_isVector(a) && _isMatrix(b)) {
+      throw new Error('TODO: impl vector-matrix multiply')
+    } else if (_isVector(a) && _isVector(b)) {
+      return Vector.dot(new Vector(a), new Vector(b)).toArray()
+    } else if (_isMatrix(a) && _isNumber(b)) {
+      return Matrix.scale(new Matrix(a), b).toArray()
+    } else if (_isVector(a) && _isNumber(b)) {
+      return Vector.scale(new Vector(a), b).toArray()
+    } else if (_isMatrix(b) && _isNumber(a)) {
+      return Matrix.scale(new Matrix(b), a).toArray()
+    } else if (_isVector(b) && _isNumber(a)) {
+      return Vector.scale(new Vector(b), a).toArray()
+    } else {
+      throw new Error('TODO: impl')
+    }
   } catch (error) {
-    result = nj.multiply(b, a)
+    throw error
   }
-
-  return result.tolist()
 }
 
 function normalize (a, callback = () => {}) {
@@ -259,7 +324,11 @@ function normalize (a, callback = () => {}) {
 }
 
 function normalizeSync (a) {
-  return new Vector(a).normalize().toArray()
+  if (_isVector(a)) {
+    return new Vector(a).normalize().toArray()
+  } else {
+    throw new Error('a must be a vector')
+  }
 }
 
 function nullMatrix (numRows, numCols, callback = () => {}) {
@@ -267,7 +336,7 @@ function nullMatrix (numRows, numCols, callback = () => {}) {
 }
 
 function nullMatrixSync (numRows, numCols) {
-  return nj.zeros([numRows, numCols]).tolist()
+  return Matrix.zeros(numRows, numCols).toArray()
 }
 
 function numCols (a, callback = () => {}) {
@@ -275,7 +344,11 @@ function numCols (a, callback = () => {}) {
 }
 
 function numColsSync (a) {
-  return nj.array(a).shape[1] || 1
+  if (_isMatrix(a)) {
+    return a[0].length
+  } else {
+    throw new Error('a must be a matrix')
+  }
 }
 
 function numRows (a, callback = () => {}) {
@@ -283,11 +356,15 @@ function numRows (a, callback = () => {}) {
 }
 
 function numRowsSync (a) {
-  return nj.array(a).shape[0]
+  if (_isMatrix(a)) {
+    return a.length
+  } else {
+    throw new Error('a must be a matrix')
+  }
 }
 
 function onesSync (numRows, numCols = 1) {
-  return nj.ones([numRows, numCols]).tolist()
+  return Matrix.ones(numRows, numCols).toArray()
 }
 
 /**
@@ -321,7 +398,28 @@ function pinvSync (M) {
 }
 
 function powerSync (a, power) {
-  return nj.array(a).pow(power).tolist()
+  if (_isMatrix(a)) {
+    return new Matrix(a).map(x => {
+      return Math.pow(x, power)
+    }).toArray()
+  } else if (_isVector(a)) {
+    return new Vector(a).map(x => {
+      return Math.pow(x, power)
+    }).toArray()
+  } else {
+    throw new Error('a must be a matrix or vector')
+  }
+}
+
+function product (a, b, callback = () => {}) {
+  return asyncify(productSync, callback)(...arguments)
+}
+
+function productSync (a, b) {
+  if (!_isMatrix(a) && !_isMatrix(b)) throw new Error('a and b must be matrices')
+  if (a.length !== b.length && a[0].length !== b[0].length) throw new Error('the sizes must match')
+
+  return new Matrix(a).product(new Matrix(b)).toArray()
 }
 
 function project (a, b, callback = () => {}) {
@@ -329,6 +427,8 @@ function project (a, b, callback = () => {}) {
 }
 
 function projectSync (a, b) {
+  if (!_isVector(a) && !_isVector(b)) throw new Error('a and b must be vectors')
+
   return new Vector(a).project(new Vector(b)).toArray()
 }
 
@@ -337,6 +437,8 @@ function projectAndReject (a, b, callback = () => {}) {
 }
 
 function projectAndRejectSync (a, b) {
+  if (!_isVector(a) && !_isVector(b)) throw new Error('a and b must be vectors')
+
   return {
     projection: projectSync(a, b),
     rejection: rejectSync(a, b)
@@ -348,6 +450,8 @@ function reject (a, b, callback = () => {}) {
 }
 
 function rejectSync (a, b) {
+  if (!_isVector(a) && !_isVector(b)) throw new Error('a and b must be vectors')
+
   return subtractSync(a, projectSync(a, b))
 }
 
@@ -356,7 +460,17 @@ function sigmoid (a, callback = () => {}) {
 }
 
 function sigmoidSync (a) {
-  return nj.sigmoid(a).tolist()
+  if (_isMatrix(a)) {
+    return new Matrix(a).map(sigmoidFn).toArray()
+  } else if (_isVector(a)) {
+    return a.map(sigmoidFn)
+  } else {
+    return sigmoidFn(a)
+  }
+
+  function sigmoidFn (x) {
+    return 1 / (1 + Math.exp(-x))
+  }
 }
 
 /**
@@ -389,12 +503,13 @@ function splitXy (data, addOnes = true, callback = () => {}) {
 }
 
 function splitXySync (data, addOnes = true) {
-  const dataAsMatrix = nj.array(data)
-  const [numRows, numCols] = dataAsMatrix.shape
-  const y = dataAsMatrix.slice(0, -1).tolist()
-  let X = dataAsMatrix.slice(0, [numCols - 1])
-  if (addOnes) X = nj.concatenate(nj.ones([numRows, 1]), X)
-  X = X.tolist()
+  const X = data.map((row) => {
+    const _row = row.slice(0, -1)
+    return addOnes ? [1].concat(_row) : _row
+  })
+  const y = data.map((row) => {
+    return row.slice(-1)
+  })
 
   return { X, y }
 }
@@ -404,9 +519,12 @@ function square (a, callback = () => {}) {
 }
 
 function squareSync (a) {
-  a = nj.array(a)
-
-  return a.T.dot(a).tolist()[0][0]
+  if (_isMatrix(a)) {
+    const A = new Matrix(a)
+    return new Matrix(A.T).multiply(A).toArray()
+  } else {
+    throw new Error('TODO: impl')
+  }
 }
 
 function std (a, callback = () => {}) {
@@ -414,13 +532,15 @@ function std (a, callback = () => {}) {
 }
 
 function stdSync (a) {
-  const t = nj.array(a).T
-  const options = { 'ddof': 1 }
-  const stdDevs = t.tolist().map((row) => {
-    return nj.array(row).std(options)
-  })
-
-  return stdDevs
+  if (_isMatrix(a)) {
+    return transposeSync(a).map(row => {
+      return math.std(row)
+    })
+  } else if (_isVector(a)) {
+    return math.std(a)
+  } else {
+    throw new Error('a must be a vector or matrix')
+  }
 }
 
 function subtract (a, b, callback = () => {}) {
@@ -428,7 +548,33 @@ function subtract (a, b, callback = () => {}) {
 }
 
 function subtractSync (a, b) {
-  return _arithmetic('subtract', a, b)
+  try {
+    if (_isMatrix(a) && _isMatrix(b)) {
+      return Matrix.subtract(new Matrix(a), new Matrix(b)).toArray()
+    } else if (_isMatrix(a) && _isVector(b)) {
+      return a.map(row => {
+        return subtractSync(row, b)
+      })
+    } else if (_isVector(a) && _isMatrix(b)) {
+      throw new Error('TODO: impl vector-matrix subtraction')
+    } else if (_isVector(a) && _isVector(b)) {
+      return Vector.subtract(new Vector(a), new Vector(b)).toArray()
+    } else if (_isMatrix(a) && _isNumber(b)) {
+      return new Matrix(a).map(x => x - b).toArray()
+    } else if (_isVector(a) && _isNumber(b)) {
+      return new Vector(a).map(x => x - b).toArray()
+    } else if (_isNumber(a) && _isMatrix(b)) {
+      return b.map(row => {
+        return row.map(col => a - col)
+      })
+    } else if (_isNumber(a) && _isVector(b)) {
+      throw new Error('TODO: impl number-vector subtraction')
+    } else {
+      throw new Error('TODO: impl')
+    }
+  } catch (error) {
+    throw error
+  }
 }
 
 function transpose (a, callback = () => {}) {
@@ -436,7 +582,7 @@ function transpose (a, callback = () => {}) {
 }
 
 function transposeSync (a) {
-  return nj.array(a).T.tolist()
+  return new Matrix(a).T.toArray()
 }
 
 function unit (a, callback = () => {}) {
@@ -444,5 +590,5 @@ function unit (a, callback = () => {}) {
 }
 
 function unitSync (a) {
-  return multiplySync(a, 1 / magnitude(a))
+  return divideSync(a, magnitude(a))
 }

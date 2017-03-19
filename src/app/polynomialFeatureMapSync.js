@@ -1,8 +1,8 @@
 import {
     addColumnSync,
-    multiplySync,
     onesSync,
-    powerSync
+    powerSync,
+    productSync
 } from '../utils/linearAlgebra'
 
 export default (X1, X2, degree) => {
@@ -10,8 +10,8 @@ export default (X1, X2, degree) => {
 
   for (let i = 1; i <= degree; i++) {
     for (let j = 0; j <= i; j++) {
-      const col = multiplySync(powerSync(X1, i - j), powerSync(X2, j))
-      addColumnSync(mapping, col)
+      const col = productSync(powerSync(X1, i - j), powerSync(X2, j))
+      mapping = addColumnSync(mapping, col)
     }
   }
 

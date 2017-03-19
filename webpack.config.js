@@ -5,8 +5,8 @@ module.exports = {
   externals: [
     'babel-runtime',
     'csv-parse',
+    'mathjs',
     'numericjs',
-    'numjs',
     'vectorious'
   ],
   output: {

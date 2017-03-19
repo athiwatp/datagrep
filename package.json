@@ -3,10 +3,12 @@
   "version": "3.1.10",
   "description": "A JavaScript Machine Learning Library",
   "keywords": [
-    "Machine Learning",
+    "Artificial Intelligence",
     "Gradient Descent",
-    "Pseudoinverse",
+    "Machine Learning",
+    "Minimax",
     "pinv",
+    "Pseudoinverse",
     "Singular Value Decomposition",
     "SVD"
   ],
@@ -42,8 +44,8 @@
   "dependencies": {
     "babel-runtime": "6.20.0",
     "csv-parse": "1.2.0",
+    "mathjs": "3.10.0",
     "numericjs": "1.2.6",
-    "numjs": "0.12.4",
     "vectorious": "4.8.1"
   },
   "devDependencies": {
@@ -68,11 +70,13 @@
     ]
   },
   "jest": {
+    "bail": true,
     "coverageDirectory": "docs/coverage",
     "coveragePathIgnorePatterns": [
       "docs",
       "/node_modules/"
     ],
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "verbose": true
   }
 }
