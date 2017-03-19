@@ -42,7 +42,7 @@ describe('datagrep.regression.logistic.computeCostSync', () => {
       expect(parseFloat(cost.toPrecision(16))).toBe(0.2034977015894399)
       expect(parseFloat(theta[0].toPrecision(7))).toBe(-25.16133)
       expect(parseFloat(theta[1].toPrecision(8))).toBe(0.20623171)
-      expect(parseFloat(theta[2].toPrecision(11))).toBe(0.2014716)
+      expect(parseFloat(theta[2].toPrecision(7))).toBe(0.2014716)
     })
 
     it('predicts accurately', () => {
