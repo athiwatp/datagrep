@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   entry: {
     datagrep: './src/index.js'
@@ -13,7 +15,7 @@ module.exports = {
     filename: '[name].js',
     library: 'datagrep',
     libraryTarget: 'umd',
-    path: './dist'
+    path: path.resolve(__dirname, 'dist')
   },
   module: {
     rules: [
