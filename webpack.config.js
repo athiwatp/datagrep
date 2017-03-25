@@ -5,7 +5,6 @@ module.exports = {
     datagrep: './src/index.js'
   },
   externals: [
-    'babel-runtime',
     'csv-parse',
     'mathjs',
     'numericjs',
@@ -25,7 +24,13 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            plugins: ['transform-regenerator']
+            presets: [
+              ['env', {
+                targets: {
+                  node: true
+                }
+              }]
+            ]
           }
         }
       }

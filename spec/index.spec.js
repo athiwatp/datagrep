@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import datagrep, { default as dgrep, regression, utils } from '../src/index'
+import datagrep, { default as dgrep, regression, utils } from '../dist/datagrep'
 
 describe('datagrep API', () => {
   it('has a default and named export which are equal', () => {
