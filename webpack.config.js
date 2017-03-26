@@ -25,7 +25,9 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              ['env']
+              ['env', {
+                modules: 'umd'
+              }]
             ]
           }
         }

@@ -75,10 +75,9 @@
       "docs",
       "/node_modules/"
     ],
-    "moduleFileExtensions": ["js", "json"],
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "moduleFileExtensions": ["js"],
     "testEnvironment": "node",
-    "testFileExtensions": ["js"],
+    "transform": {"^.+\\.js$": "babel-jest"},
     "verbose": true
   }
 }
