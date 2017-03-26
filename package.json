@@ -74,6 +74,7 @@
     "bail": true,
     "coverageDirectory": "docs/coverage",
     "coveragePathIgnorePatterns": [
+      "dist",
       "docs",
       "/node_modules/"
     ],
