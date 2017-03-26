@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/mjschock/datagrep#readme",
   "dependencies": {
+    "babel-runtime": "6.23.0",
     "csv-parse": "1.2.0",
     "mathjs": "3.10.0",
     "numericjs": "1.2.6",
@@ -53,6 +54,7 @@
     "babel-core": "6.24.0",
     "babel-jest": "19.0.0",
     "babel-loader": "6.4.1",
+    "babel-plugin-transform-runtime": "6.23.0",
     "babel-preset-env": "1.2.2",
     "codeclimate-test-reporter": "0.4.1",
     "coveralls": "2.12.0",
@@ -75,9 +77,13 @@
       "docs",
       "/node_modules/"
     ],
-    "moduleFileExtensions": ["js"],
+    "moduleFileExtensions": [
+      "js"
+    ],
     "testEnvironment": "node",
-    "transform": {"^.+\\.js$": "babel-jest"},
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
     "verbose": true
   }
 }
