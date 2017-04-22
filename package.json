@@ -62,7 +62,7 @@
     "jest": "19.0.2",
     "rimraf": "2.6.1",
     "snazzy": "6.0.0",
-    "standard": "10.0.0-beta.0",
+    "standard": "10.0.0",
     "webpack": "2.3.3"
   },
   "standard": {
