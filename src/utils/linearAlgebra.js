@@ -18,6 +18,7 @@ function _isVector (v) {
 export {
   add,
   addSync,
+  addColumn,
   addColumnSync,
   angle,
   angleSync,
@@ -51,9 +52,11 @@ export {
   numColsSync,
   numRows,
   numRowsSync,
+  ones,
   onesSync,
   pinv,
   pinvSync,
+  power,
   powerSync,
   product,
   productSync,
@@ -103,6 +106,10 @@ function addSync (a, b) {
   } catch (error) {
     throw error
   }
+}
+
+function addColumn (a, b, callback = () => {}) {
+  return asyncify(addColumnSync, callback)(...arguments)
 }
 
 function addColumnSync (a, b) {
@@ -363,6 +370,10 @@ function numRowsSync (a) {
   }
 }
 
+function ones (numRows, callback = () => {}) {
+  return asyncify(onesSync, callback)(...arguments)
+}
+
 function onesSync (numRows, numCols = 1) {
   return Matrix.ones(numRows, numCols).toArray()
 }
@@ -395,6 +406,10 @@ function pinvSync (M) {
   const pinvM = dotSync(transposeSync(V), dotSync(pinvΣ, transposeU))
 
   return pinvM
+}
+
+function power (a, power, callback = () => {}) {
+  return asyncify(powerSync, callback)(...arguments)
 }
 
 function powerSync (a, power) {
