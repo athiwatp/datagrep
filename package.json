@@ -46,7 +46,7 @@
   "dependencies": {
     "babel-runtime": "6.23.0",
     "csv-parse": "1.2.0",
-    "mathjs": "3.11.1",
+    "mathjs": "3.12.0",
     "numericjs": "1.2.6",
     "vectorious": "4.8.1"
   },
@@ -63,7 +63,7 @@
     "rimraf": "2.6.1",
     "snazzy": "6.0.0",
     "standard": "10.0.2",
-    "webpack": "2.3.2"
+    "webpack": "2.4.1"
   },
   "standard": {
     "ignore": [
