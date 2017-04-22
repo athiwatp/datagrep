@@ -63,6 +63,8 @@ export {
   projectAndRejectSync,
   reject,
   rejectSync,
+  removeFirstColumn,
+  removeFirstColumnSync,
   sigmoid,
   sigmoidSync,
   splitXy,
@@ -163,11 +165,9 @@ function dotSync (a, b) {
     if (_isMatrix(a) && _isMatrix(b)) {
       return Matrix.multiply(new Matrix(a), new Matrix(b)).toArray()
     } else if (_isMatrix(a) && _isVector(b)) {
-      const blah = a.map(row => {
+      return a.map(row => {
         return [ dotSync(row, b) ]
-        // return dotSync(row, b)
       })
-      return blah
     } else if (_isVector(a) && _isMatrix(b)) {
       throw new Error('TODO: impl vector-matrix dot product')
     } else if (_isVector(a) && _isVector(b)) {
@@ -453,6 +453,19 @@ function rejectSync (a, b) {
   if (!_isVector(a) && !_isVector(b)) throw new Error('a and b must be vectors')
 
   return subtractSync(a, projectSync(a, b))
+}
+
+function removeFirstColumn (matrix, addOnes = true, callback = () => {}) {
+  return asyncify(removeFirstColumnSync, callback)(...arguments)
+}
+
+function removeFirstColumnSync (matrix) {
+  const M = matrix.map((row) => {
+    const _row = row.slice(1)
+    return _row
+  })
+
+  return M
 }
 
 function sigmoid (a, callback = () => {}) {
